@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Pyramix Shopify Solutions — conversion-engineered storefronts built in-house.">
+<title>Shopify Solutions — Pyramix</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=JetBrains+Mono:wght@500;700&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B0614;
+    --line:rgba(255,255,255,0.09);
+    --line-hover:rgba(178,110,255,0.6);
+    --text:#F3EEFB;
+    --muted:#9A8FB5;
+    --p1:#7A2FC9;
+    --p2:#C026A3;
+    --p3:#B685FF;
+    --shopify-green:#95bf47;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{ background:var(--bg); color:var(--text); font-family:'Manrope',sans-serif; min-height:100vh; overflow-x:hidden; position:relative; }
+  h1,h2,h3,h4,h5{font-family:'Space Grotesk',sans-serif;}
+  .mono{ font-family:'JetBrains Mono',monospace; }
+  ::selection{ background:var(--p1); color:#fff; }
+  a{ color:inherit; }
+  button{ font:inherit; color:inherit; background:none; border:none; }
+
+  /* ---------- Background: same technical grid + scanline as homepage ---------- */
+  .bg-fx{ position:fixed; inset:0; z-index:-2; overflow:hidden; }
+  .grid-lines{
+    position:absolute; inset:-1px;
+    background-image:
+      linear-gradient(rgba(182,133,255,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(182,133,255,0.05) 1px, transparent 1px);
+    background-size:44px 44px;
+    mask-image:radial-gradient(ellipse 70% 60% at 50% 0%, #000 40%, transparent 100%);
+  }
+  .scanline{
+    position:absolute; left:0; right:0; height:120px; top:-120px;
+    background:linear-gradient(180deg, transparent, rgba(182,133,255,0.08), transparent);
+    animation:scan 9s linear infinite;
+  }
+  @keyframes scan{ 0%{ top:-120px; } 100%{ top:100%; } }
+
+  .wrap{ max-width:1080px; margin:0 auto; padding:clamp(28px,6vw,72px) 20px 48px; position:relative; z-index:2; }
+
+  .back-btn{
+    display:inline-flex; align-items:center; gap:9px;
+    border:1px solid var(--line); padding:9px 18px;
+    font-size:0.78rem; color:var(--muted); text-decoration:none;
+    background:rgba(255,255,255,0.02); margin-bottom:36px;
+    transition:border-color .2s ease, color .2s ease, transform .2s ease;
+  }
+  .back-btn svg{ width:13px; height:13px; }
+  .back-btn:hover{ border-color:var(--line-hover); color:#fff; transform:translateX(-3px); }
+
+  .header{ display:flex; flex-direction:column; align-items:center; text-align:center; margin-bottom:40px; opacity:0; animation:heroIn .6s cubic-bezier(.16,1,.3,1) .05s forwards; }
+  @keyframes heroIn{ from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:translateY(0); } }
+
+  .logo-mark{ height:50px; width:auto; max-width:220px; margin-bottom:24px; object-fit:contain; }
+
+  .eyebrow{ display:inline-flex; align-items:center; gap:9px; font-size:0.72rem; letter-spacing:1.5px; color:var(--shopify-green); margin-bottom:18px; border:1px solid rgba(149,191,71,0.3); padding:6px 14px; background:rgba(149,191,71,0.05); }
+  .eyebrow::before{ content:''; width:6px; height:6px; background:var(--shopify-green); display:inline-block; animation:blink 1.6s ease-in-out infinite; }
+  @keyframes blink{ 0%,100%{ opacity:1; } 50%{ opacity:0.25; } }
+
+  .section-title{ font-size:clamp(1.9rem, 4vw, 2.6rem); font-weight:700; letter-spacing:-0.5px; margin-bottom:12px; }
+  .section-title .accent{ color:var(--p3); }
+  .section-sub{ color:var(--muted); font-size:0.98rem; max-width:560px; margin:0 auto 24px; line-height:1.6; }
+
+  /* ---------- Pitch panel — flat module, not glass ---------- */
+  .pitch-module{
+    position:relative;
+    border:1px solid var(--line); border-radius:3px;
+    background:linear-gradient(160deg, rgba(255,255,255,0.035), rgba(255,255,255,0.008));
+    padding:32px clamp(20px,4vw,44px);
+    text-align:center; margin-bottom:52px;
+  }
+  .pitch-module h3{ font-size:1.5rem; font-weight:700; margin-bottom:12px; letter-spacing:-0.3px; }
+  .pitch-module h3 .accent{ color:var(--p3); }
+  .pitch-module p{ color:var(--muted); font-size:0.94rem; line-height:1.7; max-width:760px; margin:0 auto; }
+
+  .sub-header{ margin-bottom:28px; }
+  .sub-header .section-title{ font-size:clamp(1.5rem, 3vw, 2rem); }
+
+  .boot-line{ font-size:0.74rem; color:var(--muted); letter-spacing:0.4px; margin-bottom:8px; text-align:center; }
+
+  /* ---------- Portfolio grid: modules echo homepage cards ---------- */
+  .portfolio-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:18px; }
+
+  .flip-card{ height:420px; perspective:1500px; }
+  .flip-card-inner{
+    position:relative; width:100%; height:100%;
+    transition:transform 0.6s cubic-bezier(0.16,1,0.3,1);
+    transform-style:preserve-3d;
+  }
+  .flip-card:hover .flip-card-inner{ transform:rotateY(180deg); }
+
+  .card-front, .card-back{
+    position:absolute; inset:0;
+    -webkit-backface-visibility:hidden; backface-visibility:hidden;
+    border:1px solid var(--line); border-radius:3px; overflow:hidden;
+    transition:border-color .25s ease, box-shadow .25s ease;
+  }
+  .flip-card:hover .card-front, .flip-card:hover .card-back{ border-color:var(--line-hover); box-shadow:0 16px 30px -18px rgba(122,47,201,0.55); }
+
+  .corner{ position:absolute; width:14px; height:14px; opacity:0; transition:opacity .25s ease; pointer-events:none; z-index:4; }
+  .corner.tl{ top:7px; left:7px; border-top:2px solid var(--p3); border-left:2px solid var(--p3); }
+  .corner.tr{ top:7px; right:7px; border-top:2px solid var(--p3); border-right:2px solid var(--p3); }
+  .flip-card:hover .corner{ opacity:1; }
+
+  .card-front{ background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.008)); display:flex; flex-direction:column; }
+
+  .card-img-wrapper{ width:100%; height:72%; overflow:hidden; position:relative; background:#05020a; }
+  .card-img-wrapper::after{ content:''; position:absolute; inset:0; background:linear-gradient(to bottom, transparent 50%, rgba(11,6,20,1) 100%); z-index:2; }
+  .card-front img{ width:100%; height:100%; object-fit:cover; object-position:top center; }
+
+  .card-badge{
+    position:absolute; top:14px; left:14px; z-index:3;
+    font-family:'JetBrains Mono',monospace; font-size:0.62rem; font-weight:700; letter-spacing:1px; text-transform:uppercase;
+    color:var(--bg); background:var(--p3); padding:4px 10px;
+  }
+
+  .card-title-bar{ height:28%; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.15rem; color:#fff; text-align:center; padding:0 12px; }
+
+  .card-back{
+    background:linear-gradient(160deg, rgba(255,255,255,0.035), rgba(255,255,255,0.008));
+    transform:rotateY(180deg); padding:26px 22px;
+    display:flex; flex-direction:column; justify-content:space-between;
+  }
+  .card-back h4{ font-size:1.2rem; font-weight:700; color:#fff; margin-bottom:10px; }
+  .card-back p{ font-size:0.86rem; color:var(--muted); line-height:1.6; margin-bottom:14px; }
+
+  .tech-tags{ display:flex; gap:6px; flex-wrap:wrap; justify-content:center; margin-bottom:18px; }
+  .tech-tags span{ font-family:'JetBrains Mono',monospace; font-size:0.66rem; font-weight:500; border:1px solid var(--line-hover); padding:4px 10px; color:var(--p3); }
+
+  .preview-btn{
+    position:relative; display:inline-flex; align-items:center; justify-content:center; gap:8px; width:100%;
+    background:linear-gradient(120deg, var(--p1), var(--p2)); color:#fff;
+    font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:0.82rem;
+    padding:12px 18px; cursor:pointer;
+    clip-path:polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+    transition:transform .2s ease, box-shadow .2s ease;
+    box-shadow:0 10px 24px -14px rgba(122,47,201,0.7);
+  }
+  .preview-btn:hover{ transform:translateY(-2px); box-shadow:0 14px 30px -14px rgba(122,47,201,0.8); }
+
+  /* ---------- Modal / showcase viewer ---------- */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(4,2,9,0.96); z-index:1000;
+    display:flex; align-items:center; justify-content:center;
+    opacity:0; pointer-events:none; transition:opacity 0.4s ease;
+    backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+  }
+  .modal-overlay.active{ opacity:1; pointer-events:auto; }
+
+  .modal-container{
+    width:92vw; max-width:1160px; height:88vh;
+    display:flex; flex-direction:column; position:relative;
+    background:#0B0614; border:1px solid var(--line); border-radius:6px;
+    box-shadow:0 60px 140px rgba(0,0,0,0.9), 0 0 100px rgba(122,47,201,0.15);
+    overflow:hidden;
+    transform:scale(0.96); opacity:0;
+    transition:transform 0.45s cubic-bezier(0.16,1,0.3,1), opacity 0.35s ease;
+  }
+  .modal-overlay.active .modal-container{ transform:scale(1); opacity:1; }
+
+  .close-modal{
+    position:absolute; top:14px; right:18px;
+    background:rgba(255,255,255,0.04); border:1px solid var(--line);
+    color:#fff; font-family:'JetBrains Mono',monospace; font-size:0.7rem; font-weight:700;
+    padding:8px 16px; text-transform:uppercase; letter-spacing:1px;
+    cursor:pointer; z-index:50; transition:all 0.25s ease;
+  }
+  .close-modal:hover{ background:var(--p2); border-color:var(--p2); }
+
+  .slideshow-wrapper{ flex:1; width:100%; min-height:0; position:relative; background:#040208; display:flex; align-items:center; justify-content:center; overflow:hidden; padding:24px 0; }
+  .slide-track{ width:100%; height:100%; position:relative; }
+  .slide{
+    position:absolute; inset:0; opacity:0; transform:scale(0.97);
+    transition:opacity 0.4s cubic-bezier(0.16,1,0.3,1), transform 0.4s cubic-bezier(0.16,1,0.3,1);
+    display:flex; align-items:center; justify-content:center; padding:0 70px;
+    pointer-events:none;
+  }
+  .slide.active{ opacity:1; z-index:2; transform:scale(1); pointer-events:auto; }
+
+  .browser-mockup{
+    width:100%; max-width:900px; height:100%; max-height:100%;
+    background:#0f0a1e; border-radius:4px; border:1px solid var(--line);
+    box-shadow:0 50px 100px rgba(0,0,0,0.9), 0 0 60px rgba(122,47,201,0.12);
+    display:flex; flex-direction:column; overflow:hidden;
+  }
+  .browser-header{ background:#120b22; height:44px; min-height:44px; display:flex; align-items:center; padding:0 18px; border-bottom:1px solid var(--line); position:relative; }
+  .browser-dots{ display:flex; gap:7px; z-index:2; }
+  .browser-dots span{ width:10px; height:10px; border-radius:50%; display:inline-block; }
+  .browser-dots .r{ background:#ff5f56; } .browser-dots .y{ background:#ffbd2e; } .browser-dots .g{ background:#27c93f; }
+  .browser-url-bar{
+    position:absolute; left:50%; top:50%; transform:translate(-50%, -50%);
+    background:rgba(0,0,0,0.3); width:40%; max-width:400px; height:22px;
+    border:1px solid var(--line); color:var(--muted); font-size:0.7rem;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'JetBrains Mono',monospace; letter-spacing:0.5px;
+  }
+  .browser-screen{ flex:1; min-height:0; width:100%; background:#040208; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+  .browser-screen img{ max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain; display:block; }
+
+  .slide-nav{
+    position:absolute; top:50%; transform:translateY(-50%);
+    background:rgba(12,6,26,0.75); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+    border:1px solid var(--line); color:#fff; width:52px; height:52px; border-radius:50%;
+    cursor:pointer; z-index:30; display:flex; align-items:center; justify-content:center;
+    transition:all .25s ease;
+  }
+  .slide-nav:hover{ background:var(--p1); border-color:var(--p1); transform:translateY(-50%) scale(1.08); }
+  .slide-nav.prev{ left:22px; } .slide-nav.next{ right:22px; }
+  .slide-nav svg{ width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2.5; }
+
+  .slideshow-footer{ background:#0c0718; padding:20px 36px; display:flex; justify-content:space-between; align-items:center; gap:26px; border-top:1px solid var(--line); }
+  .slide-caption h5{ font-family:'Space Grotesk',sans-serif; font-size:1.2rem; color:#fff; font-weight:700; }
+  .slide-caption p{ font-size:0.85rem; color:var(--muted); margin-top:3px; }
+  .slide-counter{ font-family:'JetBrains Mono',monospace; font-size:0.78rem; font-weight:700; color:#fff; background:linear-gradient(120deg, var(--p1), var(--p2)); padding:6px 14px; }
+
+  footer{ margin-top:52px; padding-top:26px; border-top:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:18px; }
+  .footer-brand{ display:flex; align-items:center; gap:12px; }
+  .footer-brand img{ height:24px; width:auto; }
+  .footer-sub{ font-size:0.73rem; color:var(--muted); }
+
+  @media (max-width:768px){
+    .portfolio-grid{ grid-template-columns:1fr; }
+    .modal-container{ height:86vh; width:96vw; }
+    .slide{ padding:10px 12px; }
+    .slideshow-footer{ flex-direction:column; text-align:center; padding:16px; gap:12px; }
+    .slide-nav{ width:44px; height:44px; }
+    .slide-nav.prev{ left:8px; } .slide-nav.next{ right:8px; }
+    .browser-url-bar{ display:none; }
+  }
+  @media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition:none !important; } }
+</style>
+</head>
+<body>
+
+<div class="bg-fx"><div class="grid-lines"></div><div class="scanline"></div></div>
+
+<div class="wrap">
+  <a href="index.html" class="back-btn mono">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+    BACK TO SERVICES
+  </a>
+
+  <div class="header">
+    <img class="logo-mark" src="https://pyraminx.co/images/site-logo.png" alt="Pyramix logo" />
+    <span class="eyebrow mono">ENTERPRISE ECOMMERCE PRODUCTION</span>
+    <h2 class="section-title">Shopify, <span class="accent">engineered to sell.</span></h2>
+    <p class="section-sub">Conversion-engineered storefronts — fast checkouts, clean code, zero bloat.</p>
+  </div>
+
+  <div class="pitch-module">
+    <h3>Why your brand demands a <span class="accent">custom</span> Shopify build</h3>
+    <p>Off-the-shelf themes cap your growth. We build custom Shopify storefronts engineered for speed, conversion, and seamless app/API integration — tailored sections, optimized Liquid code, and checkout flows designed to turn browsers into buyers.</p>
+  </div>
+
+  <div class="header sub-header">
+    <h3 class="section-title" style="font-size:clamp(1.5rem, 3vw, 2rem);">Selected production cases</h3>
+    <p class="section-sub">Hover on any card to flip and review the live structural stack.</p>
+  </div>
+
+  <div class="portfolio-grid">
+
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="card-front">
+          <span class="corner tl"></span><span class="corner tr"></span>
+          <div class="card-img-wrapper">
+            <img src="picture/pexels-planka-29709958.jpg" alt="AEVI Beauty Storefront" loading="lazy" decoding="async">
+            <span class="card-badge mono">Beauty</span>
+          </div>
+          <div class="card-title-bar">AEVI — The Beauty Store</div>
+        </div>
+        <div class="card-back">
+          <div class="card-back-content">
+            <h4>AEVI — Beauty Store</h4>
+            <p>A high-converting custom Shopify storefront for a premium beauty brand, built with bespoke product sections and a smooth, distraction-free checkout flow.</p>
+            <div class="tech-tags mono">
+              <span>Custom Liquid</span><span>Shopify 2.0</span><span>Tailwind CSS</span>
+            </div>
+          </div>
+          <button class="preview-btn" onclick="openShowcase('project1', 'https://aevi.com')">
+            Launch Showcase Engine
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="card-front">
+          <span class="corner tl"></span><span class="corner tr"></span>
+          <div class="card-img-wrapper">
+            <img src="picture/pexels-masoodaslami-19222850.jpg" alt="Tesoro Candle Storefront" loading="lazy" decoding="async">
+            <span class="card-badge mono">Candles</span>
+          </div>
+          <div class="card-title-bar">Tesoro — The Candle Shop</div>
+        </div>
+        <div class="card-back">
+          <div class="card-back-content">
+            <h4>Tesoro — Candle Shop</h4>
+            <p>A warm, scent-driven Shopify catalog with rich collection filtering, custom scent/size metafields, and a checkout built to feel as crafted as the product.</p>
+            <div class="tech-tags mono">
+              <span>Metafields</span><span>Collection Filtering</span><span>JavaScript</span>
+            </div>
+          </div>
+          <button class="preview-btn" onclick="openShowcase('project2', 'https://tesoro.com')">
+            Launch Showcase Engine
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="card-front">
+          <span class="corner tl"></span><span class="corner tr"></span>
+          <div class="card-img-wrapper">
+            <img src="picture/pexels-julias-torten-und-tortchen-434418-16637678.jpg" alt="Levain Bakery Storefront" loading="lazy" decoding="async">
+            <span class="card-badge mono">Bakery</span>
+          </div>
+          <div class="card-title-bar">Levain — The Bakery Shop</div>
+        </div>
+        <div class="card-back">
+          <div class="card-back-content">
+            <h4>Levain — Bakery Shop</h4>
+            <p>A fast, mobile-first Shopify build for a fresh-bake bakery, optimized for Core Web Vitals with a custom cart drawer and same-day order upsells.</p>
+            <div class="tech-tags mono">
+              <span>Cart Drawer</span><span>Performance Tuning</span><span>Custom Sections</span>
+            </div>
+          </div>
+          <button class="preview-btn" onclick="openShowcase('project3', 'https://levainbakery.com')">
+            Launch Showcase Engine
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-brand">
+      <img src="https://pyraminx.co/images/site-logo.png" alt="Pyramix logo" />
+      <span class="footer-sub mono">© 2026 PYRAMIX — BUILT IN-HOUSE</span>
+    </div>
+  </footer>
+</div>
+
+<div class="modal-overlay" id="slideshow-modal">
+  <div class="modal-container">
+    <button class="close-modal" onclick="closeShowcase()">✕ Close</button>
+
+    <div class="slideshow-wrapper">
+      <button class="slide-nav prev" onclick="changeSlide(-1)">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+      <button class="slide-nav next" onclick="changeSlide(1)">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+
+      <div class="slide-track" id="slide-track"></div>
+    </div>
+
+    <div class="slideshow-footer">
+      <div class="slide-caption">
+        <h5 id="modal-title">Project Title</h5>
+        <p id="modal-desc">Interactive production scroll mode active.</p>
+      </div>
+      <div class="slide-counter mono" id="modal-counter">1 / 2</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const projectsData = {
+    project1: {
+      title: "AEVI — The Beauty Store",
+      desc: "Custom Shopify storefront for a premium beauty & skincare brand.",
+      images: [
+        "picture/Screenshot 2026-06-22 011406.png",
+        "picture/Screenshot 2026-06-22 011432.png",
+        "picture/Screenshot 2026-06-22 011503.png",
+        "picture/Screenshot 2026-06-22 011530.png",
+        "picture/Screenshot 2026-06-22 011550.png"
+      ]
+    },
+    project2: {
+      title: "Tesoro — The Candle Shop",
+      desc: "Scent-driven candle catalog with custom collection filtering.",
+      images: [
+        "picture/Screenshot 2026-06-22 013334.png",
+        "picture/Screenshot 2026-06-22 013424.png",
+        "picture/Screenshot 2026-06-22 013503.png",
+        "picture/Screenshot 2026-06-22 013523.png",
+        "picture/Screenshot 2026-06-22 013831.png"
+      ]
+    },
+    project3: {
+      title: "Levain — The Bakery Shop",
+      desc: "Mobile-first bakery storefront with custom cart drawer.",
+      images: [
+        "picture/Screenshot 2026-06-22 014338.png",
+        "picture/Screenshot 2026-06-22 014410.png",
+        "picture/Screenshot 2026-06-22 014449.png",
+        "picture/Screenshot 2026-06-22 014514.png",
+        "picture/Screenshot 2026-06-22 014538.png",
+        "picture/Screenshot 2026-06-22 014555.png",
+        "picture/Screenshot 2026-06-22 014619.png"
+      ]
+    }
+  };
+
+  let currentProject = null;
+  let activeSlideIndex = 0;
+  const imageCache = new Set();
+
+  function openShowcase(projectKey, displayUrl) {
+    currentProject = projectsData[projectKey];
+    if (!currentProject) return;
+    currentProject.displayUrl = displayUrl;
+    activeSlideIndex = 0;
+
+    renderSlide();
+    document.getElementById('slideshow-modal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeShowcase() {
+    document.getElementById('slideshow-modal').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function changeSlide(direction) {
+    if (!currentProject) return;
+    const total = currentProject.images.length;
+    activeSlideIndex = (activeSlideIndex + direction + total) % total;
+    renderSlide();
+  }
+
+  function renderSlide() {
+    const track = document.getElementById('slide-track');
+    const imgUrl = currentProject.images[activeSlideIndex];
+    const displayUrl = currentProject.displayUrl || 'https://localhost:3000';
+
+    track.innerHTML = `
+      <div class="slide" id="active-slide">
+        <div class="browser-mockup">
+          <div class="browser-header">
+            <div class="browser-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+            <div class="browser-url-bar">${displayUrl}</div>
+          </div>
+          <div class="browser-screen">
+            <img src="${imgUrl}" alt="Live Preview Frame" decoding="async">
+          </div>
+        </div>
+      </div>
+    `;
+
+    const slideEl = document.getElementById('active-slide');
+    requestAnimationFrame(() => slideEl.classList.add('active'));
+
+    updateModalMeta();
+    preloadNeighbors();
+  }
+
+  function preloadNeighbors() {
+    const total = currentProject.images.length;
+    [1, -1].forEach(offset => {
+      const idx = (activeSlideIndex + offset + total) % total;
+      const src = currentProject.images[idx];
+      if (imageCache.has(src)) return;
+      imageCache.add(src);
+      const preloadImg = new Image();
+      preloadImg.src = src;
+    });
+  }
+
+  function updateModalMeta() {
+    document.getElementById('modal-title').innerText = currentProject.title;
+    document.getElementById('modal-desc').innerText = currentProject.desc;
+    document.getElementById('modal-counter').innerText = `${activeSlideIndex + 1} / ${currentProject.images.length}`;
+  }
+
+  document.addEventListener('keydown', (e) => {
+    const modal = document.getElementById('slideshow-modal');
+    if (!modal.classList.contains('active')) return;
+    if (e.key === 'ArrowRight') changeSlide(1);
+    if (e.key === 'ArrowLeft') changeSlide(-1);
+    if (e.key === 'Escape') closeShowcase();
+  });
+</script>
+</body>
+</html>

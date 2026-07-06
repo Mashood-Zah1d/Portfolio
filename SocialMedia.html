@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Social Media Solutions — Pyramix</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=JetBrains+Mono:wght@500;700&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B0614;
+    --line:rgba(255,255,255,0.09);
+    --line-hover:rgba(178,110,255,0.6);
+    --text:#F3EEFB;
+    --muted:#9A8FB5;
+    --p1:#7A2FC9;
+    --p2:#C026A3;
+    --p3:#B685FF;
+    /* kept distinct on purpose: mirrors Instagram's real brand gradient,
+       used only inside the phone mockup for authenticity */
+    --ig-orange:#ff7a3d; --ig-pink:#e1306c; --ig-purple:#8b3fc9; --ig-blue:#4f5bd5;
+    --ig-gradient:linear-gradient(135deg, var(--ig-orange) 0%, var(--ig-pink) 45%, var(--ig-purple) 75%, var(--ig-blue) 100%);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{ background:var(--bg); color:var(--text); font-family:'Manrope',sans-serif; min-height:100vh; overflow-x:hidden; position:relative; display:flex; align-items:flex-start; justify-content:center; padding:40px 20px; }
+  h1,h2,h3,h4{ font-family:'Space Grotesk',sans-serif; }
+  .mono{ font-family:'JetBrains Mono',monospace; }
+  a{ color:inherit; }
+  button{ font:inherit; color:inherit; background:none; border:none; }
+  button:focus-visible, a:focus-visible{ outline:2px solid var(--p3); outline-offset:3px; }
+
+  .bg-fx{ position:fixed; inset:0; z-index:-2; overflow:hidden; }
+  .grid-lines{ position:absolute; inset:-1px; background-image:linear-gradient(rgba(182,133,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(182,133,255,0.05) 1px, transparent 1px); background-size:44px 44px; mask-image:radial-gradient(ellipse 70% 60% at 50% 0%, #000 40%, transparent 100%); }
+  .scanline{ position:absolute; left:0; right:0; height:120px; top:-120px; background:linear-gradient(180deg, transparent, rgba(182,133,255,0.08), transparent); animation:scan 9s linear infinite; }
+  @keyframes scan{ 0%{ top:-120px; } 100%{ top:100%; } }
+  .progress{ position:fixed; top:0; left:0; height:2px; width:0%; background:linear-gradient(90deg, var(--p1), var(--p2)); z-index:200; }
+
+  .panel{ width:100%; max-width:1120px; border:1px solid var(--line); background:linear-gradient(160deg, rgba(255,255,255,0.03), rgba(255,255,255,0.006)); padding:44px clamp(20px,5vw,56px) 50px; position:relative; z-index:1; }
+
+  .back-btn{ display:inline-flex; align-items:center; gap:9px; border:1px solid var(--line); background:rgba(255,255,255,0.02); padding:10px 20px 10px 18px; font-size:0.82rem; color:var(--muted); cursor:pointer; text-decoration:none; margin-bottom:36px; clip-path:polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px); transition:border-color .2s ease, color .2s ease, transform .2s ease; }
+  .back-btn:hover{ border-color:var(--line-hover); color:#fff; transform:translateX(-3px); }
+  .back-btn svg{ width:14px; height:14px; }
+
+  .header{ display:flex; flex-direction:column; align-items:center; text-align:center; margin-bottom:40px; }
+  .logo-mark{ width:auto; height:60px; max-width:260px; margin-bottom:22px; object-fit:contain; }
+
+  .eyebrow{ display:inline-flex; align-items:center; gap:9px; font-size:0.7rem; letter-spacing:1.5px; color:var(--p3); margin-bottom:16px; border:1px solid var(--line); padding:6px 14px; background:rgba(182,133,255,0.04); }
+  .eyebrow::before{ content:''; width:6px; height:6px; background:var(--p3); display:inline-block; animation:blink 1.6s ease-in-out infinite; }
+  @keyframes blink{ 0%,100%{ opacity:1; } 50%{ opacity:0.25; } }
+
+  .company-name{ font-size:clamp(1.9rem, 4.5vw, 2.7rem); font-weight:700; letter-spacing:-0.5px; margin-bottom:12px; color:var(--text); }
+  .tagline{ font-size:1rem; color:var(--muted); max-width:600px; line-height:1.65; }
+
+  .pitch-card{ border:1px solid var(--line); background:linear-gradient(160deg, rgba(255,255,255,0.03), rgba(255,255,255,0.006)); padding:34px clamp(20px,4vw,40px); text-align:center; margin-bottom:50px; }
+  .pitch-card h3{ font-size:1.4rem; margin-bottom:12px; font-weight:700; color:var(--p3); }
+  .pitch-card p{ color:var(--muted); font-size:0.94rem; line-height:1.65; max-width:800px; margin:0 auto; }
+
+  .section-title{ font-size:clamp(1.4rem, 3vw, 1.8rem); font-weight:700; margin-bottom:6px; letter-spacing:-0.4px; text-align:center; }
+  .section-sub{ color:var(--muted); font-size:0.92rem; margin-bottom:32px; text-align:center; }
+
+  /* ============ SIGNATURE ELEMENT: the story-style showcase ============
+     A phone mockup replicating Instagram Stories interaction — segmented
+     progress bars, tap-to-advance zones, double-tap heart, autoplay.
+     The phone keeps a realistic rounded bezel (it's mimicking real
+     hardware); everything around it uses the site's sharp/flat language. */
+  .story-stage{ display:flex; flex-direction:column; align-items:center; gap:24px; }
+
+  .phone{ width:300px; aspect-ratio:9/19.5; background:#000; border-radius:40px; padding:10px; box-shadow:0 0 0 1.5px rgba(255,255,255,0.1), 0 40px 90px rgba(0,0,0,0.8); position:relative; }
+  .phone-screen{ width:100%; height:100%; border-radius:32px; overflow:hidden; position:relative; background:#0c0814; cursor:pointer; user-select:none; }
+
+  .story-progress{ position:absolute; top:14px; left:14px; right:14px; z-index:10; display:flex; gap:5px; }
+  .story-progress .seg{ flex:1; height:3px; border-radius:3px; background:rgba(255,255,255,0.25); overflow:hidden; }
+  .story-progress .seg .fill{ height:100%; width:0%; background:#fff; border-radius:3px; }
+  .story-progress .seg.done .fill{ width:100%; }
+  .story-progress .seg.current .fill{ animation:storyfill 4.5s linear forwards; }
+  .story-progress.paused .seg.current .fill{ animation-play-state:paused; }
+  @keyframes storyfill{ from{ width:0%; } to{ width:100%; } }
+
+  .story-head{ position:absolute; top:26px; left:16px; right:16px; z-index:10; display:flex; align-items:center; gap:10px; }
+  .story-avatar{ width:28px; height:28px; border-radius:50%; background:var(--ig-gradient); display:flex; align-items:center; justify-content:center; font-size:0.6rem; font-weight:800; color:#fff; font-family:'Space Grotesk',sans-serif; flex-shrink:0; }
+  .story-head .handle{ font-size:0.78rem; font-weight:700; color:#fff; text-shadow:0 1px 4px rgba(0,0,0,0.6); }
+  .story-head .dot-sep{ font-size:0.7rem; color:rgba(255,255,255,0.6); }
+  .story-head .time{ font-size:0.72rem; color:rgba(255,255,255,0.75); text-shadow:0 1px 4px rgba(0,0,0,0.6); }
+
+  .story-slides{ width:100%; height:100%; position:relative; }
+  .story-slide{ position:absolute; inset:0; opacity:0; transition:opacity 0.25s ease; display:flex; align-items:center; justify-content:center; background:#0c0814; }
+  .story-slide.active{ opacity:1; z-index:2; }
+  .story-slide .bg-fill{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:blur(28px) brightness(0.55) saturate(1.3); transform:scale(1.15); }
+  .story-slide .fg-img{ position:relative; width:100%; height:100%; object-fit:contain; z-index:1; }
+
+  .tap-zones{ position:absolute; inset:0; display:flex; z-index:8; }
+  .tap-zones .zone{ flex:1; }
+
+  .heart-burst{ position:absolute; pointer-events:none; z-index:20; font-size:70px; opacity:0; left:50%; top:50%; transform:translate(-50%,-50%) scale(0.5); }
+  .heart-burst.go{ animation:heartpop 0.7s ease forwards; }
+  @keyframes heartpop{ 0%{ opacity:0; transform:translate(-50%,-50%) scale(0.4); } 35%{ opacity:1; transform:translate(-50%,-50%) scale(1.15); } 70%{ opacity:1; transform:translate(-50%,-50%) scale(1); } 100%{ opacity:0; transform:translate(-50%,-50%) scale(1); } }
+
+  .story-caption{ position:absolute; bottom:16px; left:16px; right:16px; z-index:10; display:flex; align-items:flex-end; justify-content:space-between; gap:10px; }
+  .story-caption .cap-text{ font-size:0.78rem; color:#fff; text-shadow:0 1px 6px rgba(0,0,0,0.8); font-weight:600; line-height:1.4; }
+  .story-icons{ display:flex; gap:12px; flex-shrink:0; }
+  .story-icons svg{ width:20px; height:20px; fill:none; stroke:#fff; stroke-width:2; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.7)); }
+
+  .story-controls{ display:flex; align-items:center; gap:18px; }
+  .story-controls button{ background:rgba(255,255,255,0.03); border:1px solid var(--line); color:#fff; width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:border-color .2s ease, background .2s ease; }
+  .story-controls button:hover{ border-color:var(--p3); background:rgba(182,133,255,0.12); }
+  .story-controls button svg{ width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2.5; }
+  .story-counter{ font-family:'JetBrains Mono',monospace; font-size:0.8rem; font-weight:700; color:var(--p3); border:1px solid rgba(182,133,255,0.35); background:rgba(182,133,255,0.06); padding:7px 16px; min-width:64px; text-align:center; }
+
+  .slide-meta{ text-align:center; max-width:480px; }
+  .slide-meta h4{ font-size:1.15rem; font-weight:700; color:#fff; margin-bottom:6px; }
+  .slide-meta p{ font-size:0.87rem; color:var(--muted); line-height:1.55; }
+  .slide-tags{ display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-top:12px; }
+  .slide-tags span{ font-family:'JetBrains Mono',monospace; font-size:0.66rem; font-weight:500; background:rgba(182,133,255,0.06); border:1px solid rgba(182,133,255,0.25); padding:4px 11px; color:#dfcdfc; }
+
+  .hint{ font-size:0.78rem; color:var(--muted); display:flex; align-items:center; gap:6px; margin-top:-6px; }
+  .hint svg{ width:14px; height:14px; stroke:var(--muted); fill:none; stroke-width:2; }
+
+  footer{ margin-top:48px; padding-top:24px; border-top:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; font-size:0.78rem; color:var(--muted); flex-wrap:wrap; gap:12px; }
+  .footer-brand{ display:flex; align-items:center; gap:10px; }
+
+  @media (max-width:768px){ .panel{ padding:32px 18px 40px; } .phone{ width:260px; } }
+  @media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition:none !important; } }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+<div class="bg-fx"><div class="grid-lines"></div><div class="scanline"></div></div>
+
+<div class="panel">
+  <a href="index.html" class="back-btn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+    Back to Services
+  </a>
+
+  <div class="header">
+    <img class="logo-mark" src="https://pyraminx.co/images/site-logo.png" alt="Pyramix logo" />
+    <span class="eyebrow mono">MOD.04 — SOCIAL MEDIA MANAGEMENT</span>
+    <h2 class="company-name">Stories That Stop The Scroll</h2>
+    <p class="tagline">We don't just post — we build feeds people stop for. Strategy, content, and performance, all under one roof.</p>
+  </div>
+
+  <div class="pitch-card">
+    <h3>Content Built For The Feed, Not The Boardroom</h3>
+    <p>From bold influencer-led campaigns to clean, conversion-ready storefronts, we shape every brand's social presence around what actually gets attention: fast hooks, real storytelling, and visuals people want to share. No filler content, just performance with personality.</p>
+  </div>
+
+  <div class="header" style="margin-bottom:28px;">
+    <h3 class="section-title">Our Work, As A Story</h3>
+    <p class="section-sub">Tap through like Instagram Stories — swipe, tap, or use the arrows below.</p>
+  </div>
+
+  <div class="story-stage">
+    <div class="phone">
+      <div class="phone-screen" id="phone-screen">
+        <div class="story-progress" id="story-progress"></div>
+        <div class="story-head">
+          <div class="story-avatar">PX</div>
+          <span class="handle">pyramix.agency</span>
+          <span class="dot-sep">•</span>
+          <span class="time" id="story-time">2h</span>
+        </div>
+        <div class="story-slides" id="story-slides"></div>
+        <div class="heart-burst" id="heart-burst">❤️</div>
+        <div class="story-caption">
+          <span class="cap-text" id="story-cap">Tap to pause</span>
+          <div class="story-icons">
+            <svg viewBox="0 0 24 24"><path d="M20.8 4.6c-1.6-1.6-4.2-1.6-5.8 0L12 7.6 9 4.6c-1.6-1.6-4.2-1.6-5.8 0-1.6 1.6-1.6 4.2 0 5.8L12 19l8.8-8.6c1.6-1.6 1.6-4.2 0-5.8z"></path></svg>
+            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+          </div>
+        </div>
+        <div class="tap-zones">
+          <div class="zone" id="zone-prev"></div>
+          <div class="zone" id="zone-next"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="story-controls">
+      <button id="btn-prev" aria-label="Previous slide">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+      <span class="story-counter mono" id="story-counter">1 / 4</span>
+      <button id="btn-next" aria-label="Next slide">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+    </div>
+
+    <div class="slide-meta">
+      <h4 id="meta-title">Klay — Food</h4>
+      <p id="meta-desc">An aesthetic cafe in the heart of Karachi, Clifton — content built for craving.</p>
+      <div class="slide-tags" id="meta-tags"></div>
+    </div>
+
+    <div class="hint mono">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+      Auto-advances every few seconds — tap and hold to pause, like a real story.
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-brand">
+      <img src="https://pyraminx.co/images/site-logo.png" alt="Pyramix logo" style="height:22px;width:auto;" />
+      <span class="mono">© 2026 PYRAMIX — ALL LAYERS BUILT IN-HOUSE</span>
+    </div>
+  </footer>
+</div>
+
+<script>
+  // Scroll progress bar, throttled with requestAnimationFrame
+  const bar = document.getElementById('progress');
+  let ticking = false;
+  function updateProgress(){
+    const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+    ticking = false;
+  }
+  window.addEventListener('scroll', () => {
+    if (!ticking){ requestAnimationFrame(updateProgress); ticking = true; }
+  }, { passive: true });
+
+  const stories = [
+    {
+      img: "picture/slide-klay.png",
+      title: "Klay — Food",
+      desc: "An aesthetic cafe in Karachi, Clifton. We manage Klay's social media with engaging food videos and curated content, plus a sleek, modern website to match.",
+      tags: ["Social Media Management", "Photography & Videography", "Website Development"],
+      time: "2h"
+    },
+    {
+      img: "picture/slide-tpl.png",
+      title: "TPL — Life Insurance",
+      desc: "Tapping into an insurance-averse audience. Three influencer-led campaigns overachieved their targets within 86% of budget.",
+      tags: ["Social Media Management", "Performance Marketing", "Brand Strategy"],
+      time: "5h"
+    },
+    {
+      img: "picture/slide-noms.png",
+      title: "Noms Nochos — Snacks",
+      desc: "Launching Pakistan's first baked chips with a bold, young, health-conscious brand identity and strategic influencer partnerships.",
+      tags: ["Paid Ads", "Influencer Marketing", "Content Strategy"],
+      time: "1d"
+    },
+    {
+      img: "picture/slide-testimonial.png",
+      title: "What Clients Say",
+      desc: "From scaling fast with high-converting ads to building brands clients love — the results speak through the people we've worked with.",
+      tags: ["Client Testimonials"],
+      time: "2d"
+    }
+  ];
+
+  let current = 0;
+  let timer = null;
+  let paused = false;
+  const SLIDE_DURATION = 4500;
+
+  const slidesEl = document.getElementById('story-slides');
+  const progressEl = document.getElementById('story-progress');
+  const counterEl = document.getElementById('story-counter');
+  const titleEl = document.getElementById('meta-title');
+  const descEl = document.getElementById('meta-desc');
+  const tagsEl = document.getElementById('meta-tags');
+  const timeEl = document.getElementById('story-time');
+  const capEl = document.getElementById('story-cap');
+  const screenEl = document.getElementById('phone-screen');
+
+  function buildSlides() {
+    stories.forEach((s, i) => {
+      const div = document.createElement('div');
+      div.className = 'story-slide' + (i === 0 ? ' active' : '');
+      div.innerHTML = `<img class="bg-fill" src="${s.img}" alt="" aria-hidden="true"><img class="fg-img" src="${s.img}" alt="${s.title}">`;
+      slidesEl.appendChild(div);
+
+      const seg = document.createElement('div');
+      seg.className = 'seg';
+      seg.innerHTML = '<div class="fill"></div>';
+      progressEl.appendChild(seg);
+    });
+  }
+
+  function renderMeta() {
+    const s = stories[current];
+    titleEl.innerText = s.title;
+    descEl.innerText = s.desc;
+    timeEl.innerText = s.time;
+    counterEl.innerText = `${current + 1} / ${stories.length}`;
+    tagsEl.innerHTML = s.tags.map(t => `<span>${t}</span>`).join('');
+
+    document.querySelectorAll('.story-slide').forEach((el, i) => el.classList.toggle('active', i === current));
+    document.querySelectorAll('.seg').forEach((el, i) => {
+      el.classList.remove('done', 'current');
+      if (i < current) el.classList.add('done');
+      if (i === current) el.classList.add('current');
+    });
+  }
+
+  function goTo(index, restart = true) {
+    current = (index + stories.length) % stories.length;
+    renderMeta();
+    if (restart) restartTimer();
+  }
+
+  function next() { goTo(current + 1); }
+  function prev() { goTo(current - 1); }
+
+  function restartTimer() {
+    clearTimeout(timer);
+    if (paused) return;
+    timer = setTimeout(next, SLIDE_DURATION);
+  }
+
+  function setPaused(p) {
+    paused = p;
+    screenEl.classList.toggle('paused-state', p);
+    progressEl.classList.toggle('paused', p);
+    capEl.innerText = p ? 'Paused' : 'Tap to pause';
+    if (p) clearTimeout(timer); else restartTimer();
+  }
+
+  document.getElementById('zone-prev').addEventListener('click', prev);
+  document.getElementById('zone-next').addEventListener('click', next);
+  document.getElementById('btn-prev').addEventListener('click', prev);
+  document.getElementById('btn-next').addEventListener('click', next);
+
+  let pressTimer = null;
+  screenEl.addEventListener('mousedown', () => { pressTimer = setTimeout(() => setPaused(true), 180); });
+  screenEl.addEventListener('mouseup', () => { clearTimeout(pressTimer); setPaused(false); });
+  screenEl.addEventListener('mouseleave', () => { clearTimeout(pressTimer); setPaused(false); });
+  screenEl.addEventListener('touchstart', () => { pressTimer = setTimeout(() => setPaused(true), 180); });
+  screenEl.addEventListener('touchend', () => { clearTimeout(pressTimer); setPaused(false); });
+
+  screenEl.addEventListener('dblclick', () => {
+    const heart = document.getElementById('heart-burst');
+    heart.classList.remove('go');
+    void heart.offsetWidth;
+    heart.classList.add('go');
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') next();
+    if (e.key === 'ArrowLeft') prev();
+  });
+
+  buildSlides();
+  renderMeta();
+  restartTimer();
+</script>
+</body>
+</html>
