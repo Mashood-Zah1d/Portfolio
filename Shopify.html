@@ -98,6 +98,8 @@
     transform-style:preserve-3d;
   }
   .flip-card:hover .flip-card-inner{ transform:rotateY(180deg); }
+  .flip-card.flipped .flip-card-inner{ transform:rotateY(180deg); }
+  .flip-card{ cursor:pointer; }
 
   .card-front, .card-back{
     position:absolute; inset:0;
@@ -495,6 +497,16 @@
     if (e.key === 'ArrowRight') changeSlide(1);
     if (e.key === 'ArrowLeft') changeSlide(-1);
     if (e.key === 'Escape') closeShowcase();
+  });
+
+  // Tap-to-flip: hover doesn't exist on touch devices, so a tap toggles
+  // the flip instead. Taps on the "Launch Showcase Engine" button still
+  // trigger its own action rather than re-flipping the card.
+  document.querySelectorAll('.flip-card').forEach(card => {
+    card.addEventListener('click', function(e){
+      if (e.target.closest('.preview-btn')) return;
+      this.classList.toggle('flipped');
+    });
   });
 </script>
 </body>

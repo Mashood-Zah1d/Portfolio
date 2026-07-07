@@ -93,6 +93,8 @@
     transform-style:preserve-3d;
   }
   .flip-card:hover .flip-card-inner{ transform:rotateY(180deg); }
+  .flip-card.flipped .flip-card-inner{ transform:rotateY(180deg); }
+  .flip-card{ cursor:pointer; }
 
   .card-front, .card-back{
     position:absolute; inset:0;
@@ -262,7 +264,7 @@
         <div class="card-front">
           <span class="corner tl"></span><span class="corner tr"></span>
           <div class="card-img-wrapper">
-            <img src="picture/pexels-lara-jameson-8828418.jpg" alt="Tech Platform Interface" loading="lazy" decoding="async">
+            <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=600&q=75" alt="Tech Platform Interface" loading="lazy" decoding="async">
           </div>
           <div class="card-title-bar">SUSO Search Partner</div>
         </div>
@@ -286,7 +288,7 @@
         <div class="card-front">
           <span class="corner tl"></span><span class="corner tr"></span>
           <div class="card-img-wrapper">
-            <img src="picture/pexels-angela-roma-7318941.jpg" alt="Data System Layout" loading="lazy" decoding="async">
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=75" alt="Data System Layout" loading="lazy" decoding="async">
           </div>
           <div class="card-title-bar">Engine.fm</div>
         </div>
@@ -310,7 +312,7 @@
         <div class="card-front">
           <span class="corner tl"></span><span class="corner tr"></span>
           <div class="card-img-wrapper">
-            <img src="picture/pexels-markus-winkler-1430818-19825315.jpg" alt="Clean Interface Design" loading="lazy" decoding="async">
+            <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=600&q=75" alt="Clean Interface Design" loading="lazy" decoding="async">
           </div>
           <div class="card-title-bar">Ultralight Health</div>
         </div>
@@ -484,6 +486,16 @@
     if (e.key === 'ArrowRight') changeSlide(1);
     if (e.key === 'ArrowLeft') changeSlide(-1);
     if (e.key === 'Escape') closeShowcase();
+  });
+
+  // Tap-to-flip: hover doesn't exist on touch devices, so a tap toggles
+  // the flip instead. Taps on the "Launch Showcase Engine" button still
+  // trigger its own action rather than re-flipping the card.
+  document.querySelectorAll('.flip-card').forEach(card => {
+    card.addEventListener('click', function(e){
+      if (e.target.closest('.preview-btn')) return;
+      this.classList.toggle('flipped');
+    });
   });
 </script>
 </body>
