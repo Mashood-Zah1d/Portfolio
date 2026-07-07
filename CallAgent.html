@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Pyramix AI Call Agent — voice automation built on n8n, built in-house.">
-<title>AI Call Agent Automation — Pyramix</title>
+<meta name="description" content="Pyramix Shopify Solutions — conversion-engineered storefronts built in-house.">
+<title>Shopify Solutions — Pyramix</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=JetBrains+Mono:wght@500;700&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
@@ -18,7 +18,7 @@
     --p1:#7A2FC9;
     --p2:#C026A3;
     --p3:#B685FF;
-    --call:#ff6d5a;
+    --shopify-green:#95bf47;
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -30,6 +30,7 @@
   button{ font:inherit; color:inherit; background:none; border:none; }
   img{ max-width:100%; }
 
+  /* ---------- Background: same technical grid + scanline as homepage ---------- */
   .bg-fx{ position:fixed; inset:0; z-index:-2; overflow:hidden; }
   .grid-lines{
     position:absolute; inset:-1px;
@@ -63,14 +64,15 @@
 
   .logo-mark{ height:50px; width:auto; max-width:220px; margin-bottom:24px; object-fit:contain; }
 
-  .eyebrow{ display:inline-flex; align-items:center; gap:9px; font-size:0.72rem; letter-spacing:1.5px; color:var(--call); margin-bottom:18px; border:1px solid rgba(255,109,90,0.3); padding:6px 14px; background:rgba(255,109,90,0.05); text-align:center; }
-  .eyebrow .pulse-dot{ width:6px; height:6px; background:var(--call); display:inline-block; border-radius:50%; animation:blink 1.4s ease-in-out infinite; flex-shrink:0; }
+  .eyebrow{ display:inline-flex; align-items:center; gap:9px; font-size:0.72rem; letter-spacing:1.5px; color:var(--shopify-green); margin-bottom:18px; border:1px solid rgba(149,191,71,0.3); padding:6px 14px; background:rgba(149,191,71,0.05); text-align:center; }
+  .eyebrow::before{ content:''; width:6px; height:6px; background:var(--shopify-green); display:inline-block; animation:blink 1.6s ease-in-out infinite; flex-shrink:0; }
   @keyframes blink{ 0%,100%{ opacity:1; } 50%{ opacity:0.25; } }
 
   .section-title{ font-size:clamp(1.6rem, 5vw, 2.6rem); font-weight:700; letter-spacing:-0.5px; margin-bottom:12px; line-height:1.15; }
   .section-title .accent{ color:var(--p3); }
   .section-sub{ color:var(--muted); font-size:0.98rem; max-width:560px; margin:0 auto 24px; line-height:1.6; }
 
+  /* ---------- Pitch panel — flat module, not glass ---------- */
   .pitch-module{
     position:relative;
     border:1px solid var(--line); border-radius:3px;
@@ -85,112 +87,71 @@
   .sub-header{ margin-bottom:28px; }
   .sub-header .section-title{ font-size:clamp(1.4rem, 4.5vw, 2rem); }
 
-  /* ── win strip ── */
-  .win-strip{ display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:14px; margin-bottom:60px; }
-  .win-card{
-    position:relative; border:1px solid var(--line); border-radius:3px;
-    background:linear-gradient(160deg, rgba(255,255,255,0.035), rgba(255,255,255,0.008));
-    padding:20px 18px; display:flex; align-items:flex-start; gap:14px;
-    transition:border-color .25s ease, transform .25s ease;
-  }
-  .win-card:hover{ border-color:var(--line-hover); transform:translateY(-3px); }
-  .win-icon{
-    flex-shrink:0; width:38px; height:38px; border:1px solid var(--line-hover);
-    display:flex; align-items:center; justify-content:center;
-  }
-  .win-icon svg{ width:18px; height:18px; stroke:var(--p3); fill:none; stroke-width:2; }
-  .win-card h4{ font-size:0.95rem; color:#fff; margin-bottom:4px; }
-  .win-card p{ font-size:0.82rem; color:var(--muted); line-height:1.5; }
+  .boot-line{ font-size:0.74rem; color:var(--muted); letter-spacing:0.4px; margin-bottom:8px; text-align:center; }
 
-  /* ── flow steps ── */
-  .flow-section{ margin-bottom:60px; }
-  .flow-steps{ display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:14px; }
-  .flow-step{
-    position:relative; border:1px solid var(--line); border-radius:3px;
-    background:linear-gradient(160deg, rgba(255,255,255,0.035), rgba(255,255,255,0.008));
-    padding:22px 18px;
-    transition:border-color .25s ease, transform .25s ease;
-  }
-  .flow-step:hover{ border-color:var(--line-hover); transform:translateY(-3px); }
-  .flow-step .flow-num{
-    width:26px; height:26px; display:flex; align-items:center; justify-content:center;
-    background:linear-gradient(120deg, var(--p1), var(--p2)); color:#fff;
-    font-family:'JetBrains Mono',monospace; font-weight:700; font-size:0.78rem;
-    margin-bottom:14px;
-  }
-  .flow-step h4{ font-size:0.95rem; color:#fff; margin-bottom:6px; }
-  .flow-step p{ font-size:0.82rem; color:var(--muted); line-height:1.5; }
+  /* ---------- Portfolio grid: modules echo homepage cards ---------- */
+  .portfolio-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:18px; }
 
-  /* ── showcase panels ── */
-  .showcase-section{ margin-bottom:60px; }
-  .showcase-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:18px; }
-  .showcase-panel{
-    position:relative;
-    border:1px solid var(--line); border-radius:3px; overflow:hidden; cursor:pointer;
-    background:linear-gradient(160deg, rgba(255,255,255,0.03), rgba(255,255,255,0.008));
-    transition:border-color .3s ease, transform .3s ease, box-shadow .3s ease;
+  .flip-card{ height:420px; perspective:1500px; }
+  .flip-card-inner{
+    position:relative; width:100%; height:100%;
+    transition:transform 0.6s cubic-bezier(0.16,1,0.3,1);
+    transform-style:preserve-3d;
   }
-  .showcase-panel:hover{ transform:translateY(-4px); border-color:var(--line-hover); box-shadow:0 16px 30px -18px rgba(122,47,201,0.55); }
-  .showcase-panel:hover .corner{ opacity:1; }
-  .showcase-img-wrap{ width:100%; height:240px; overflow:hidden; position:relative; background:#05020a; }
-  .showcase-img-wrap::after{ content:''; position:absolute; inset:0; background:linear-gradient(to bottom, transparent 55%, rgba(11,6,20,1) 100%); z-index:1; }
-  .showcase-img-wrap img{ width:100%; height:100%; object-fit:cover; object-position:center; transition:transform .6s ease; }
-  .showcase-panel:hover .showcase-img-wrap img{ transform:scale(1.05); }
+  .flip-card:hover .flip-card-inner{ transform:rotateY(180deg); }
+  .flip-card.flipped .flip-card-inner{ transform:rotateY(180deg); }
+  .flip-card{ cursor:pointer; }
 
-  .showcase-tag{
-    position:absolute; top:14px; left:14px; z-index:2;
+  .card-front, .card-back{
+    position:absolute; inset:0;
+    -webkit-backface-visibility:hidden; backface-visibility:hidden;
+    border:1px solid var(--line); border-radius:3px; overflow:hidden;
+    transition:border-color .25s ease, box-shadow .25s ease;
+  }
+  .flip-card:hover .card-front, .flip-card:hover .card-back{ border-color:var(--line-hover); box-shadow:0 16px 30px -18px rgba(122,47,201,0.55); }
+
+  .corner{ position:absolute; width:14px; height:14px; opacity:0; transition:opacity .25s ease; pointer-events:none; z-index:4; }
+  .corner.tl{ top:7px; left:7px; border-top:2px solid var(--p3); border-left:2px solid var(--p3); }
+  .corner.tr{ top:7px; right:7px; border-top:2px solid var(--p3); border-right:2px solid var(--p3); }
+  .flip-card:hover .corner{ opacity:1; }
+
+  .card-front{ background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.008)); display:flex; flex-direction:column; }
+
+  .card-img-wrapper{ width:100%; height:72%; overflow:hidden; position:relative; background:#05020a; }
+  .card-img-wrapper::after{ content:''; position:absolute; inset:0; background:linear-gradient(to bottom, transparent 50%, rgba(11,6,20,1) 100%); z-index:2; }
+  .card-front img{ width:100%; height:100%; object-fit:cover; object-position:top center; }
+
+  .card-badge{
+    position:absolute; top:14px; left:14px; z-index:3;
     font-family:'JetBrains Mono',monospace; font-size:0.62rem; font-weight:700; letter-spacing:1px; text-transform:uppercase;
     color:var(--bg); background:var(--p3); padding:4px 10px;
   }
-  .showcase-body{ padding:20px 22px 24px; }
-  .showcase-body h4{ font-size:1.1rem; color:#fff; margin-bottom:8px; }
-  .showcase-body p{ font-size:0.86rem; color:var(--muted); line-height:1.6; margin-bottom:14px; }
-  .showcase-expand{ display:inline-flex; align-items:center; gap:8px; font-size:0.8rem; font-weight:700; color:var(--p3); flex-wrap:wrap; }
-  .showcase-expand svg{ width:13px; height:13px; stroke:currentColor; fill:none; stroke-width:2.5; flex-shrink:0; }
 
-  /* ── use case grid ── */
-  .usecase-section{ margin-bottom:60px; }
-  .usecase-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:12px; }
-  .usecase-pill{
-    border:1px solid var(--line); border-radius:3px;
-    background:linear-gradient(160deg, rgba(255,255,255,0.03), rgba(255,255,255,0.008));
-    padding:18px 14px; text-align:center; transition:all .25s ease;
+  .card-title-bar{ height:28%; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.15rem; color:#fff; text-align:center; padding:0 12px; }
+
+  .card-back{
+    background:linear-gradient(160deg, rgba(255,255,255,0.035), rgba(255,255,255,0.008));
+    transform:rotateY(180deg); padding:26px 22px;
+    display:flex; flex-direction:column; justify-content:space-between;
   }
-  .usecase-pill:hover{ border-color:var(--line-hover); transform:translateY(-3px); }
-  .usecase-pill .uc-emoji{ font-size:1.4rem; margin-bottom:8px; display:block; }
-  .usecase-pill span.uc-label{ font-size:0.82rem; font-weight:600; color:var(--text); }
+  .card-back h4{ font-size:1.2rem; font-weight:700; color:#fff; margin-bottom:10px; }
+  .card-back p{ font-size:0.86rem; color:var(--muted); line-height:1.6; margin-bottom:14px; }
 
-  /* ── stack pills ── */
-  .stack-section{ margin-bottom:60px; }
-  .stack-pills{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
-  .stack-pill{
-    display:inline-flex; align-items:center; gap:9px;
-    border:1px solid var(--line); background:rgba(255,255,255,0.02);
-    padding:9px 16px; font-size:0.84rem; font-weight:600; color:var(--text);
-    transition:all .25s ease;
+  .tech-tags{ display:flex; gap:6px; flex-wrap:wrap; justify-content:center; margin-bottom:18px; }
+  .tech-tags span{ font-family:'JetBrains Mono',monospace; font-size:0.66rem; font-weight:500; border:1px solid var(--line-hover); padding:4px 10px; color:var(--p3); }
+
+  .preview-btn{
+    position:relative; display:inline-flex; align-items:center; justify-content:center; gap:8px; width:100%;
+    background:linear-gradient(120deg, var(--p1), var(--p2)); color:#fff;
+    font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:0.82rem;
+    padding:12px 18px; cursor:pointer;
+    clip-path:polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
+    transition:transform .2s ease, box-shadow .2s ease;
+    box-shadow:0 10px 24px -14px rgba(122,47,201,0.7);
   }
-  .stack-pill:hover{ border-color:var(--line-hover); transform:translateY(-3px); }
-  .stack-pill .dot{ width:7px; height:7px; border-radius:50%; flex-shrink:0; box-shadow:0 0 8px currentColor; }
+  .preview-btn:hover{ transform:translateY(-2px); box-shadow:0 14px 30px -14px rgba(122,47,201,0.8); }
 
-  /* ── process grid ── */
-  .process-section{ margin-bottom:20px; }
-  .process-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px; }
-  .process-card{ border:1px solid var(--line); border-radius:3px; background:linear-gradient(160deg, rgba(255,255,255,0.035), rgba(255,255,255,0.008)); padding:22px; transition:border-color .25s ease, transform .25s ease; }
-  .process-card:hover{ border-color:var(--line-hover); transform:translateY(-3px); }
-  .process-step{ font-family:'JetBrains Mono',monospace; font-size:0.68rem; letter-spacing:2px; font-weight:700; color:var(--p3); margin-bottom:10px; }
-  .process-card h4{ font-size:1rem; margin-bottom:8px; color:#fff; }
-  .process-card p{ font-size:0.85rem; color:var(--muted); line-height:1.55; }
-
-  /* ── cta ── */
-  .cta-strip{
-    margin-top:55px; text-align:center; padding:34px 26px;
-    border:1px solid rgba(255,109,90,0.25);
-    background:linear-gradient(135deg, rgba(255,109,90,0.08), rgba(122,47,201,0.1));
-  }
-  .cta-strip h3{ font-size:clamp(1.15rem,4vw,1.35rem); margin-bottom:10px; color:#fff; }
-  .cta-strip p{ color:var(--muted); font-size:0.92rem; max-width:520px; margin:0 auto; }
-
-  /* ── lightbox modal ── */
+  /* ---------- Modal / showcase viewer ---------- */
   .modal-overlay{
     position:fixed; inset:0; background:rgba(4,2,9,0.96); z-index:1000;
     display:flex; align-items:center; justify-content:center;
@@ -198,15 +159,18 @@
     backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
   }
   .modal-overlay.active{ opacity:1; pointer-events:auto; }
+
   .modal-container{
-    width:92vw; max-width:1100px; height:86vh;
+    width:92vw; max-width:1160px; height:88vh;
     display:flex; flex-direction:column; position:relative;
     background:#0B0614; border:1px solid var(--line); border-radius:6px;
     box-shadow:0 60px 140px rgba(0,0,0,0.9), 0 0 100px rgba(122,47,201,0.15);
-    overflow:hidden; transform:scale(0.96); opacity:0;
+    overflow:hidden;
+    transform:scale(0.96); opacity:0;
     transition:transform 0.45s cubic-bezier(0.16,1,0.3,1), opacity 0.35s ease;
   }
   .modal-overlay.active .modal-container{ transform:scale(1); opacity:1; }
+
   .close-modal{
     position:absolute; top:14px; right:18px;
     background:rgba(255,255,255,0.04); border:1px solid var(--line);
@@ -215,11 +179,52 @@
     cursor:pointer; z-index:50; transition:all 0.25s ease;
   }
   .close-modal:hover{ background:var(--p2); border-color:var(--p2); }
-  .modal-image-wrap{ flex:1; min-height:0; width:100%; background:#040208; display:flex; align-items:center; justify-content:center; overflow:hidden; padding:40px 60px; }
-  .modal-image-wrap img{ max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain; border:1px solid var(--line); box-shadow:0 40px 100px rgba(0,0,0,0.8); }
-  .modal-footer{ background:#0c0718; padding:20px 36px; border-top:1px solid var(--line); }
-  .modal-footer h5{ font-family:'Space Grotesk',sans-serif; font-size:1.15rem; color:#fff; font-weight:700; }
-  .modal-footer p{ font-size:0.86rem; color:var(--muted); margin-top:4px; }
+
+  .slideshow-wrapper{ flex:1; width:100%; min-height:0; position:relative; background:#040208; display:flex; align-items:center; justify-content:center; overflow:hidden; padding:24px 0; }
+  .slide-track{ width:100%; height:100%; position:relative; }
+  .slide{
+    position:absolute; inset:0; opacity:0; transform:scale(0.97);
+    transition:opacity 0.4s cubic-bezier(0.16,1,0.3,1), transform 0.4s cubic-bezier(0.16,1,0.3,1);
+    display:flex; align-items:center; justify-content:center; padding:0 70px;
+    pointer-events:none;
+  }
+  .slide.active{ opacity:1; z-index:2; transform:scale(1); pointer-events:auto; }
+
+  .browser-mockup{
+    width:100%; max-width:900px; height:100%; max-height:100%;
+    background:#0f0a1e; border-radius:4px; border:1px solid var(--line);
+    box-shadow:0 50px 100px rgba(0,0,0,0.9), 0 0 60px rgba(122,47,201,0.12);
+    display:flex; flex-direction:column; overflow:hidden;
+  }
+  .browser-header{ background:#120b22; height:44px; min-height:44px; display:flex; align-items:center; padding:0 18px; border-bottom:1px solid var(--line); position:relative; }
+  .browser-dots{ display:flex; gap:7px; z-index:2; }
+  .browser-dots span{ width:10px; height:10px; border-radius:50%; display:inline-block; }
+  .browser-dots .r{ background:#ff5f56; } .browser-dots .y{ background:#ffbd2e; } .browser-dots .g{ background:#27c93f; }
+  .browser-url-bar{
+    position:absolute; left:50%; top:50%; transform:translate(-50%, -50%);
+    background:rgba(0,0,0,0.3); width:40%; max-width:400px; height:22px;
+    border:1px solid var(--line); color:var(--muted); font-size:0.7rem;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'JetBrains Mono',monospace; letter-spacing:0.5px;
+  }
+  .browser-screen{ flex:1; min-height:0; width:100%; background:#040208; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+  .browser-screen img{ max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain; display:block; }
+
+  .slide-nav{
+    position:absolute; top:50%; transform:translateY(-50%);
+    background:rgba(12,6,26,0.75); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+    border:1px solid var(--line); color:#fff; width:52px; height:52px; border-radius:50%;
+    cursor:pointer; z-index:30; display:flex; align-items:center; justify-content:center;
+    transition:all .25s ease;
+  }
+  .slide-nav:hover{ background:var(--p1); border-color:var(--p1); transform:translateY(-50%) scale(1.08); }
+  .slide-nav.prev{ left:22px; } .slide-nav.next{ right:22px; }
+  .slide-nav svg{ width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2.5; }
+
+  .slideshow-footer{ background:#0c0718; padding:20px 36px; display:flex; justify-content:space-between; align-items:center; gap:26px; border-top:1px solid var(--line); }
+  .slide-caption h5{ font-family:'Space Grotesk',sans-serif; font-size:1.2rem; color:#fff; font-weight:700; }
+  .slide-caption p{ font-size:0.85rem; color:var(--muted); margin-top:3px; }
+  .slide-counter{ font-family:'JetBrains Mono',monospace; font-size:0.78rem; font-weight:700; color:#fff; background:linear-gradient(120deg, var(--p1), var(--p2)); padding:6px 14px; flex-shrink:0; }
 
   footer{ margin-top:52px; padding-top:26px; border-top:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:18px; }
   .footer-brand{ display:flex; align-items:center; gap:12px; }
@@ -228,45 +233,52 @@
 
   /* ============ MOBILE RESPONSIVE ============ */
   @media (max-width:768px){
-    .modal-container{ height:82vh; width:96vw; }
-    .modal-image-wrap{ padding:16px; }
-    .modal-footer{ padding:16px 20px; }
+    .portfolio-grid{ grid-template-columns:1fr; }
+    .modal-container{ height:86vh; width:96vw; }
+    .slide{ padding:10px 12px; }
+    .slideshow-footer{ flex-direction:column; text-align:center; padding:16px; gap:12px; }
+    .slide-nav{ width:44px; height:44px; }
+    .slide-nav.prev{ left:8px; } .slide-nav.next{ right:8px; }
+    .browser-url-bar{ display:none; }
   }
 
   @media (max-width:640px){
     .wrap{ padding:24px 16px 36px; }
     .back-btn{ font-size:0.72rem; padding:8px 14px; margin-bottom:24px; }
     .logo-mark{ height:38px; margin-bottom:18px; }
-    .eyebrow{ font-size:0.66rem; letter-spacing:1px; padding:6px 12px; }
+    .eyebrow{ font-size:0.64rem; letter-spacing:1px; padding:6px 12px; }
     .section-sub{ font-size:0.9rem; }
-    .pitch-module{ padding:24px 18px; margin-bottom:40px; }
+    .pitch-module{ padding:24px 18px; margin-bottom:36px; }
+    .sub-header{ margin-bottom:20px; }
 
-    .win-strip, .flow-steps, .process-grid, .showcase-grid{
-      grid-template-columns:1fr;
-      margin-bottom:40px;
-    }
-    .flow-section, .showcase-section, .usecase-section, .stack-section{ margin-bottom:40px; }
+    .portfolio-grid{ gap:14px; }
+    .flip-card{ height:380px; }
+    .card-title-bar{ font-size:1rem; padding:0 10px; }
+    .card-back{ padding:20px 16px; }
+    .card-back h4{ font-size:1.05rem; }
+    .card-back p{ font-size:0.82rem; }
+    .tech-tags span{ font-size:0.62rem; padding:4px 8px; }
+    .preview-btn{ font-size:0.78rem; padding:11px 14px; }
 
-    .win-card{ padding:16px 14px; }
-    .showcase-img-wrap{ height:190px; }
-    .showcase-body{ padding:16px 18px 20px; }
+    .browser-header{ height:36px; min-height:36px; padding:0 12px; }
+    .browser-dots span{ width:8px; height:8px; }
+    .slideshow-wrapper{ padding:14px 0; }
 
-    .usecase-grid{ grid-template-columns:repeat(2, 1fr); }
-
-    .stack-pills{ gap:8px; }
-    .stack-pill{ padding:8px 13px; font-size:0.78rem; }
-
-    .cta-strip{ padding:26px 18px; margin-top:36px; }
+    .slide-caption h5{ font-size:1rem; }
+    .slide-caption p{ font-size:0.78rem; }
+    .slide-counter{ font-size:0.72rem; padding:5px 11px; }
 
     footer{ flex-direction:column; align-items:flex-start; text-align:left; margin-top:36px; }
   }
 
   @media (max-width:400px){
-    .usecase-grid{ grid-template-columns:1fr 1fr; gap:10px; }
-    .usecase-pill{ padding:14px 10px; }
+    .flip-card{ height:340px; }
+    .card-img-wrapper{ height:68%; }
+    .card-title-bar{ height:32%; font-size:0.92rem; }
     .logo-mark{ height:32px; }
-    .win-card{ flex-direction:column; gap:10px; }
-    .modal-footer h5{ font-size:1rem; }
+    .close-modal{ padding:6px 12px; font-size:0.62rem; top:10px; right:12px; }
+    .slide-nav{ width:38px; height:38px; }
+    .slide-nav svg{ width:16px; height:16px; }
   }
 
   @media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition:none !important; } }
@@ -284,161 +296,98 @@
 
   <div class="header">
     <img class="logo-mark" src="https://pyraminx.co/images/site-logo.png" alt="Pyramix logo" />
-    <span class="eyebrow mono"><span class="pulse-dot"></span>AI VOICE AUTOMATION</span>
-    <h2 class="section-title">A front desk that <span class="accent">never sleeps.</span></h2>
-    <p class="section-sub">A custom AI agent that answers your phone, understands what callers need, and books it straight into your calendar — built end-to-end on n8n so you own the automation, not a subscription.</p>
+    <span class="eyebrow mono">ENTERPRISE ECOMMERCE PRODUCTION</span>
+    <h2 class="section-title">Shopify, <span class="accent">engineered to sell.</span></h2>
+    <p class="section-sub">Conversion-engineered storefronts — fast checkouts, clean code, zero bloat.</p>
   </div>
 
   <div class="pitch-module">
-    <h3>Your front desk, <span class="accent">automated</span></h3>
-    <p>Every missed call is a missed booking. We build custom call agents that pick up instantly, hold a natural conversation, check real availability, and confirm the appointment — all orchestrated through an n8n workflow tailored to your business, not a rigid off-the-shelf bot. It plugs into the calendar and tools you already use, runs 24/7, and hands off to a human the moment a conversation needs one.</p>
+    <h3>Why your brand demands a <span class="accent">custom</span> Shopify build</h3>
+    <p>Off-the-shelf themes cap your growth. We build custom Shopify storefronts engineered for speed, conversion, and seamless app/API integration — tailored sections, optimized Liquid code, and checkout flows designed to turn browsers into buyers.</p>
   </div>
 
-  <div class="win-strip">
-    <div class="win-card">
-      <div class="win-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
-      <div><h4>Never miss a call</h4><p>Picks up on ring one, any time of day, every day of the week.</p></div>
-    </div>
-    <div class="win-card">
-      <div class="win-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
-      <div><h4>Books in real time</h4><p>Checks live calendar availability before confirming a slot — no double-bookings.</p></div>
-    </div>
-    <div class="win-card">
-      <div class="win-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
-      <div><h4>Sounds like a person</h4><p>Natural, low-latency conversation — not a rigid phone-tree experience.</p></div>
-    </div>
-    <div class="win-card">
-      <div class="win-icon"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 2v10l7-7"/></svg></div>
-      <div><h4>Fully yours</h4><p>Built on n8n workflows you own and can extend — no black-box SaaS lock-in.</p></div>
-    </div>
+  <div class="header sub-header">
+    <h3 class="section-title" style="font-size:clamp(1.4rem, 4.5vw, 2rem);">Selected production cases</h3>
+    <p class="section-sub">Hover on any card to flip and review the live structural stack.</p>
   </div>
 
-  <div class="flow-section">
-    <div class="header sub-header">
-      <h3 class="section-title" style="font-size:clamp(1.4rem, 4.5vw, 2rem);">How a call actually flows</h3>
-      <p class="section-sub">One n8n workflow handles the entire journey, from ringtone to confirmed booking.</p>
-    </div>
-    <div class="flow-steps">
-      <div class="flow-step">
-        <div class="flow-num mono">01</div>
-        <h4>Call comes in</h4>
-        <p>The agent answers instantly and greets the caller in your brand's voice and tone.</p>
-      </div>
-      <div class="flow-step">
-        <div class="flow-num mono">02</div>
-        <h4>Understands intent</h4>
-        <p>Speech is transcribed and interpreted in real time to figure out what the caller actually wants.</p>
-      </div>
-      <div class="flow-step">
-        <div class="flow-num mono">03</div>
-        <h4>Checks the calendar</h4>
-        <p>n8n queries your live calendar for open slots that match the request.</p>
-      </div>
-      <div class="flow-step">
-        <div class="flow-num mono">04</div>
-        <h4>Confirms & logs</h4>
-        <p>The booking is written to the calendar and a confirmation goes out — done, no human needed.</p>
-      </div>
-    </div>
-  </div>
+  <div class="portfolio-grid">
 
-  <div class="showcase-section">
-    <div class="header sub-header">
-      <h3 class="section-title" style="font-size:clamp(1.4rem, 4.5vw, 2rem);">See the engine behind it</h3>
-      <p class="section-sub">Click either panel for a closer look at the actual automation.</p>
-    </div>
-
-    <div class="showcase-grid">
-      <div class="showcase-panel" onclick="openLightbox('workflow')">
-        <span class="corner tl" style="position:absolute;top:7px;left:7px;width:14px;height:14px;border-top:2px solid var(--p3);border-left:2px solid var(--p3);opacity:0;transition:opacity .25s ease;z-index:3;"></span>
-        <div class="showcase-img-wrap">
-          <span class="showcase-tag">n8n Workflow</span>
-          <img src="picture/pexels-pavel-danilyuk-8438864.jpg" alt="n8n automation workflow" loading="lazy" decoding="async">
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="card-front">
+          <span class="corner tl"></span><span class="corner tr"></span>
+          <div class="card-img-wrapper">
+            <img src="picture/pexels-planka-29709958.jpg" alt="AEVI Beauty Storefront" loading="lazy" decoding="async">
+            <span class="card-badge mono">Beauty</span>
+          </div>
+          <div class="card-title-bar">AEVI — The Beauty Store</div>
         </div>
-        <div class="showcase-body">
-          <h4>The Automation Workflow</h4>
-          <p>Every node — call trigger, transcription, intent detection, calendar check, booking, confirmation — wired together in n8n so the whole flow runs without manual steps.</p>
-          <span class="showcase-expand">View full workflow <svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span>
-        </div>
-      </div>
-
-      <div class="showcase-panel" onclick="openLightbox('calendar')">
-        <span class="corner tl" style="position:absolute;top:7px;left:7px;width:14px;height:14px;border-top:2px solid var(--p3);border-left:2px solid var(--p3);opacity:0;transition:opacity .25s ease;z-index:3;"></span>
-        <div class="showcase-img-wrap">
-          <span class="showcase-tag">Live Calendar</span>
-          <img src="picture/pexels-towfiqu-barbhuiya-3440682-11773871.jpg" alt="Calendar showing booked appointments" loading="lazy" decoding="async">
-        </div>
-        <div class="showcase-body">
-          <h4>Bookings, Organized Automatically</h4>
-          <p>Every appointment the agent books lands directly on the calendar with the caller's name, contact details, and reason for the visit already filled in.</p>
-          <span class="showcase-expand">View full calendar <svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span>
+        <div class="card-back">
+          <div class="card-back-content">
+            <h4>AEVI — Beauty Store</h4>
+            <p>A high-converting custom Shopify storefront for a premium beauty brand, built with bespoke product sections and a smooth, distraction-free checkout flow.</p>
+            <div class="tech-tags mono">
+              <span>Custom Liquid</span><span>Shopify 2.0</span><span>Tailwind CSS</span>
+            </div>
+          </div>
+          <button class="preview-btn" onclick="openShowcase('project1', 'https://aevi.com')">
+            Launch Showcase Engine
+          </button>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="usecase-section">
-    <div class="header sub-header">
-      <h3 class="section-title" style="font-size:clamp(1.4rem, 4.5vw, 2rem);">Where this fits</h3>
-      <p class="section-sub">Any business that lives or dies by the phone ringing.</p>
-    </div>
-    <div class="usecase-grid">
-      <div class="usecase-pill"><span class="uc-emoji">💇</span><span class="uc-label">Salons & Spas</span></div>
-      <div class="usecase-pill"><span class="uc-emoji">🦷</span><span class="uc-label">Clinics & Dentists</span></div>
-      <div class="usecase-pill"><span class="uc-emoji">🏠</span><span class="uc-label">Real Estate</span></div>
-      <div class="usecase-pill"><span class="uc-emoji">🍽️</span><span class="uc-label">Restaurants</span></div>
-      <div class="usecase-pill"><span class="uc-emoji">🔧</span><span class="uc-label">Home Services</span></div>
-      <div class="usecase-pill"><span class="uc-emoji">💼</span><span class="uc-label">Agencies</span></div>
-    </div>
-  </div>
-
-  <div class="stack-section">
-    <div class="header sub-header">
-      <h3 class="section-title" style="font-size:clamp(1.4rem, 4.5vw, 2rem);">Built with</h3>
-      <p class="section-sub">The automation and voice stack behind every call agent we ship.</p>
-    </div>
-    <div class="stack-pills mono">
-      <span class="stack-pill"><span class="dot" style="color:#ff6d5a;background:#ff6d5a;"></span>n8n</span>
-      <span class="stack-pill"><span class="dot" style="color:#f22f46;background:#f22f46;"></span>Twilio Voice</span>
-      <span class="stack-pill"><span class="dot" style="color:#10a37f;background:#10a37f;"></span>OpenAI Whisper &amp; GPT</span>
-      <span class="stack-pill"><span class="dot" style="color:#4285f4;background:#4285f4;"></span>Google Calendar</span>
-      <span class="stack-pill"><span class="dot" style="color:#b685ff;background:#b685ff;"></span>Webhooks &amp; REST APIs</span>
-      <span class="stack-pill"><span class="dot" style="color:#ff9900;background:#ff9900;"></span>CRM Sync</span>
-    </div>
-  </div>
-
-  <div class="process-section">
-    <div class="header sub-header">
-      <h3 class="section-title" style="font-size:clamp(1.4rem, 4.5vw, 2rem);">How we build it</h3>
-      <p class="section-sub">Same disciplined process, tuned for voice automation.</p>
-    </div>
-    <div class="process-grid">
-      <div class="process-card">
-        <div class="process-step mono">DISCOVERY</div>
-        <h4>Map the calls</h4>
-        <p>We listen to how your calls actually go today — what callers ask, where they get stuck.</p>
-      </div>
-      <div class="process-card">
-        <div class="process-step mono">DESIGN</div>
-        <h4>Build the flow</h4>
-        <p>The full conversation and booking logic gets mapped out as an n8n workflow, node by node.</p>
-      </div>
-      <div class="process-card">
-        <div class="process-step mono">CONNECT</div>
-        <h4>Wire it up</h4>
-        <p>Telephony, calendar, and CRM get connected and stress-tested with real call scenarios.</p>
-      </div>
-      <div class="process-card">
-        <div class="process-step mono">LAUNCH</div>
-        <h4>Go live, refine</h4>
-        <p>We monitor the first real calls and tune the agent's responses based on what actually happens.</p>
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="card-front">
+          <span class="corner tl"></span><span class="corner tr"></span>
+          <div class="card-img-wrapper">
+            <img src="picture/pexels-masoodaslami-19222850.jpg" alt="Tesoro Candle Storefront" loading="lazy" decoding="async">
+            <span class="card-badge mono">Candles</span>
+          </div>
+          <div class="card-title-bar">Tesoro — The Candle Shop</div>
+        </div>
+        <div class="card-back">
+          <div class="card-back-content">
+            <h4>Tesoro — Candle Shop</h4>
+            <p>A warm, scent-driven Shopify catalog with rich collection filtering, custom scent/size metafields, and a checkout built to feel as crafted as the product.</p>
+            <div class="tech-tags mono">
+              <span>Metafields</span><span>Collection Filtering</span><span>JavaScript</span>
+            </div>
+          </div>
+          <button class="preview-btn" onclick="openShowcase('project2', 'https://tesoro.com')">
+            Launch Showcase Engine
+          </button>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="cta-strip">
-    <h3>Ready to stop missing calls?</h3>
-    <p>We'll walk you through exactly how the workflow would look for your business before you commit to anything.</p>
+    <div class="flip-card">
+      <div class="flip-card-inner">
+        <div class="card-front">
+          <span class="corner tl"></span><span class="corner tr"></span>
+          <div class="card-img-wrapper">
+            <img src="picture/pexels-julias-torten-und-tortchen-434418-16637678.jpg" alt="Levain Bakery Storefront" loading="lazy" decoding="async">
+            <span class="card-badge mono">Bakery</span>
+          </div>
+          <div class="card-title-bar">Levain — The Bakery Shop</div>
+        </div>
+        <div class="card-back">
+          <div class="card-back-content">
+            <h4>Levain — Bakery Shop</h4>
+            <p>A fast, mobile-first Shopify build for a fresh-bake bakery, optimized for Core Web Vitals with a custom cart drawer and same-day order upsells.</p>
+            <div class="tech-tags mono">
+              <span>Cart Drawer</span><span>Performance Tuning</span><span>Custom Sections</span>
+            </div>
+          </div>
+          <button class="preview-btn" onclick="openShowcase('project3', 'https://levainbakery.com')">
+            Launch Showcase Engine
+          </button>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <footer>
@@ -449,61 +398,156 @@
   </footer>
 </div>
 
-<div class="modal-overlay" id="lightbox-modal">
+<div class="modal-overlay" id="slideshow-modal">
   <div class="modal-container">
-    <button class="close-modal" onclick="closeLightbox()">✕ Close</button>
-    <div class="modal-image-wrap">
-      <img id="lightbox-img" src="" alt="">
+    <button class="close-modal" onclick="closeShowcase()">✕ Close</button>
+
+    <div class="slideshow-wrapper">
+      <button class="slide-nav prev" onclick="changeSlide(-1)">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+      <button class="slide-nav next" onclick="changeSlide(1)">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+
+      <div class="slide-track" id="slide-track"></div>
     </div>
-    <div class="modal-footer">
-      <h5 id="lightbox-title"></h5>
-      <p id="lightbox-desc"></p>
+
+    <div class="slideshow-footer">
+      <div class="slide-caption">
+        <h5 id="modal-title">Project Title</h5>
+        <p id="modal-desc">Interactive production scroll mode active.</p>
+      </div>
+      <div class="slide-counter mono" id="modal-counter">1 / 2</div>
     </div>
   </div>
 </div>
 
 <script>
-  const showcaseAssets = {
-    workflow: {
-      img: "picture/Screenshot 2026-07-04 023233.png",
-      title: "The Automation Workflow",
-      desc: "The full n8n workflow: call trigger → transcription → intent detection → calendar check → booking → confirmation."
+  const projectsData = {
+    project1: {
+      title: "AEVI — The Beauty Store",
+      desc: "Custom Shopify storefront for a premium beauty & skincare brand.",
+      images: [
+        "picture/Screenshot 2026-06-22 011406.png",
+        "picture/Screenshot 2026-06-22 011432.png",
+        "picture/Screenshot 2026-06-22 011503.png",
+        "picture/Screenshot 2026-06-22 011530.png",
+        "picture/Screenshot 2026-06-22 011550.png"
+      ]
     },
-    calendar: {
-      img: "picture/Screenshot 2026-07-04 023123.png",
-      title: "Bookings, Organized Automatically",
-      desc: "Every call the agent handles lands here — name, contact, and appointment details, filled in automatically."
+    project2: {
+      title: "Tesoro — The Candle Shop",
+      desc: "Scent-driven candle catalog with custom collection filtering.",
+      images: [
+        "picture/Screenshot 2026-06-22 013334.png",
+        "picture/Screenshot 2026-06-22 013424.png",
+        "picture/Screenshot 2026-06-22 013503.png",
+        "picture/Screenshot 2026-06-22 013523.png",
+        "picture/Screenshot 2026-06-22 013831.png"
+      ]
+    },
+    project3: {
+      title: "Levain — The Bakery Shop",
+      desc: "Mobile-first bakery storefront with custom cart drawer.",
+      images: [
+        "picture/Screenshot 2026-06-22 014338.png",
+        "picture/Screenshot 2026-06-22 014410.png",
+        "picture/Screenshot 2026-06-22 014449.png",
+        "picture/Screenshot 2026-06-22 014514.png",
+        "picture/Screenshot 2026-06-22 014538.png",
+        "picture/Screenshot 2026-06-22 014555.png",
+        "picture/Screenshot 2026-06-22 014619.png"
+      ]
     }
   };
 
-  function openLightbox(key) {
-    const asset = showcaseAssets[key];
-    if (!asset) return;
-    document.getElementById('lightbox-img').src = asset.img;
-    document.getElementById('lightbox-img').alt = asset.title;
-    document.getElementById('lightbox-title').innerText = asset.title;
-    document.getElementById('lightbox-desc').innerText = asset.desc;
-    document.getElementById('lightbox-modal').classList.add('active');
+  let currentProject = null;
+  let activeSlideIndex = 0;
+  const imageCache = new Set();
+
+  function openShowcase(projectKey, displayUrl) {
+    currentProject = projectsData[projectKey];
+    if (!currentProject) return;
+    currentProject.displayUrl = displayUrl;
+    activeSlideIndex = 0;
+
+    renderSlide();
+    document.getElementById('slideshow-modal').classList.add('active');
     document.body.style.overflow = 'hidden';
   }
 
-  function closeLightbox() {
-    document.getElementById('lightbox-modal').classList.remove('active');
+  function closeShowcase() {
+    document.getElementById('slideshow-modal').classList.remove('active');
     document.body.style.overflow = '';
   }
 
+  function changeSlide(direction) {
+    if (!currentProject) return;
+    const total = currentProject.images.length;
+    activeSlideIndex = (activeSlideIndex + direction + total) % total;
+    renderSlide();
+  }
+
+  function renderSlide() {
+    const track = document.getElementById('slide-track');
+    const imgUrl = currentProject.images[activeSlideIndex];
+    const displayUrl = currentProject.displayUrl || 'https://localhost:3000';
+
+    track.innerHTML = `
+      <div class="slide" id="active-slide">
+        <div class="browser-mockup">
+          <div class="browser-header">
+            <div class="browser-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+            <div class="browser-url-bar">${displayUrl}</div>
+          </div>
+          <div class="browser-screen">
+            <img src="${imgUrl}" alt="Live Preview Frame" decoding="async">
+          </div>
+        </div>
+      </div>
+    `;
+
+    const slideEl = document.getElementById('active-slide');
+    requestAnimationFrame(() => slideEl.classList.add('active'));
+
+    updateModalMeta();
+    preloadNeighbors();
+  }
+
+  function preloadNeighbors() {
+    const total = currentProject.images.length;
+    [1, -1].forEach(offset => {
+      const idx = (activeSlideIndex + offset + total) % total;
+      const src = currentProject.images[idx];
+      if (imageCache.has(src)) return;
+      imageCache.add(src);
+      const preloadImg = new Image();
+      preloadImg.src = src;
+    });
+  }
+
+  function updateModalMeta() {
+    document.getElementById('modal-title').innerText = currentProject.title;
+    document.getElementById('modal-desc').innerText = currentProject.desc;
+    document.getElementById('modal-counter').innerText = `${activeSlideIndex + 1} / ${currentProject.images.length}`;
+  }
+
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeLightbox();
+    const modal = document.getElementById('slideshow-modal');
+    if (!modal.classList.contains('active')) return;
+    if (e.key === 'ArrowRight') changeSlide(1);
+    if (e.key === 'ArrowLeft') changeSlide(-1);
+    if (e.key === 'Escape') closeShowcase();
   });
 
-  document.querySelectorAll('.showcase-panel').forEach(panel => {
-    panel.addEventListener('mouseenter', () => {
-      const c = panel.querySelector('.corner');
-      if (c) c.style.opacity = '1';
-    });
-    panel.addEventListener('mouseleave', () => {
-      const c = panel.querySelector('.corner');
-      if (c) c.style.opacity = '0';
+  // Tap-to-flip: hover doesn't exist on touch devices, so a tap toggles
+  // the flip instead. Taps on the "Launch Showcase Engine" button still
+  // trigger its own action rather than re-flipping the card.
+  document.querySelectorAll('.flip-card').forEach(card => {
+    card.addEventListener('click', function(e){
+      if (e.target.closest('.preview-btn')) return;
+      this.classList.toggle('flipped');
     });
   });
 </script>
