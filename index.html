@@ -30,10 +30,7 @@
 
   .progress{ position:fixed; top:0; left:0; height:2px; width:0%; background:linear-gradient(90deg, var(--p1), var(--p2)); z-index:200; }
 
-  /* ---------- Background: technical grid + slow scanline ----------
-     Replaces the previous soft organic glow blobs with a flatter,
-     HUD-like backdrop: a faint grid and a single light beam that
-     sweeps down the page. Cheap: no images, transform/opacity only. */
+  /* ---------- Background: technical grid + slow scanline ---------- */
   .bg-fx{ position:fixed; inset:0; z-index:-2; overflow:hidden; }
   .grid-lines{
     position:absolute; inset:-1px;
@@ -73,6 +70,7 @@
     clip-path:polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
     transition:transform .2s ease, box-shadow .2s ease;
     box-shadow:0 10px 24px -14px rgba(122,47,201,0.7);
+    border:none;
   }
   .cta-btn:hover{ transform:translateY(-2px); box-shadow:0 14px 30px -14px rgba(122,47,201,0.8); }
   .cta-btn svg{ width:14px; height:14px; transition:transform .2s ease; }
@@ -81,12 +79,7 @@
   .boot-line{ font-size:0.74rem; color:var(--muted); letter-spacing:0.4px; margin-bottom:18px; min-height:1.2em; }
   .boot-line .cursor{ display:inline-block; width:6px; height:12px; background:var(--p3); margin-left:2px; vertical-align:middle; animation:blink 0.9s step-start infinite; }
 
-  /* ---------- SIGNATURE ELEMENT: the module grid ----------
-     Each service is a flat, sharp-edged "module" tile — like a rack of
-     hardware components rather than a soft stacked accordion. Hover
-     lights up inset corner brackets (a HUD targeting cue) instead of a
-     glow; there is no click-to-expand step, so every module is fully
-     readable at a glance. */
+  /* ---------- SIGNATURE ELEMENT: the module grid ---------- */
   #grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(250px, 1fr)); gap:14px; }
 
   .module{
@@ -124,7 +117,7 @@
 
   .module-desc{ font-size:0.85rem; color:var(--muted); line-height:1.6; margin-bottom:14px; }
 
-  .module-link{ display:inline-flex; align-items:center; gap:7px; font-size:0.8rem; font-weight:700; color:var(--p3); text-decoration:none; }
+  .module-link{ display:inline-flex; align-items:center; gap:7px; font-size:0.8rem; font-weight:700; color:var(--p3); text-decoration:none; cursor:pointer; }
   .module-link svg{ width:12px; height:12px; transition:transform .2s ease; }
   .module-link:hover svg{ transform:translateX(3px); }
   .module-link:hover{ color:#fff; }
@@ -165,12 +158,99 @@
 
   @media (max-width:560px){ footer{ flex-direction:column; align-items:flex-start; } }
   @media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition:none !important; } .module{ opacity:1; transform:none; } }
+
+  /* ---------- Quote Modal ---------- */
+  .modal-overlay{
+    position:fixed; inset:0; z-index:300;
+    background:rgba(6,3,12,0.75);
+    backdrop-filter:blur(6px);
+    display:flex; align-items:center; justify-content:center;
+    padding:20px;
+    opacity:0; visibility:hidden;
+    transition:opacity .25s ease, visibility 0s linear .25s;
+  }
+  .modal-overlay.open{
+    opacity:1; visibility:visible;
+    transition:opacity .25s ease, visibility 0s linear 0s;
+  }
+  .modal-panel{
+    position:relative; width:100%; max-width:460px;
+    background:linear-gradient(160deg, #150C24, #0B0614);
+    border:1px solid var(--line-hover);
+    clip-path:polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%);
+    padding:30px 28px 26px;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.7), 0 0 0 1px rgba(182,133,255,0.08);
+    transform:translateY(16px) scale(.98); opacity:0;
+    transition:transform .3s cubic-bezier(.16,1,.3,1), opacity .3s ease;
+    max-height:88vh; overflow-y:auto;
+  }
+  .modal-overlay.open .modal-panel{ transform:translateY(0) scale(1); opacity:1; }
+
+  .modal-close{
+    position:absolute; top:16px; right:16px;
+    width:30px; height:30px; border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--muted); cursor:pointer; transition:border-color .2s ease, color .2s ease;
+  }
+  .modal-close:hover{ border-color:var(--p3); color:#fff; }
+  .modal-close svg{ width:14px; height:14px; }
+
+  .modal-eyebrow{ font-size:0.68rem; letter-spacing:1.5px; color:var(--p3); margin-bottom:8px; display:flex; align-items:center; gap:8px; }
+  .modal-eyebrow::before{ content:''; width:6px; height:6px; background:var(--p3); display:inline-block; animation:blink 1.6s ease-in-out infinite; }
+  .modal-title{ font-size:1.5rem; font-weight:700; margin-bottom:6px; }
+  .modal-sub{ font-size:0.85rem; color:var(--muted); margin-bottom:22px; line-height:1.5; }
+
+  .field{ margin-bottom:14px; }
+  .field label{ display:block; font-size:0.7rem; letter-spacing:0.5px; color:var(--muted); margin-bottom:6px; }
+  .field input, .field select, .field textarea{
+    width:100%; background:rgba(255,255,255,0.03); border:1px solid var(--line);
+    color:var(--text); font-family:'Manrope',sans-serif; font-size:0.88rem;
+    padding:11px 13px; transition:border-color .2s ease, background .2s ease;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{
+    outline:none; border-color:var(--p3); background:rgba(182,133,255,0.05);
+  }
+  .field textarea{ resize:vertical; min-height:70px; font-family:'Manrope',sans-serif; }
+  .field select{ cursor:pointer; }
+  .field select option{ background:#150C24; color:var(--text); }
+
+  .field-row{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  @media (max-width:420px){ .field-row{ grid-template-columns:1fr; } }
+
+  .modal-submit{
+    width:100%; margin-top:6px;
+    background:linear-gradient(120deg, var(--p1), var(--p2)); color:#fff;
+    font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:0.9rem;
+    padding:13px 20px; cursor:pointer;
+    clip-path:polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    transition:transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+    box-shadow:0 10px 24px -14px rgba(122,47,201,0.7);
+  }
+  .modal-submit:hover{ transform:translateY(-2px); }
+  .modal-submit:disabled{ opacity:0.6; cursor:not-allowed; transform:none; }
+  .modal-submit svg{ width:14px; height:14px; }
+
+  .modal-error{ font-size:0.76rem; color:#FF8FAE; margin-top:10px; display:none; }
+  .modal-error.show{ display:block; }
+
+  .modal-success{ text-align:center; padding:14px 0 4px; }
+  .modal-success .check{
+    width:52px; height:52px; margin:0 auto 18px; border:1px solid var(--p3);
+    display:flex; align-items:center; justify-content:center; color:var(--p3);
+    border-radius:50%;
+  }
+  .modal-success .check svg{ width:24px; height:24px; }
+  .modal-success h3{ font-size:1.2rem; margin-bottom:8px; }
+  .modal-success p{ font-size:0.85rem; color:var(--muted); line-height:1.6; }
 </style>
 </head>
 <body>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-arrow" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 </svg>
 
 <div class="progress" id="progress"></div>
@@ -182,10 +262,10 @@
     <span class="eyebrow mono">SYSTEM.SERVICES</span>
     <h2 class="section-title">Full-stack, <span class="accent">fully operational.</span></h2>
     <p class="section-sub">Nine modules, one in-house team. Pick what you need, plug it in.</p>
-    <a href="#contact" class="cta-btn">
+    <button type="button" class="cta-btn" data-open-quote>
       Get a Free Quote
       <svg aria-hidden="true"><use href="#i-arrow"/></svg>
-    </a>
+    </button>
   </div>
 
   <p class="boot-line mono" id="bootLine">&gt; initializing service modules<span class="cursor"></span></p>
@@ -285,7 +365,7 @@
 
   <p class="status-final mono" id="statusFinal"><span class="dot"></span>9 / 9 modules online</p>
 
-  <footer>
+  <footer id="contact">
     <div class="footer-brand">
       <img src="https://pyraminx.co/images/site-logo.png" alt="Pyramix logo" />
       <span class="footer-sub mono">© 2026 PYRAMIX — BUILT IN-HOUSE</span>
@@ -295,6 +375,70 @@
       <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
     </div>
   </footer>
+</div>
+
+<!-- ---------- Quote Modal ---------- -->
+<div class="modal-overlay" id="quoteOverlay" aria-hidden="true">
+  <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="quoteTitle">
+    <button type="button" class="modal-close" id="quoteClose" aria-label="Close">
+      <svg aria-hidden="true"><use href="#i-close"/></svg>
+    </button>
+
+    <div id="quoteFormWrap">
+      <span class="modal-eyebrow mono">REQUEST.QUOTE</span>
+      <h3 class="modal-title" id="quoteTitle">Tell us what you need</h3>
+      <p class="modal-sub">Fill this out and we'll get back to you within 24 hours with a scoped quote.</p>
+
+      <form id="quoteForm">
+        <div class="field-row">
+          <div class="field">
+            <label for="q-name">Name</label>
+            <input type="text" id="q-name" name="name" required placeholder="Your name">
+          </div>
+          <div class="field">
+            <label for="q-phone">Phone</label>
+            <input type="tel" id="q-phone" name="phone" placeholder="03XX-XXXXXXX">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="q-email">Email</label>
+          <input type="email" id="q-email" name="email" required placeholder="you@company.com">
+        </div>
+
+        <div class="field">
+          <label for="q-service">Service</label>
+          <select id="q-service" name="service" required>
+            <option value="" disabled selected>Select a service</option>
+            <option value="Web Development">Web Development</option>
+            <option value="WordPress">WordPress</option>
+            <option value="Shopify">Shopify</option>
+            <option value="Social Media Marketing">Social Media Marketing</option>
+            <option value="AI Call Agent">AI Call Agent</option>
+            <option value="Not sure yet">Not sure yet</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="q-message">Project details</label>
+          <textarea id="q-message" name="message" placeholder="Briefly describe what you're looking for..."></textarea>
+        </div>
+
+        <button type="submit" class="modal-submit" id="quoteSubmit">
+          <span id="quoteSubmitLabel">Send Request</span>
+          <svg aria-hidden="true"><use href="#i-arrow"/></svg>
+        </button>
+
+        <p class="modal-error mono" id="quoteError">Something went wrong. Please try again or email us directly.</p>
+      </form>
+    </div>
+
+    <div class="modal-success" id="quoteSuccess" style="display:none;">
+      <div class="check"><svg aria-hidden="true"><use href="#i-check"/></svg></div>
+      <h3>Request received</h3>
+      <p>Thanks — someone from Pyramix will reach out within 24 hours with your quote.</p>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -310,8 +454,7 @@
     if (!ticking){ requestAnimationFrame(updateProgress); ticking = true; }
   }, { passive: true });
 
-  // Boot sequence: modules snap in one by one (system-init feel), then the
-  // top status line and bottom counter update to reflect everything is live.
+  // Boot sequence
   const modules = document.querySelectorAll('.module');
   const bootLine = document.getElementById('bootLine');
   const statusFinal = document.getElementById('statusFinal');
@@ -333,6 +476,81 @@
       statusFinal.classList.add('show');
     }, totalTime);
   }
+
+  // ---------- Quote Modal logic ----------
+  const overlay = document.getElementById('quoteOverlay');
+  const closeBtn = document.getElementById('quoteClose');
+  const form = document.getElementById('quoteForm');
+  const formWrap = document.getElementById('quoteFormWrap');
+  const successWrap = document.getElementById('quoteSuccess');
+  const submitBtn = document.getElementById('quoteSubmit');
+  const submitLabel = document.getElementById('quoteSubmitLabel');
+  const errorMsg = document.getElementById('quoteError');
+
+
+  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/xgojbybl';
+
+  function openModal(){
+    overlay.classList.add('open');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => document.getElementById('q-name').focus(), 300);
+  }
+  function closeModal(){
+    overlay.classList.remove('open');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('[data-open-quote]').forEach(btn => {
+    btn.addEventListener('click', openModal);
+  });
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay.classList.contains('open')) closeModal();
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errorMsg.classList.remove('show');
+    submitBtn.disabled = true;
+    submitLabel.textContent = 'Sending...';
+
+    const data = new FormData(form);
+
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (res.ok) {
+        formWrap.style.display = 'none';
+        successWrap.style.display = 'block';
+        form.reset();
+        setTimeout(closeModal, 3500);
+      } else {
+        throw new Error('Request failed');
+      }
+    } catch (err) {
+      errorMsg.classList.add('show');
+    } finally {
+      submitBtn.disabled = false;
+      submitLabel.textContent = 'Send Request';
+    }
+  });
+
+  // Reset modal back to form state whenever it's reopened
+  overlay.addEventListener('transitionend', () => {
+    if (!overlay.classList.contains('open')) {
+      setTimeout(() => {
+        formWrap.style.display = 'block';
+        successWrap.style.display = 'none';
+      }, 200);
+    }
+  });
 </script>
 </body>
 </html>

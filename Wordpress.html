@@ -259,14 +259,52 @@
     footer{ flex-direction:column; align-items:flex-start; text-align:left; margin-top:36px; }
   }
 
+  @media (max-width:480px){
+    .wrap{ padding:18px 12px 28px; }
+    .back-btn{ font-size:0.68rem; padding:7px 12px; margin-bottom:20px; }
+    .logo-mark{ height:32px; margin-bottom:14px; }
+    .eyebrow{ font-size:0.58rem; letter-spacing:0.8px; padding:5px 10px; margin-bottom:12px; }
+    .header{ margin-bottom:30px; }
+    .section-sub{ font-size:0.82rem; margin-bottom:18px; }
+
+    .pitch-module{ padding:18px 14px; margin-bottom:28px; }
+    .pitch-module h3{ font-size:1.05rem; }
+    .pitch-module p{ font-size:0.82rem; }
+
+    .sub-header{ margin-bottom:16px; }
+
+    .portfolio-grid{ gap:12px; }
+    .flip-card{ height:320px; }
+    .card-title-bar{ font-size:0.92rem; padding:0 8px; }
+    .card-back{ padding:16px 13px; }
+    .card-back h4{ font-size:0.96rem; margin-bottom:7px; }
+    .card-back p{ font-size:0.76rem; line-height:1.5; margin-bottom:10px; }
+    .tech-tags{ margin-bottom:12px; gap:5px; }
+    .tech-tags span{ font-size:0.58rem; padding:3px 7px; }
+    .preview-btn{ font-size:0.72rem; padding:10px 14px; }
+
+    .close-modal{ padding:6px 12px; font-size:0.6rem; top:10px; right:12px; }
+    .slide-nav{ width:36px; height:36px; }
+    .slide-nav svg{ width:15px; height:15px; }
+    .slide-nav.prev{ left:6px; } .slide-nav.next{ right:6px; }
+
+    footer{ margin-top:26px; padding-top:16px; gap:8px; }
+    .footer-brand img{ height:18px; }
+    .footer-sub{ font-size:0.68rem; }
+  }
+
   @media (max-width:400px){
-    .flip-card{ height:340px; }
+    .flip-card{ height:310px; }
     .card-img-wrapper{ height:68%; }
-    .card-title-bar{ height:32%; font-size:0.92rem; }
-    .logo-mark{ height:32px; }
-    .close-modal{ padding:6px 12px; font-size:0.62rem; top:10px; right:12px; }
-    .slide-nav{ width:38px; height:38px; }
-    .slide-nav svg{ width:16px; height:16px; }
+    .card-title-bar{ height:32%; font-size:0.86rem; }
+    .logo-mark{ height:30px; }
+    .close-modal{ padding:5px 10px; font-size:0.56rem; }
+    .slide-nav{ width:32px; height:32px; }
+    .slide-nav svg{ width:14px; height:14px; }
+  }
+
+  @media (max-width:340px){
+    .flip-card{ height:290px; }
   }
 
   @media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition:none !important; } }

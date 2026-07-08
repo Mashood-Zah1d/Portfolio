@@ -83,7 +83,7 @@
   .tagline{ font-size:1rem; color:var(--muted); max-width:620px; line-height:1.65; }
 
   .section-title{ font-size:clamp(1.3rem, 4vw, 1.8rem); font-weight:700; margin-bottom:6px; letter-spacing:-0.4px; text-align:center; }
-  .section-sub{ color:var(--muted); font-size:0.92rem; margin-bottom:32px; text-align:center; }
+  .section-sub{ color:var(--muted); font-size:0.92rem; margin-bottom:32px; text-align:center; padding:0 6px; }
 
   .wp-pitch-card{
     border:1px solid var(--line);
@@ -288,15 +288,84 @@
     footer{ flex-direction:column; align-items:flex-start; text-align:left; margin-top:32px; }
   }
 
-  @media (max-width:400px){
-    .flip-card{ height:340px; }
-    .card-img-wrapper{ height:68%; }
-    .card-title-bar{ height:32%; font-size:0.92rem; }
-    .logo-mark{ height:36px; }
-    .close-modal{ padding:6px 12px; font-size:0.62rem; top:10px; right:12px; }
+  @media (max-width:480px){
+    body{ padding:16px 10px; }
+    .panel{ padding:22px 14px 28px; }
+    .back-btn{ font-size:0.72rem; padding:8px 14px 8px 12px; margin-bottom:20px; }
+    .logo-mark{ height:36px; margin-bottom:14px; }
+    .eyebrow{ font-size:0.58rem; letter-spacing:0.8px; padding:5px 10px; margin-bottom:12px; }
+    .company-name{ font-size:1.45rem; margin-bottom:10px; }
+    .tagline{ font-size:0.84rem; }
+    .header{ margin-bottom:30px; }
+
+    .wp-pitch-card{ padding:18px 14px; margin-bottom:28px; }
+    .wp-pitch-card h3{ font-size:1.05rem; }
+    .wp-pitch-card p{ font-size:0.82rem; }
+
+    .section-title{ font-size:1.15rem; }
+    .section-sub{ font-size:0.8rem; margin-bottom:18px; }
+
+    .build-demo{ margin-bottom:38px; }
+    .demo-header{ height:34px; min-height:34px; padding:0 10px; }
+    .demo-dots span{ width:7px; height:7px; }
+    .code-window, .render-window{ min-height:200px; }
+    .code-body{ padding:12px; font-size:0.66rem; line-height:1.55; }
+    .render-body{ padding:16px; }
+    .mini-card{ padding:13px; max-width:200px; }
+    .mini-card .mc-thumb{ height:52px; margin-bottom:8px; }
+    .mini-card h5{ font-size:0.86rem; }
+    .mini-card .mc-price{ font-size:0.8rem; margin-bottom:10px; }
+    .mini-card .mc-btn{ padding:8px; font-size:0.7rem; }
+    .render-badge{ font-size:0.56rem; padding:2px 7px; top:6px; right:10px; }
+
+    .stack-section{ margin-bottom:36px; }
+    .stack-groups{ gap:14px; }
+    .stack-group-label{ font-size:0.62rem; letter-spacing:1px; margin-bottom:9px; }
+    .stack-pill{ padding:7px 11px; font-size:0.72rem; gap:6px; }
+
+    .portfolio-grid{ gap:12px; }
+    .flip-card{ height:330px; }
+    .card-title-bar{ font-size:0.92rem; padding:0 8px; }
+    .card-back{ padding:16px 13px; }
+    .card-back h4{ font-size:0.96rem; margin-bottom:7px; }
+    .card-back p{ font-size:0.76rem; line-height:1.5; margin-bottom:10px; }
+    .tech-tags{ margin-bottom:12px; gap:5px; }
+    .tech-tags span{ font-size:0.58rem; padding:3px 7px; }
+    .preview-btn{ font-size:0.72rem; padding:10px 14px; }
+
+    .process-section{ margin:36px 0; }
+    .process-grid{ gap:10px; }
+    .process-card{ padding:14px; }
+    .process-step{ font-size:0.62rem; margin-bottom:7px; }
+    .process-card h4{ font-size:0.92rem; }
+    .process-card p{ font-size:0.78rem; }
+
+    .close-modal{ padding:6px 12px; font-size:0.6rem; top:10px; right:12px; }
     .slide-nav{ width:36px; height:36px; }
-    .slide-nav svg{ width:16px; height:16px; }
-    .code-body{ font-size:0.66rem; }
+    .slide-nav svg{ width:15px; height:15px; }
+    .slide-nav.prev{ left:6px; } .slide-nav.next{ right:6px; }
+
+    footer{ margin-top:26px; padding-top:16px; gap:8px; }
+    .footer-brand img{ height:18px; }
+    footer .mono{ font-size:0.68rem; }
+  }
+
+  @media (max-width:400px){
+    .flip-card{ height:310px; }
+    .card-img-wrapper{ height:68%; }
+    .card-title-bar{ height:32%; font-size:0.86rem; }
+    .logo-mark{ height:32px; }
+    .close-modal{ padding:5px 10px; font-size:0.56rem; }
+    .slide-nav{ width:32px; height:32px; }
+    .slide-nav svg{ width:14px; height:14px; }
+    .code-body{ font-size:0.6rem; }
+    .company-name{ font-size:1.3rem; }
+  }
+
+  @media (max-width:340px){
+    .mini-card{ max-width:170px; }
+    .stack-pill{ padding:6px 9px; font-size:0.68rem; }
+    .flip-card{ height:290px; }
   }
 
   @media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition:none !important; } }
