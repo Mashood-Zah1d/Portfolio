@@ -3,212 +3,278 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Social Media Solutions — Pyramix</title>
+<meta name="description" content="Qubix Social Media Growth Studio — Data-driven content, paid advertising, and viral storytelling built for modern brands.">
+<title>Social Media Growth Studio — Qubix Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=JetBrains+Mono:wght@500;700&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#0B0614;
-    --line:rgba(255,255,255,0.09);
-    --line-hover:rgba(178,110,255,0.6);
-    --text:#F3EEFB;
-    --muted:#9A8FB5;
-    --p1:#7A2FC9;
-    --p2:#C026A3;
-    --p3:#B685FF;
-    /* kept distinct on purpose: mirrors Instagram's real brand gradient,
-       used only inside the phone mockup for authenticity */
-    --ig-orange:#ff7a3d; --ig-pink:#e1306c; --ig-purple:#8b3fc9; --ig-blue:#4f5bd5;
-    --ig-gradient:linear-gradient(135deg, var(--ig-orange) 0%, var(--ig-pink) 45%, var(--ig-purple) 75%, var(--ig-blue) 100%);
+  :root {
+    --bg-dark: #050811;
+    --bg-surface: #0b0f19;
+    --bg-card: rgba(15, 23, 42, 0.6);
+    --bg-card-hover: rgba(24, 34, 58, 0.85);
+    --border: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(99, 102, 241, 0.35);
+    --border-cyan: rgba(6, 182, 212, 0.4);
+    
+    --text-main: #F8FAFC;
+    --text-muted: #94A3B8;
+    --text-dim: #64748B;
+    
+    --primary: #6366F1;
+    --primary-glow: rgba(99, 102, 241, 0.25);
+    --accent-cyan: #06B6D4;
+    --accent-violet: #8B5CF6;
+    --accent-pink: #EC4899;
+    
+    --font-heading: 'Space Grotesk', -apple-system, sans-serif;
+    --font-body: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    
+    --radius-lg: 18px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+    --radius-full: 9999px;
+    
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    
+    --ig-gradient: linear-gradient(135deg, #FF7A3D 0%, #E1306C 45%, #8B3FC9 75%, #4F5BD5 100%);
   }
 
-  *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{ background:var(--bg); color:var(--text); font-family:'Manrope',sans-serif; min-height:100vh; overflow-x:hidden; position:relative; display:flex; align-items:flex-start; justify-content:center; padding:40px 20px; }
-  h1,h2,h3,h4{ font-family:'Space Grotesk',sans-serif; }
-  .mono{ font-family:'JetBrains Mono',monospace; }
-  a{ color:inherit; }
-  button{ font:inherit; color:inherit; background:none; border:none; }
-  button:focus-visible, a:focus-visible{ outline:2px solid var(--p3); outline-offset:3px; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; background-color: var(--bg-dark); }
 
-  .bg-fx{ position:fixed; inset:0; z-index:-2; overflow:hidden; }
-  .grid-lines{ position:absolute; inset:-1px; background-image:linear-gradient(rgba(182,133,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(182,133,255,0.05) 1px, transparent 1px); background-size:44px 44px; mask-image:radial-gradient(ellipse 70% 60% at 50% 0%, #000 40%, transparent 100%); }
-  .scanline{ position:absolute; left:0; right:0; height:120px; top:-120px; background:linear-gradient(180deg, transparent, rgba(182,133,255,0.08), transparent); animation:scan 9s linear infinite; }
-  @keyframes scan{ 0%{ top:-120px; } 100%{ top:100%; } }
-  .progress{ position:fixed; top:0; left:0; height:2px; width:0%; background:linear-gradient(90deg, var(--p1), var(--p2)); z-index:200; }
-
-  .panel{ width:100%; max-width:1120px; border:1px solid var(--line); background:linear-gradient(160deg, rgba(255,255,255,0.03), rgba(255,255,255,0.006)); padding:44px clamp(20px,5vw,56px) 50px; position:relative; z-index:1; }
-
-  .back-btn{ display:inline-flex; align-items:center; gap:9px; border:1px solid var(--line); background:rgba(255,255,255,0.02); padding:10px 20px 10px 18px; font-size:0.82rem; color:var(--muted); cursor:pointer; text-decoration:none; margin-bottom:36px; clip-path:polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px); transition:border-color .2s ease, color .2s ease, transform .2s ease; }
-  .back-btn:hover{ border-color:var(--line-hover); color:#fff; transform:translateX(-3px); }
-  .back-btn svg{ width:14px; height:14px; flex-shrink:0; }
-
-  .header{ display:flex; flex-direction:column; align-items:center; text-align:center; margin-bottom:40px; }
-  .logo-mark{ width:auto; height:60px; max-width:260px; margin-bottom:22px; object-fit:contain; }
-
-  .eyebrow{ display:inline-flex; align-items:center; gap:9px; font-size:0.7rem; letter-spacing:1.5px; color:var(--p3); margin-bottom:16px; border:1px solid var(--line); padding:6px 14px; background:rgba(182,133,255,0.04); text-align:center; max-width:100%; }
-  .eyebrow::before{ content:''; width:6px; height:6px; background:var(--p3); display:inline-block; animation:blink 1.6s ease-in-out infinite; flex-shrink:0; }
-  @keyframes blink{ 0%,100%{ opacity:1; } 50%{ opacity:0.25; } }
-
-  .company-name{ font-size:clamp(1.6rem, 6vw, 2.7rem); font-weight:700; letter-spacing:-0.5px; margin-bottom:12px; color:var(--text); line-height:1.15; }
-  .tagline{ font-size:1rem; color:var(--muted); max-width:600px; line-height:1.65; }
-
-  .pitch-card{ border:1px solid var(--line); background:linear-gradient(160deg, rgba(255,255,255,0.03), rgba(255,255,255,0.006)); padding:34px clamp(20px,4vw,40px); text-align:center; margin-bottom:50px; }
-  .pitch-card h3{ font-size:clamp(1.15rem,3.5vw,1.4rem); margin-bottom:12px; font-weight:700; color:var(--p3); line-height:1.3; }
-  .pitch-card p{ color:var(--muted); font-size:0.94rem; line-height:1.65; max-width:800px; margin:0 auto; }
-
-  .section-title{ font-size:clamp(1.3rem, 4vw, 1.8rem); font-weight:700; margin-bottom:6px; letter-spacing:-0.4px; text-align:center; }
-  .section-sub{ color:var(--muted); font-size:0.92rem; margin-bottom:32px; text-align:center; padding:0 8px; }
-
-  /* ============ SIGNATURE ELEMENT: the story-style showcase ============
-     A phone mockup replicating Instagram Stories interaction — segmented
-     progress bars, tap-to-advance zones, double-tap heart, autoplay.
-     The phone keeps a realistic rounded bezel (it's mimicking real
-     hardware); everything around it uses the site's sharp/flat language. */
-  .story-stage{ display:flex; flex-direction:column; align-items:center; gap:24px; width:100%; }
-
-  .phone{ width:300px; max-width:100%; aspect-ratio:9/19.5; background:#000; border-radius:40px; padding:10px; box-shadow:0 0 0 1.5px rgba(255,255,255,0.1), 0 40px 90px rgba(0,0,0,0.8); position:relative; }
-  .phone-screen{ width:100%; height:100%; border-radius:32px; overflow:hidden; position:relative; background:#0c0814; cursor:pointer; user-select:none; }
-
-  .story-progress{ position:absolute; top:14px; left:14px; right:14px; z-index:10; display:flex; gap:5px; }
-  .story-progress .seg{ flex:1; height:3px; border-radius:3px; background:rgba(255,255,255,0.25); overflow:hidden; }
-  .story-progress .seg .fill{ height:100%; width:0%; background:#fff; border-radius:3px; }
-  .story-progress .seg.done .fill{ width:100%; }
-  .story-progress .seg.current .fill{ animation:storyfill 4.5s linear forwards; }
-  .story-progress.paused .seg.current .fill{ animation-play-state:paused; }
-  @keyframes storyfill{ from{ width:0%; } to{ width:100%; } }
-
-  .story-head{ position:absolute; top:26px; left:16px; right:16px; z-index:10; display:flex; align-items:center; gap:10px; }
-  .story-avatar{ width:28px; height:28px; border-radius:50%; background:var(--ig-gradient); display:flex; align-items:center; justify-content:center; font-size:0.6rem; font-weight:800; color:#fff; font-family:'Space Grotesk',sans-serif; flex-shrink:0; }
-  .story-head .handle{ font-size:0.78rem; font-weight:700; color:#fff; text-shadow:0 1px 4px rgba(0,0,0,0.6); }
-  .story-head .dot-sep{ font-size:0.7rem; color:rgba(255,255,255,0.6); }
-  .story-head .time{ font-size:0.72rem; color:rgba(255,255,255,0.75); text-shadow:0 1px 4px rgba(0,0,0,0.6); }
-
-  .story-slides{ width:100%; height:100%; position:relative; }
-  .story-slide{ position:absolute; inset:0; opacity:0; transition:opacity 0.25s ease; display:flex; align-items:center; justify-content:center; background:#0c0814; }
-  .story-slide.active{ opacity:1; z-index:2; }
-  .story-slide .bg-fill{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:blur(28px) brightness(0.55) saturate(1.3); transform:scale(1.15); }
-  .story-slide .fg-img{ position:relative; width:100%; height:100%; object-fit:contain; z-index:1; }
-
-  .tap-zones{ position:absolute; inset:0; display:flex; z-index:8; }
-  .tap-zones .zone{ flex:1; }
-
-  .heart-burst{ position:absolute; pointer-events:none; z-index:20; font-size:70px; opacity:0; left:50%; top:50%; transform:translate(-50%,-50%) scale(0.5); }
-  .heart-burst.go{ animation:heartpop 0.7s ease forwards; }
-  @keyframes heartpop{ 0%{ opacity:0; transform:translate(-50%,-50%) scale(0.4); } 35%{ opacity:1; transform:translate(-50%,-50%) scale(1.15); } 70%{ opacity:1; transform:translate(-50%,-50%) scale(1); } 100%{ opacity:0; transform:translate(-50%,-50%) scale(1); } }
-
-  .story-caption{ position:absolute; bottom:16px; left:16px; right:16px; z-index:10; display:flex; align-items:flex-end; justify-content:space-between; gap:10px; }
-  .story-caption .cap-text{ font-size:0.78rem; color:#fff; text-shadow:0 1px 6px rgba(0,0,0,0.8); font-weight:600; line-height:1.4; }
-  .story-icons{ display:flex; gap:12px; flex-shrink:0; }
-  .story-icons svg{ width:20px; height:20px; fill:none; stroke:#fff; stroke-width:2; filter:drop-shadow(0 1px 4px rgba(0,0,0,0.7)); }
-
-  .story-controls{ display:flex; align-items:center; gap:18px; }
-  .story-controls button{ background:rgba(255,255,255,0.03); border:1px solid var(--line); color:#fff; width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:border-color .2s ease, background .2s ease; flex-shrink:0; }
-  .story-controls button:hover{ border-color:var(--p3); background:rgba(182,133,255,0.12); }
-  .story-controls button svg{ width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2.5; }
-  .story-counter{ font-family:'JetBrains Mono',monospace; font-size:0.8rem; font-weight:700; color:var(--p3); border:1px solid rgba(182,133,255,0.35); background:rgba(182,133,255,0.06); padding:7px 16px; min-width:64px; text-align:center; }
-
-  .slide-meta{ text-align:center; max-width:480px; width:100%; padding:0 4px; }
-  .slide-meta h4{ font-size:1.1rem; font-weight:700; color:#fff; margin-bottom:6px; }
-  .slide-meta p{ font-size:0.87rem; color:var(--muted); line-height:1.55; }
-  .slide-tags{ display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin-top:12px; }
-  .slide-tags span{ font-family:'JetBrains Mono',monospace; font-size:0.66rem; font-weight:500; background:rgba(182,133,255,0.06); border:1px solid rgba(182,133,255,0.25); padding:4px 11px; color:#dfcdfc; }
-
-  .hint{ font-size:0.78rem; color:var(--muted); display:flex; align-items:center; gap:6px; margin-top:-6px; text-align:center; justify-content:center; }
-  .hint svg{ width:14px; height:14px; stroke:var(--muted); fill:none; stroke-width:2; flex-shrink:0; }
-
-  footer{ margin-top:48px; padding-top:24px; border-top:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; font-size:0.78rem; color:var(--muted); flex-wrap:wrap; gap:12px; }
-  .footer-brand{ display:flex; align-items:center; gap:10px; }
-
-  /* ============ MOBILE RESPONSIVE ============ */
-  @media (max-width:768px){
-    body{ padding:24px 14px; }
-    .panel{ padding:32px 18px 40px; }
-    .phone{ width:260px; }
-    .company-name{ margin-bottom:10px; }
-    .pitch-card{ margin-bottom:38px; padding:26px 18px; }
-    .story-controls{ gap:14px; }
-    .story-controls button{ width:40px; height:40px; }
-    .hint{ font-size:0.74rem; padding:0 6px; }
+  body {
+    background: var(--bg-dark);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    overflow-x: hidden;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
   }
 
-  @media (max-width:480px){
-    body{ padding:16px 10px; }
-    .panel{ padding:26px 14px 32px; }
-    .back-btn{ font-size:0.76rem; padding:9px 16px 9px 14px; margin-bottom:26px; }
-    .logo-mark{ height:44px; margin-bottom:16px; }
-    .eyebrow{ font-size:0.62rem; letter-spacing:1px; padding:5px 11px; margin-bottom:12px; }
-    .header{ margin-bottom:30px; }
-    .tagline{ font-size:0.9rem; }
+  h1, h2, h3, h4, h5 { font-family: var(--font-heading); color: #fff; font-weight: 700; letter-spacing: -0.02em; }
+  .mono { font-family: var(--font-mono); }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+  button:focus-visible, a:focus-visible { outline: 2px solid var(--accent-pink); outline-offset: 3px; }
 
-    .pitch-card{ padding:22px 14px; margin-bottom:30px; }
-    .pitch-card p{ font-size:0.86rem; }
-
-    .section-title{ font-size:1.25rem; }
-    .section-sub{ font-size:0.84rem; margin-bottom:24px; }
-
-    .phone{ width:220px; border-radius:32px; padding:8px; }
-    .phone-screen{ border-radius:26px; }
-    .story-head{ top:20px; left:12px; right:12px; }
-    .story-progress{ top:11px; left:12px; right:12px; }
-    .story-avatar{ width:24px; height:24px; font-size:0.55rem; }
-    .story-head .handle{ font-size:0.68rem; }
-    .story-head .time{ font-size:0.64rem; }
-    .story-caption{ bottom:12px; left:12px; right:12px; }
-    .story-caption .cap-text{ font-size:0.7rem; }
-    .story-icons{ gap:9px; }
-    .story-icons svg{ width:16px; height:16px; }
-    .heart-burst{ font-size:52px; }
-
-    .story-stage{ gap:18px; }
-    .story-controls{ gap:12px; }
-    .story-controls button{ width:38px; height:38px; }
-    .story-controls button svg{ width:16px; height:16px; }
-    .story-counter{ font-size:0.74rem; padding:6px 12px; min-width:56px; }
-
-    .slide-meta h4{ font-size:1rem; }
-    .slide-meta p{ font-size:0.82rem; }
-    .slide-tags span{ font-size:0.6rem; padding:4px 9px; }
-
-    footer{ flex-direction:column; align-items:flex-start; text-align:left; margin-top:34px; padding-top:18px; gap:10px; }
-    .footer-brand img{ height:20px; }
+  /* Background Ambient FX */
+  .bg-fx {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .bg-glow-1 {
+    position: absolute;
+    top: -10%;
+    left: 30%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(236, 72, 153, 0.15) 0%, transparent 70%);
+    filter: blur(90px);
+    border-radius: 50%;
+  }
+  .grid-pattern {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 20%, #000 40%, transparent 100%);
   }
 
-  @media (max-width:340px){
-    .phone{ width:190px; }
-    .company-name{ font-size:1.4rem; }
+  .progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent-pink), var(--accent-violet));
+    z-index: 1100;
   }
 
-  @media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition:none !important; } }
+  /* Global Navbar */
+  .q-navbar {
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(1140px, calc(100% - 32px));
+    z-index: 1000;
+    background: rgba(11, 15, 25, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    padding: 10px 20px;
+  }
+  .q-nav-container { display: flex; align-items: center; justify-content: space-between; }
+  .q-brand { display: flex; align-items: center; gap: 10px; }
+  .q-brand-name { font-family: var(--font-heading); font-weight: 800; font-size: 1.15rem; color: #fff; }
+  .q-brand-tag { font-size: 0.65rem; padding: 2px 6px; background: rgba(236, 72, 153, 0.15); border: 1px solid rgba(236, 72, 153, 0.3); color: var(--accent-pink); border-radius: 4px; font-family: var(--font-mono); }
+  .q-nav-links { display: flex; align-items: center; gap: 24px; }
+  .q-nav-link { font-size: 0.85rem; font-weight: 500; color: var(--text-muted); transition: color 0.2s ease; }
+  .q-nav-link:hover, .q-nav-link.active { color: #fff; }
+  .q-btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: linear-gradient(135deg, var(--accent-pink), var(--accent-violet));
+    color: #fff; font-family: var(--font-heading); font-weight: 600; font-size: 0.85rem;
+    padding: 9px 18px; border-radius: var(--radius-full); transition: all 0.25s var(--ease-out);
+    box-shadow: 0 4px 20px rgba(236, 72, 153, 0.25); border: 1px solid rgba(255,255,255,0.15);
+  }
+  .q-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(236, 72, 153, 0.4); }
+
+  .wrap { max-width: 1140px; margin: 0 auto; padding: 120px 24px 80px; position: relative; z-index: 2; }
+
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.03); padding: 8px 16px; font-size: 0.8rem;
+    font-family: var(--font-mono); color: var(--text-muted); border-radius: var(--radius-full);
+    margin-bottom: 32px; transition: all 0.2s ease;
+  }
+  .back-btn:hover { border-color: var(--accent-pink); color: #fff; transform: translateX(-4px); }
+
+  .hero-header { text-align: center; max-width: 760px; margin: 0 auto 50px; }
+  .mod-pill { display: inline-block; font-size: 0.75rem; font-family: var(--font-mono); color: var(--accent-pink); background: rgba(236, 72, 153, 0.08); border: 1px solid rgba(236, 72, 153, 0.25); padding: 5px 14px; border-radius: var(--radius-full); margin-bottom: 16px; }
+  .hero-title { font-size: clamp(2.2rem, 4vw, 3.2rem); margin-bottom: 16px; }
+  .hero-sub { color: var(--text-muted); font-size: 1.05rem; line-height: 1.65; }
+
+  .pitch-box {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg);
+    padding: 32px; backdrop-filter: blur(12px); margin-bottom: 60px; position: relative; overflow: hidden;
+  }
+  .pitch-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--accent-pink), transparent); }
+  .pitch-title { font-size: 1.3rem; color: #fff; margin-bottom: 10px; }
+  .pitch-desc { color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; }
+
+  /* Interactive Story Phone Section */
+  .story-stage { display: flex; flex-direction: column; align-items: center; gap: 24px; width: 100%; margin-bottom: 60px; }
+  .phone {
+    width: 290px; max-width: 100%; aspect-ratio: 9 / 19.5; background: #000; border-radius: 40px; padding: 10px;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15), 0 30px 70px rgba(0, 0, 0, 0.8); position: relative;
+  }
+  .phone::before {
+    content: ''; position: absolute; top: 15px; left: 50%; transform: translateX(-50%); width: 90px; height: 22px;
+    background: #000; border-radius: 12px; z-index: 12;
+  }
+  .phone-screen {
+    width: 100%; height: 100%; border-radius: 32px; overflow: hidden; position: relative; background: #0c0814;
+    cursor: pointer; user-select: none; contain: layout style;
+  }
+
+  .story-progress { position: absolute; top: 14px; left: 14px; right: 14px; z-index: 10; display: flex; gap: 4px; }
+  .story-progress .seg { flex: 1; height: 2.5px; border-radius: 3px; background: rgba(255, 255, 255, 0.25); overflow: hidden; }
+  .story-progress .seg .fill { height: 100%; width: 100%; background: #fff; border-radius: 3px; transform: scaleX(0); transform-origin: left center; }
+  .story-progress .seg.done .fill { transform: scaleX(1); }
+  .story-progress .seg.current .fill { animation: storyfill 4.5s linear forwards; transform-origin: left center; }
+  .story-progress.paused .seg.current .fill { animation-play-state: paused; }
+  @keyframes storyfill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+  .story-head { position: absolute; top: 26px; left: 16px; right: 16px; z-index: 10; display: flex; align-items: center; gap: 8px; }
+  .story-avatar { width: 24px; height: 24px; border-radius: 50%; background: var(--ig-gradient); display: flex; align-items: center; justify-content: center; font-size: 0.55rem; font-weight: 800; color: #fff; font-family: var(--font-heading); }
+  .story-head .handle { font-size: 0.76rem; font-weight: 700; color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,0.8); }
+  .story-head .time { font-size: 0.7rem; color: rgba(255,255,255,0.75); }
+
+  .story-slides { width: 100%; height: 100%; position: relative; }
+  .story-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.25s ease; display: flex; align-items: center; justify-content: center; background: #0c0814; }
+  .story-slide.active { opacity: 1; z-index: 2; }
+  .story-slide .fg-img { width: 100%; height: 100%; object-fit: contain; z-index: 1; }
+
+  .tap-zones { position: absolute; inset: 0; display: flex; z-index: 8; }
+  .tap-zones .zone { flex: 1; }
+
+  .heart-burst { position: absolute; pointer-events: none; z-index: 20; font-size: 64px; opacity: 0; left: 50%; top: 50%; transform: translate(-50%,-50%) scale(0.5); }
+  .heart-burst.go { animation: heartpop 0.7s ease forwards; }
+  @keyframes heartpop {
+    0% { opacity: 0; transform: translate(-50%,-50%) scale(0.4); }
+    35% { opacity: 1; transform: translate(-50%,-50%) scale(1.15); }
+    70% { opacity: 1; transform: translate(-50%,-50%) scale(1); }
+    100% { opacity: 0; transform: translate(-50%,-50%) scale(1); }
+  }
+
+  .story-caption { position: absolute; bottom: 18px; left: 16px; right: 16px; z-index: 10; display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; }
+  .story-caption .cap-text { font-size: 0.74rem; color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,0.8); font-weight: 600; }
+  .story-icons { display: flex; gap: 10px; flex-shrink: 0; }
+  .story-icons svg { width: 18px; height: 18px; fill: none; stroke: #fff; stroke-width: 2; filter: drop-shadow(0 1px 4px rgba(0,0,0,0.7)); }
+
+  .story-controls { display: flex; align-items: center; gap: 16px; }
+  .story-controls button {
+    background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border); color: #fff; width: 42px; height: 42px;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s ease;
+  }
+  .story-controls button:hover { border-color: var(--accent-pink); background: rgba(236, 72, 153, 0.15); }
+  .story-counter { font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700; color: var(--accent-pink); border: 1px solid rgba(236, 72, 153, 0.3); background: rgba(236, 72, 153, 0.08); padding: 6px 14px; border-radius: 4px; }
+
+  .slide-meta { text-align: center; max-width: 480px; width: 100%; }
+  .slide-meta h4 { font-size: 1.15rem; font-weight: 700; color: #fff; margin-bottom: 6px; }
+  .slide-meta p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.55; }
+  .slide-tags { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-top: 12px; }
+  .slide-tags span { font-family: var(--font-mono); font-size: 0.68rem; background: rgba(236, 72, 153, 0.08); border: 1px solid rgba(236, 72, 153, 0.3); padding: 3px 8px; border-radius: 4px; color: var(--accent-pink); }
+
+  footer { margin-top: 80px; padding-top: 32px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; color: var(--text-dim); }
 </style>
 </head>
 <body>
 
 <div class="progress" id="progress"></div>
-<div class="bg-fx"><div class="grid-lines"></div><div class="scanline"></div></div>
+<div class="bg-fx"><div class="bg-glow-1"></div><div class="grid-pattern"></div></div>
 
-<div class="panel">
+<!-- GLOBAL QUBIX NAVBAR -->
+<header class="q-navbar">
+  <div class="q-nav-container">
+    <a href="index.html" class="q-brand">
+      <div class="q-logo-symbol" style="width:28px;height:28px;">
+        <svg viewBox="0 0 32 32" fill="none">
+          <path d="M16 2L2 9V23L16 30L30 23V9L16 2Z" stroke="url(#nav-grad)" stroke-width="2.5"/>
+          <defs><linearGradient id="nav-grad" x1="2" y1="2" x2="30" y2="30"><stop stop-color="#EC4899"/><stop offset="1" stop-color="#8B3FC9"/></linearGradient></defs>
+        </svg>
+      </div>
+      <span class="q-brand-name">QUBIX <span class="q-brand-tag">GROWTH</span></span>
+    </a>
+
+    <nav class="q-nav-links">
+      <a href="index.html" class="q-nav-link">Overview</a>
+      <a href="WebDevelopment.html" class="q-nav-link">Web Dev</a>
+      <a href="Wordpress.html" class="q-nav-link">WordPress</a>
+      <a href="Shopify.html" class="q-nav-link">Shopify</a>
+      <a href="SocialMedia.html" class="q-nav-link active">Social Growth</a>
+      <a href="CallAgent.html" class="q-nav-link">AI Call Agent</a>
+    </nav>
+
+    <div class="q-nav-actions">
+      <button type="button" class="q-btn-primary" onclick="window.location.href='index.html#services'">
+        <span>View All Services</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
   <a href="index.html" class="back-btn">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-    Back to Services
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    <span>Return to System Portal</span>
   </a>
 
-  <div class="header">
-    <img class="logo-mark" src="https://pyraminx.co/images/site-logo.png" alt="Pyramix logo" />
-    <span class="eyebrow mono">MOD.04 — SOCIAL MEDIA MANAGEMENT</span>
-    <h2 class="company-name">Stories That Stop The Scroll</h2>
-    <p class="tagline">We don't just post — we build feeds people stop for. Strategy, content, and performance, all under one roof.</p>
+  <header class="hero-header">
+    <span class="mod-pill">MOD.04 — SOCIAL GROWTH STUDIO</span>
+    <h1 class="hero-title">Stories That Stop The Scroll</h1>
+    <p class="hero-sub">We don't just post — we build feeds people stop for. Strategy, content, and paid ads all engineered for maximum ROI.</p>
+  </header>
+
+  <div class="pitch-box">
+    <h3 class="pitch-title">Content Built For The Feed, Not The Boardroom</h3>
+    <p class="pitch-desc">From bold influencer campaigns to clean, conversion-ready storefront assets, we shape every brand's social presence around what actually captures attention: fast hooks, real visual storytelling, and performance with personality.</p>
   </div>
 
-  <div class="pitch-card">
-    <h3>Content Built For The Feed, Not The Boardroom</h3>
-    <p>From bold influencer-led campaigns to clean, conversion-ready storefronts, we shape every brand's social presence around what actually gets attention: fast hooks, real storytelling, and visuals people want to share. No filler content, just performance with personality.</p>
-  </div>
-
-  <div class="header" style="margin-bottom:28px;">
-    <h3 class="section-title">Our Work, As A Story</h3>
-    <p class="section-sub">Tap through like Instagram Stories — swipe, tap, or use the arrows below.</p>
+  <div style="text-align: center; margin-bottom: 28px;">
+    <h3 style="font-size: 1.5rem; margin-bottom: 6px;">Interactive Story Showcase</h3>
+    <p style="color: var(--text-muted); font-size: 0.9rem;">Tap left/right or use controls below to navigate case stories.</p>
   </div>
 
   <div class="story-stage">
@@ -216,8 +282,8 @@
       <div class="phone-screen" id="phone-screen">
         <div class="story-progress" id="story-progress"></div>
         <div class="story-head">
-          <div class="story-avatar">PX</div>
-          <span class="handle">pyramix.agency</span>
+          <div class="story-avatar">QX</div>
+          <span class="handle">qubix.studio</span>
           <span class="dot-sep">•</span>
           <span class="time" id="story-time">2h</span>
         </div>
@@ -226,9 +292,8 @@
         <div class="story-caption">
           <span class="cap-text" id="story-cap">Tap to pause</span>
           <div class="story-icons">
-            <svg viewBox="0 0 24 24"><path d="M20.8 4.6c-1.6-1.6-4.2-1.6-5.8 0L12 7.6 9 4.6c-1.6-1.6-4.2-1.6-5.8 0-1.6 1.6-1.6 4.2 0 5.8L12 19l8.8-8.6c1.6-1.6 1.6-4.2 0-5.8z"></path></svg>
-            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-            <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            <svg viewBox="0 0 24 24"><path d="M20.8 4.6c-1.6-1.6-4.2-1.6-5.8 0L12 7.6 9 4.6c-1.6-1.6-4.2-1.6-5.8 0-1.6 1.6-1.6 4.2 0 5.8L12 19l8.8-8.6c1.6-1.6 1.6-4.2 0-5.8z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           </div>
         </div>
         <div class="tap-zones">
@@ -240,74 +305,61 @@
 
     <div class="story-controls">
       <button id="btn-prev" aria-label="Previous slide">
-        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
-      <span class="story-counter mono" id="story-counter">1 / 4</span>
+      <span class="story-counter" id="story-counter">1 / 4</span>
       <button id="btn-next" aria-label="Next slide">
-        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
     </div>
 
     <div class="slide-meta">
       <h4 id="meta-title">Klay — Food</h4>
-      <p id="meta-desc">An aesthetic cafe in the heart of Karachi, Clifton — content built for craving.</p>
+      <p id="meta-desc">An aesthetic cafe in Clifton — content built for craving.</p>
       <div class="slide-tags" id="meta-tags"></div>
-    </div>
-
-    <div class="hint mono">
-      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-      Auto-advances every few seconds — tap and hold to pause, like a real story.
     </div>
   </div>
 
   <footer>
-    <div class="footer-brand">
-      <img src="https://pyraminx.co/images/site-logo.png" alt="Pyramix logo" style="height:22px;width:auto;" />
-      <span class="mono">© 2026 PYRAMIX — ALL LAYERS BUILT IN-HOUSE</span>
-    </div>
+    <span class="mono">&copy; 2026 QUBIX STUDIO — ALL CODE BUILT IN-HOUSE</span>
+    <a href="index.html" style="color: var(--accent-pink);">Back to Overview &rarr;</a>
   </footer>
 </div>
 
 <script>
-  // Scroll progress bar, throttled with requestAnimationFrame
   const bar = document.getElementById('progress');
-  let ticking = false;
-  function updateProgress(){
+  window.addEventListener('scroll', () => {
     const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
-    ticking = false;
-  }
-  window.addEventListener('scroll', () => {
-    if (!ticking){ requestAnimationFrame(updateProgress); ticking = true; }
   }, { passive: true });
 
   const stories = [
     {
       img: "picture/slide-klay.png",
-      title: "Klay — Food",
+      title: "Klay — Artisanal Food & Brand",
       desc: "An aesthetic cafe in Karachi, Clifton. We manage Klay's social media with engaging food videos and curated content, plus a sleek, modern website to match.",
-      tags: ["Social Media Management", "Photography & Videography", "Website Development"],
+      tags: ["Social Media Management", "Videography", "Website Build"],
       time: "2h"
     },
     {
       img: "picture/slide-tpl.png",
-      title: "TPL — Life Insurance",
+      title: "TPL — Life Insurance Campaign",
       desc: "Tapping into an insurance-averse audience. Three influencer-led campaigns overachieved their targets within 86% of budget.",
-      tags: ["Social Media Management", "Performance Marketing", "Brand Strategy"],
+      tags: ["Performance Ads", "Influencers", "Strategy"],
       time: "5h"
     },
     {
       img: "picture/slide-noms.png",
-      title: "Noms Nochos — Snacks",
+      title: "Noms Nachos — Snack Launch",
       desc: "Launching Pakistan's first baked chips with a bold, young, health-conscious brand identity and strategic influencer partnerships.",
-      tags: ["Paid Ads", "Influencer Marketing", "Content Strategy"],
+      tags: ["Paid Growth", "Influencer Ads", "Content"],
       time: "1d"
     },
     {
       img: "picture/slide-testimonial.png",
-      title: "What Clients Say",
+      title: "Client Growth & Trust",
       desc: "From scaling fast with high-converting ads to building brands clients love — the results speak through the people we've worked with.",
-      tags: ["Client Testimonials"],
+      tags: ["Client Reviews"],
       time: "2d"
     }
   ];
@@ -331,7 +383,7 @@
     stories.forEach((s, i) => {
       const div = document.createElement('div');
       div.className = 'story-slide' + (i === 0 ? ' active' : '');
-      div.innerHTML = `<img class="bg-fill" src="${s.img}" alt="" aria-hidden="true"><img class="fg-img" src="${s.img}" alt="${s.title}">`;
+      div.innerHTML = `<img class="fg-img" src="${s.img}" alt="${s.title}">`;
       slidesEl.appendChild(div);
 
       const seg = document.createElement('div');
@@ -357,10 +409,10 @@
     });
   }
 
-  function goTo(index, restart = true) {
+  function goTo(index) {
     current = (index + stories.length) % stories.length;
     renderMeta();
-    if (restart) restartTimer();
+    restartTimer();
   }
 
   function next() { goTo(current + 1); }
@@ -374,7 +426,6 @@
 
   function setPaused(p) {
     paused = p;
-    screenEl.classList.toggle('paused-state', p);
     progressEl.classList.toggle('paused', p);
     capEl.innerText = p ? 'Paused' : 'Tap to pause';
     if (p) clearTimeout(timer); else restartTimer();
@@ -389,8 +440,6 @@
   screenEl.addEventListener('mousedown', () => { pressTimer = setTimeout(() => setPaused(true), 180); });
   screenEl.addEventListener('mouseup', () => { clearTimeout(pressTimer); setPaused(false); });
   screenEl.addEventListener('mouseleave', () => { clearTimeout(pressTimer); setPaused(false); });
-  screenEl.addEventListener('touchstart', () => { pressTimer = setTimeout(() => setPaused(true), 180); });
-  screenEl.addEventListener('touchend', () => { clearTimeout(pressTimer); setPaused(false); });
 
   screenEl.addEventListener('dblclick', () => {
     const heart = document.getElementById('heart-burst');

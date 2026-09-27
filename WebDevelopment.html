@@ -3,402 +3,423 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Web Development Solutions — Pyramix</title>
+<meta name="description" content="Qubix Web Development — Full-stack React, Next.js, Node.js, and custom APIs built for extreme speed and scalability.">
+<title>Web Development Solutions — Qubix Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=JetBrains+Mono:wght@500;700&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#0B0614;
-    --line:rgba(255,255,255,0.09);
-    --line-hover:rgba(178,110,255,0.6);
-    --text:#F3EEFB;
-    --muted:#9A8FB5;
-    --p1:#7A2FC9;
-    --p2:#C026A3;
-    --p3:#B685FF;
+  :root {
+    --bg-dark: #050811;
+    --bg-surface: #0b0f19;
+    --bg-card: rgba(15, 23, 42, 0.6);
+    --bg-card-hover: rgba(24, 34, 58, 0.85);
+    --border: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(99, 102, 241, 0.35);
+    --border-cyan: rgba(6, 182, 212, 0.4);
+    
+    --text-main: #F8FAFC;
+    --text-muted: #94A3B8;
+    --text-dim: #64748B;
+    
+    --primary: #6366F1;
+    --primary-glow: rgba(99, 102, 241, 0.25);
+    --accent-cyan: #06B6D4;
+    --accent-violet: #8B5CF6;
+    --accent-emerald: #10B981;
+    
+    --font-heading: 'Space Grotesk', -apple-system, sans-serif;
+    --font-body: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    
+    --radius-lg: 18px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+    --radius-full: 9999px;
+    
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    background:var(--bg); color:var(--text); font-family:'Manrope',sans-serif;
-    min-height:100vh; overflow-x:hidden; position:relative;
-    display:flex; align-items:flex-start; justify-content:center;
-    padding:40px 20px;
-  }
-  h1,h2,h3,h4{ font-family:'Space Grotesk',sans-serif; }
-  .mono{ font-family:'JetBrains Mono',monospace; }
-  a{ color:inherit; }
-  button{ font:inherit; color:inherit; background:none; border:none; }
-  button:focus-visible, a:focus-visible{ outline:2px solid var(--p3); outline-offset:3px; }
-  img{ max-width:100%; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; background-color: var(--bg-dark); }
 
-  /* Same background system as the homepage: flat grid + slow scanline */
-  .bg-fx{ position:fixed; inset:0; z-index:-2; overflow:hidden; }
-  .grid-lines{
-    position:absolute; inset:-1px;
-    background-image:
-      linear-gradient(rgba(182,133,255,0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(182,133,255,0.05) 1px, transparent 1px);
-    background-size:44px 44px;
-    mask-image:radial-gradient(ellipse 70% 60% at 50% 0%, #000 40%, transparent 100%);
-  }
-  .scanline{
-    position:absolute; left:0; right:0; height:120px; top:-120px;
-    background:linear-gradient(180deg, transparent, rgba(182,133,255,0.08), transparent);
-    animation:scan 9s linear infinite;
-  }
-  @keyframes scan{ 0%{ top:-120px; } 100%{ top:100%; } }
-  .progress{ position:fixed; top:0; left:0; height:2px; width:0%; background:linear-gradient(90deg, var(--p1), var(--p2)); z-index:200; }
-
-  .panel{
-    width:100%; max-width:1120px;
-    border:1px solid var(--line);
-    background:linear-gradient(160deg, rgba(255,255,255,0.03), rgba(255,255,255,0.006));
-    padding:44px clamp(20px,5vw,56px) 50px;
-    position:relative; z-index:1;
+  body {
+    background: var(--bg-dark);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    overflow-x: hidden;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
   }
 
-  .back-btn{
-    display:inline-flex; align-items:center; gap:9px;
-    border:1px solid var(--line); background:rgba(255,255,255,0.02);
-    padding:10px 20px 10px 18px; font-size:0.82rem; color:var(--muted);
-    cursor:pointer; text-decoration:none; margin-bottom:36px;
-    clip-path:polygon(12px 0, 100% 0, 100% 100%, 0 100%, 0 12px);
-    transition:border-color .2s ease, color .2s ease, transform .2s ease;
+  h1, h2, h3, h4, h5 { font-family: var(--font-heading); color: #fff; font-weight: 700; letter-spacing: -0.02em; }
+  .mono { font-family: var(--font-mono); }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+  button:focus-visible, a:focus-visible { outline: 2px solid var(--accent-cyan); outline-offset: 3px; }
+
+  /* Background Ambient FX */
+  .bg-fx {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
   }
-  .back-btn:hover{ border-color:var(--line-hover); color:#fff; transform:translateX(-3px); }
-  .back-btn svg{ width:14px; height:14px; flex-shrink:0; }
-
-  .header{ display:flex; flex-direction:column; align-items:center; text-align:center; margin-bottom:40px; }
-  .logo-mark{ width:auto; height:60px; max-width:260px; margin-bottom:22px; object-fit:contain; }
-
-  .eyebrow{ display:inline-flex; align-items:center; gap:9px; font-size:0.7rem; letter-spacing:1.5px; color:var(--p3); margin-bottom:16px; border:1px solid var(--line); padding:6px 14px; background:rgba(182,133,255,0.04); text-align:center; }
-  .eyebrow::before{ content:''; width:6px; height:6px; background:var(--p3); display:inline-block; animation:blink 1.6s ease-in-out infinite; flex-shrink:0; }
-  @keyframes blink{ 0%,100%{ opacity:1; } 50%{ opacity:0.25; } }
-
-  .company-name{ font-size:clamp(1.7rem, 6vw, 2.7rem); font-weight:700; letter-spacing:-0.5px; margin-bottom:12px; color:var(--text); line-height:1.15; }
-  .company-name .accent{ color:var(--p3); }
-  .tagline{ font-size:1rem; color:var(--muted); max-width:620px; line-height:1.65; }
-
-  .section-title{ font-size:clamp(1.3rem, 4vw, 1.8rem); font-weight:700; margin-bottom:6px; letter-spacing:-0.4px; text-align:center; }
-  .section-sub{ color:var(--muted); font-size:0.92rem; margin-bottom:32px; text-align:center; padding:0 6px; }
-
-  .wp-pitch-card{
-    border:1px solid var(--line);
-    background:linear-gradient(160deg, rgba(255,255,255,0.03), rgba(255,255,255,0.006));
-    padding:34px clamp(20px,4vw,40px);
-    text-align:center; margin-bottom:50px;
+  .bg-glow-1 {
+    position: absolute;
+    top: -10%;
+    left: 20%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+    filter: blur(90px);
+    border-radius: 50%;
   }
-  .wp-pitch-card h3{ font-size:clamp(1.15rem,4vw,1.4rem); margin-bottom:12px; font-weight:700; color:var(--p3); }
-  .wp-pitch-card p{ color:var(--muted); font-size:0.94rem; line-height:1.65; max-width:800px; margin:0 auto; }
-
-  /* ── LIVE BUILD DEMO ── */
-  .build-demo{ margin-bottom:52px; }
-  .demo-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:stretch; }
-  @media (max-width:820px){ .demo-grid{ grid-template-columns:1fr; } }
-
-  .code-window, .render-window{
-    border:1px solid var(--line);
-    overflow:hidden;
-    background:linear-gradient(180deg, #140a29 0%, #08040f 100%);
-    display:flex; flex-direction:column; min-height:300px;
-  }
-  .demo-header{ height:40px; min-height:40px; display:flex; align-items:center; justify-content:space-between; padding:0 16px; background:rgba(255,255,255,0.02); border-bottom:1px solid var(--line); position:relative; }
-  .demo-dots{ display:flex; gap:6px; }
-  .demo-dots span{ width:8px; height:8px; }
-  .demo-dots .r{ background:#7a2fc9; } .demo-dots .y{ background:#9a8fb5; } .demo-dots .g{ background:#b685ff; }
-  .demo-filename{ font-family:'JetBrains Mono',monospace; font-size:0.72rem; color:var(--muted); }
-
-  .code-body{ flex:1; padding:20px 22px; font-family:'JetBrains Mono',monospace; font-size:0.8rem; line-height:1.7; color:#d9cdf5; white-space:pre-wrap; word-break:break-word; }
-  .code-body .tok-kw{ color:#c792ea; } .code-body .tok-fn{ color:var(--p3); } .code-body .tok-str{ color:#c3e88d; } .code-body .tok-tag{ color:#f07178; } .code-body .tok-cm{ color:#5c5470; }
-  .code-cursor{ display:inline-block; width:7px; height:1em; background:var(--p3); vertical-align:-2px; animation:cursorblink 0.9s steps(1) infinite; }
-  @keyframes cursorblink{ 50%{ opacity:0; } }
-
-  .render-body{ flex:1; display:flex; align-items:center; justify-content:center; padding:26px; background:radial-gradient(circle at 50% 20%, rgba(182,133,255,0.06), transparent 70%); }
-  .render-badge{
-    position:absolute; top:8px; right:14px;
-    font-family:'JetBrains Mono',monospace; font-size:0.62rem; font-weight:700; letter-spacing:0.6px;
-    color:var(--p3); border:1px solid rgba(182,133,255,0.35); background:rgba(182,133,255,0.06);
-    padding:3px 9px; display:flex; align-items:center; gap:6px;
-    opacity:0; transform:translateY(-4px); transition:opacity .4s ease, transform .4s ease;
-  }
-  .render-badge.show{ opacity:1; transform:translateY(0); }
-  .render-badge .b-dot{ width:5px; height:5px; background:var(--p3); }
-
-  .mini-card{
-    width:100%; max-width:260px;
-    border:1px solid var(--line);
-    background:linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
-    padding:20px;
-    opacity:0; transform:translateY(14px);
-    transition:opacity .45s cubic-bezier(.16,1,.3,1), transform .45s cubic-bezier(.16,1,.3,1);
-  }
-  .mini-card.show{ opacity:1; transform:translateY(0); }
-  .mini-card .mc-thumb{ height:84px; margin-bottom:14px; background:linear-gradient(135deg, var(--p1), var(--p2)); }
-  .mini-card h5{ color:#fff; font-size:1rem; margin-bottom:6px; font-family:'Space Grotesk',sans-serif; }
-  .mini-card .mc-price{ color:var(--p3); font-weight:700; font-size:0.92rem; margin-bottom:14px; }
-  .mini-card .mc-btn{ width:100%; padding:10px; text-align:center; font-size:0.8rem; font-weight:700; color:#fff; background:linear-gradient(135deg, var(--p1), var(--p2)); }
-
-  /* ── STACK SHOWCASE ── */
-  .stack-section{ margin-bottom:52px; }
-  .stack-groups{ display:flex; flex-direction:column; gap:24px; }
-  .stack-group-label{ font-family:'JetBrains Mono',monospace; font-size:0.7rem; letter-spacing:1.5px; text-transform:uppercase; font-weight:700; color:var(--p3); margin-bottom:12px; display:flex; align-items:center; gap:10px; }
-  .stack-group-label::before{ content:''; width:6px; height:6px; background:var(--p3); flex:none; }
-  .stack-group-label::after{ content:''; flex:1; height:1px; background:linear-gradient(90deg, rgba(182,133,255,0.3), transparent); }
-  .stack-pills{ display:flex; flex-wrap:wrap; gap:8px; }
-  .stack-pill{
-    display:inline-flex; align-items:center; gap:8px;
-    border:1px solid var(--line); background:rgba(255,255,255,0.02);
-    padding:9px 16px; font-size:0.84rem; font-weight:600; color:var(--text);
-    transition:border-color .2s ease, background .2s ease, transform .2s ease;
-  }
-  .stack-pill:hover{ border-color:var(--line-hover); background:rgba(182,133,255,0.06); transform:translateY(-2px); }
-  .stack-pill .dot{ width:7px; height:7px; border-radius:50%; flex-shrink:0; box-shadow:0 0 6px currentColor; }
-
-  /* ── PORTFOLIO: flip cards, sharpened ── */
-  .portfolio-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:18px; }
-  .flip-card{ background-color:transparent; height:420px; perspective:1500px; cursor:pointer; }
-  .flip-card-inner{ position:relative; width:100%; height:100%; text-align:center; transition:transform 0.6s cubic-bezier(0.16,1,0.3,1); transform-style:preserve-3d; }
-  .flip-card:hover .flip-card-inner{ transform:rotateY(180deg); }
-  .flip-card.flipped .flip-card-inner{ transform:rotateY(180deg); }
-  .card-front, .card-back{ position:absolute; top:0; left:0; width:100%; height:100%; -webkit-backface-visibility:hidden; backface-visibility:hidden; overflow:hidden; border:1px solid var(--line); }
-  .card-front{ background:linear-gradient(180deg, rgba(20,10,43,0.85) 0%, rgba(8,4,15,0.98) 100%); display:flex; flex-direction:column; }
-  .card-img-wrapper{ width:100%; height:72%; overflow:hidden; position:relative; background:#05020a; }
-  .card-img-wrapper::after{ content:''; position:absolute; inset:0; background:linear-gradient(to bottom, transparent 50%, rgba(8,4,15,1) 100%); z-index:2; }
-  .card-front img{ width:100%; height:100%; object-fit:cover; object-position:top center; z-index:1; }
-  .card-title-bar{ height:28%; display:flex; align-items:center; justify-content:center; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.2rem; color:#fff; letter-spacing:-0.2px; padding:0 10px; }
-  .card-back{ background:linear-gradient(160deg, #140a29 0%, #06020d 100%); border-color:var(--line-hover); transform:rotateY(180deg); padding:28px 22px; display:flex; flex-direction:column; justify-content:space-between; }
-  .card-back h4{ font-size:1.25rem; font-weight:700; color:var(--p3); margin-bottom:10px; }
-  .card-back p{ font-size:0.88rem; color:var(--muted); line-height:1.6; margin-bottom:14px; }
-  .tech-tags{ display:flex; gap:6px; flex-wrap:wrap; justify-content:center; margin-bottom:18px; }
-  .tech-tags span{ font-family:'JetBrains Mono',monospace; font-size:0.66rem; font-weight:500; border:1px solid rgba(182,133,255,0.25); background:rgba(182,133,255,0.06); padding:4px 10px; color:#dfcdfc; }
-  .preview-btn{
-    background:linear-gradient(135deg, var(--p1), var(--p2)); color:#fff; padding:12px 22px;
-    font-family:'Space Grotesk',sans-serif; font-size:0.82rem; font-weight:700; cursor:pointer;
-    clip-path:polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
-    transition:filter .25s ease, transform .2s ease;
-    display:inline-flex; align-items:center; justify-content:center; gap:8px; width:100%;
-  }
-  .preview-btn:hover{ filter:brightness(1.12); transform:translateY(-2px); }
-
-  /* ── PROCESS ── */
-  .process-section{ margin:52px 0; }
-  .process-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:14px; }
-  .process-card{ border:1px solid var(--line); background:rgba(255,255,255,0.02); padding:22px; }
-  .process-step{ font-family:'JetBrains Mono',monospace; font-size:0.7rem; letter-spacing:1.5px; font-weight:700; color:var(--p3); margin-bottom:10px; }
-  .process-card h4{ font-size:1.02rem; margin-bottom:8px; color:#fff; }
-  .process-card p{ font-size:0.85rem; color:var(--muted); line-height:1.55; }
-
-  /* ── SLIDESHOW MODAL ── */
-  .modal-overlay{ position:fixed; inset:0; background:rgba(3,1,9,0.96); z-index:1000; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity .35s ease; backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); }
-  .modal-overlay.active{ opacity:1; pointer-events:auto; }
-  .modal-container{ width:92vw; max-width:1200px; height:88vh; display:flex; flex-direction:column; position:relative; background:#080412; border:1px solid var(--line); box-shadow:0 60px 140px rgba(0,0,0,0.95); overflow:hidden; transform:scale(0.97); opacity:0; transition:transform .4s cubic-bezier(.16,1,.3,1), opacity .3s ease; }
-  .modal-overlay.active .modal-container{ transform:scale(1); opacity:1; }
-
-  .close-modal{
-    position:absolute; top:16px; right:20px; z-index:50;
-    background:rgba(255,255,255,0.04); border:1px solid var(--line); color:#fff;
-    font-family:'JetBrains Mono',monospace; font-size:0.72rem; font-weight:700;
-    padding:8px 16px; text-transform:uppercase; letter-spacing:1px; cursor:pointer;
-    clip-path:polygon(10px 0, 100% 0, 100% 100%, 0 100%, 0 10px);
-    transition:border-color .2s ease, background .2s ease;
-  }
-  .close-modal:hover{ background:rgba(182,133,255,0.15); border-color:var(--p3); }
-
-  .slideshow-wrapper{ flex:1; width:100%; min-height:0; position:relative; background:#030107; display:flex; align-items:center; justify-content:center; overflow:hidden; padding:24px 0; }
-  .slide-track{ width:100%; height:100%; position:relative; }
-  .slide{ position:absolute; inset:0; opacity:0; transform:scale(0.97); transition:opacity .5s cubic-bezier(.16,1,.3,1), transform .5s cubic-bezier(.16,1,.3,1); display:flex; align-items:center; justify-content:center; padding:0 70px; pointer-events:none; }
-  .slide.active{ opacity:1; z-index:2; transform:scale(1); pointer-events:auto; }
-
-  .browser-mockup{ width:100%; max-width:900px; height:100%; max-height:100%; background:linear-gradient(180deg, #1a1138 0%, #120a28 100%); border:1px solid var(--line-hover); box-shadow:0 50px 100px rgba(0,0,0,0.9); display:flex; flex-direction:column; overflow:hidden; }
-  .browser-header{ background:rgba(255,255,255,0.03); height:44px; min-height:44px; display:flex; align-items:center; padding:0 20px; border-bottom:1px solid var(--line); position:relative; }
-  .browser-dots{ display:flex; gap:7px; z-index:2; }
-  .browser-dots span{ width:10px; height:10px; border-radius:50%; }
-  .browser-dots .r{ background:#7a2fc9; } .browser-dots .y{ background:#9a8fb5; } .browser-dots .g{ background:#b685ff; }
-  .browser-url-bar{ position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); background:rgba(0,0,0,0.25); width:40%; max-width:400px; height:22px; border:1px solid var(--line); color:var(--muted); font-size:0.7rem; display:flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; }
-  .browser-screen{ flex:1; min-height:0; width:100%; background:#040208; display:flex; align-items:center; justify-content:center; overflow:hidden; }
-  .browser-screen img{ max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain; display:block; }
-
-  .slide-nav{ position:absolute; top:50%; transform:translateY(-50%); background:rgba(12,6,26,0.75); backdrop-filter:blur(16px); border:1px solid var(--line); color:#fff; width:50px; height:50px; cursor:pointer; z-index:30; display:flex; align-items:center; justify-content:center; transition:border-color .2s ease, background .2s ease; }
-  .slide-nav:hover{ background:rgba(182,133,255,0.18); border-color:var(--p3); }
-  .slide-nav.prev{ left:24px; } .slide-nav.next{ right:24px; }
-  .slide-nav svg{ width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:2.5; }
-
-  .slideshow-footer{ background:#080410; padding:20px 36px; display:flex; justify-content:space-between; align-items:center; gap:30px; border-top:1px solid var(--line); }
-  .slide-caption h5{ font-family:'Space Grotesk',sans-serif; font-size:1.2rem; color:#fff; font-weight:700; letter-spacing:-0.2px; }
-  .slide-caption p{ font-size:0.86rem; color:var(--muted); margin-top:3px; }
-  .slide-counter{ font-family:'JetBrains Mono',monospace; font-size:0.78rem; font-weight:700; color:var(--p3); border:1px solid rgba(182,133,255,0.35); background:rgba(182,133,255,0.06); padding:5px 14px; flex-shrink:0; }
-
-  footer{ margin-top:48px; padding-top:24px; border-top:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; font-size:0.78rem; color:var(--muted); flex-wrap:wrap; gap:12px; }
-  .footer-brand{ display:flex; align-items:center; gap:10px; }
-
-  /* ============ MOBILE RESPONSIVE ============ */
-  @media (max-width:768px){
-    .portfolio-grid{ grid-template-columns:1fr; }
-    .panel{ padding:32px 18px 40px; }
-    .modal-container{ height:86vh; width:96vw; }
-    .slide{ padding:10px 12px; }
-    .slideshow-footer{ flex-direction:column; text-align:center; padding:16px; gap:12px; }
-    .slide-nav{ width:42px; height:42px; }
-    .slide-nav.prev{ left:8px; } .slide-nav.next{ right:8px; }
-    .browser-url-bar{ display:none; }
-    .process-grid{ grid-template-columns:1fr; }
+  .grid-pattern {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 20%, #000 40%, transparent 100%);
   }
 
-  @media (max-width:640px){
-    body{ padding:24px 12px; }
-    .panel{ padding:26px 16px 32px; }
-    .back-btn{ font-size:0.76rem; padding:9px 16px 9px 14px; margin-bottom:24px; }
-    .logo-mark{ height:42px; margin-bottom:16px; }
-    .eyebrow{ font-size:0.64rem; letter-spacing:1px; padding:6px 12px; }
-    .tagline{ font-size:0.9rem; }
-    .wp-pitch-card{ padding:24px 18px; margin-bottom:36px; }
-    .section-sub{ margin-bottom:22px; }
-
-    .demo-grid{ gap:12px; }
-    .code-window, .render-window{ min-height:240px; }
-    .code-body{ padding:16px; font-size:0.72rem; }
-    .demo-filename{ font-size:0.66rem; }
-    .mini-card{ padding:16px; }
-    .mini-card .mc-thumb{ height:64px; margin-bottom:10px; }
-
-    .stack-groups{ gap:18px; }
-    .stack-pill{ padding:8px 13px; font-size:0.78rem; }
-
-    .portfolio-grid{ gap:14px; }
-    .flip-card{ height:380px; }
-    .card-title-bar{ font-size:1rem; }
-    .card-back{ padding:20px 16px; }
-    .card-back h4{ font-size:1.05rem; }
-    .card-back p{ font-size:0.82rem; }
-    .tech-tags span{ font-size:0.62rem; padding:4px 8px; }
-    .preview-btn{ font-size:0.78rem; padding:11px 16px; }
-
-    .process-card{ padding:18px; }
-
-    .browser-header{ height:36px; min-height:36px; padding:0 12px; }
-    .browser-dots span{ width:8px; height:8px; }
-    .slideshow-wrapper{ padding:14px 0; }
-    .slide-caption h5{ font-size:1rem; }
-    .slide-caption p{ font-size:0.78rem; }
-    .slide-counter{ font-size:0.72rem; padding:5px 11px; }
-
-    footer{ flex-direction:column; align-items:flex-start; text-align:left; margin-top:32px; }
+  .progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, var(--primary), var(--accent-cyan));
+    z-index: 1100;
   }
 
-  @media (max-width:480px){
-    body{ padding:16px 10px; }
-    .panel{ padding:22px 14px 28px; }
-    .back-btn{ font-size:0.72rem; padding:8px 14px 8px 12px; margin-bottom:20px; }
-    .logo-mark{ height:36px; margin-bottom:14px; }
-    .eyebrow{ font-size:0.58rem; letter-spacing:0.8px; padding:5px 10px; margin-bottom:12px; }
-    .company-name{ font-size:1.45rem; margin-bottom:10px; }
-    .tagline{ font-size:0.84rem; }
-    .header{ margin-bottom:30px; }
+  /* Global Navbar */
+  .q-navbar {
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(1140px, calc(100% - 32px));
+    z-index: 1000;
+    background: rgba(11, 15, 25, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    padding: 10px 20px;
+  }
+  .q-nav-container { display: flex; align-items: center; justify-content: space-between; }
+  .q-brand { display: flex; align-items: center; gap: 10px; }
+  .q-brand-name { font-family: var(--font-heading); font-weight: 800; font-size: 1.15rem; color: #fff; }
+  .q-brand-tag { font-size: 0.65rem; padding: 2px 6px; background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.3); color: var(--accent-cyan); border-radius: 4px; font-family: var(--font-mono); }
+  .q-nav-links { display: flex; align-items: center; gap: 24px; }
+  .q-nav-link { font-size: 0.85rem; font-weight: 500; color: var(--text-muted); transition: color 0.2s ease; }
+  .q-nav-link:hover, .q-nav-link.active { color: #fff; }
+  .q-nav-actions { display: flex; align-items: center; gap: 14px; }
+  .q-btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: linear-gradient(135deg, var(--primary), var(--accent-violet));
+    color: #fff; font-family: var(--font-heading); font-weight: 600; font-size: 0.85rem;
+    padding: 9px 18px; border-radius: var(--radius-full); transition: all 0.25s var(--ease-out);
+    box-shadow: 0 4px 20px var(--primary-glow); border: 1px solid rgba(255,255,255,0.15);
+  }
+  .q-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4); }
 
-    .wp-pitch-card{ padding:18px 14px; margin-bottom:28px; }
-    .wp-pitch-card h3{ font-size:1.05rem; }
-    .wp-pitch-card p{ font-size:0.82rem; }
-
-    .section-title{ font-size:1.15rem; }
-    .section-sub{ font-size:0.8rem; margin-bottom:18px; }
-
-    .build-demo{ margin-bottom:38px; }
-    .demo-header{ height:34px; min-height:34px; padding:0 10px; }
-    .demo-dots span{ width:7px; height:7px; }
-    .code-window, .render-window{ min-height:200px; }
-    .code-body{ padding:12px; font-size:0.66rem; line-height:1.55; }
-    .render-body{ padding:16px; }
-    .mini-card{ padding:13px; max-width:200px; }
-    .mini-card .mc-thumb{ height:52px; margin-bottom:8px; }
-    .mini-card h5{ font-size:0.86rem; }
-    .mini-card .mc-price{ font-size:0.8rem; margin-bottom:10px; }
-    .mini-card .mc-btn{ padding:8px; font-size:0.7rem; }
-    .render-badge{ font-size:0.56rem; padding:2px 7px; top:6px; right:10px; }
-
-    .stack-section{ margin-bottom:36px; }
-    .stack-groups{ gap:14px; }
-    .stack-group-label{ font-size:0.62rem; letter-spacing:1px; margin-bottom:9px; }
-    .stack-pill{ padding:7px 11px; font-size:0.72rem; gap:6px; }
-
-    .portfolio-grid{ gap:12px; }
-    .flip-card{ height:330px; }
-    .card-title-bar{ font-size:0.92rem; padding:0 8px; }
-    .card-back{ padding:16px 13px; }
-    .card-back h4{ font-size:0.96rem; margin-bottom:7px; }
-    .card-back p{ font-size:0.76rem; line-height:1.5; margin-bottom:10px; }
-    .tech-tags{ margin-bottom:12px; gap:5px; }
-    .tech-tags span{ font-size:0.58rem; padding:3px 7px; }
-    .preview-btn{ font-size:0.72rem; padding:10px 14px; }
-
-    .process-section{ margin:36px 0; }
-    .process-grid{ gap:10px; }
-    .process-card{ padding:14px; }
-    .process-step{ font-size:0.62rem; margin-bottom:7px; }
-    .process-card h4{ font-size:0.92rem; }
-    .process-card p{ font-size:0.78rem; }
-
-    .close-modal{ padding:6px 12px; font-size:0.6rem; top:10px; right:12px; }
-    .slide-nav{ width:36px; height:36px; }
-    .slide-nav svg{ width:15px; height:15px; }
-    .slide-nav.prev{ left:6px; } .slide-nav.next{ right:6px; }
-
-    footer{ margin-top:26px; padding-top:16px; gap:8px; }
-    .footer-brand img{ height:18px; }
-    footer .mono{ font-size:0.68rem; }
+  /* Page Wrapper */
+  .wrap {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 120px 24px 80px;
+    position: relative;
+    z-index: 2;
   }
 
-  @media (max-width:400px){
-    .flip-card{ height:310px; }
-    .card-img-wrapper{ height:68%; }
-    .card-title-bar{ height:32%; font-size:0.86rem; }
-    .logo-mark{ height:32px; }
-    .close-modal{ padding:5px 10px; font-size:0.56rem; }
-    .slide-nav{ width:32px; height:32px; }
-    .slide-nav svg{ width:14px; height:14px; }
-    .code-body{ font-size:0.6rem; }
-    .company-name{ font-size:1.3rem; }
+  /* Back Button */
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.03);
+    padding: 8px 16px;
+    font-size: 0.8rem;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    border-radius: var(--radius-full);
+    margin-bottom: 32px;
+    transition: all 0.2s ease;
   }
+  .back-btn:hover { border-color: var(--accent-cyan); color: #fff; transform: translateX(-4px); }
 
-  @media (max-width:340px){
-    .mini-card{ max-width:170px; }
-    .stack-pill{ padding:6px 9px; font-size:0.68rem; }
-    .flip-card{ height:290px; }
+  /* Header Section */
+  .hero-header {
+    text-align: center;
+    max-width: 760px;
+    margin: 0 auto 50px;
   }
+  .mod-pill {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    color: var(--accent-cyan);
+    background: rgba(6, 182, 212, 0.08);
+    border: 1px solid rgba(6, 182, 212, 0.25);
+    padding: 5px 14px;
+    border-radius: var(--radius-full);
+    margin-bottom: 16px;
+  }
+  .hero-title { font-size: clamp(2.2rem, 4vw, 3.2rem); margin-bottom: 16px; }
+  .hero-sub { color: var(--text-muted); font-size: 1.05rem; line-height: 1.65; }
 
-  @media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition:none !important; } }
+  /* Value Pitch Box */
+  .pitch-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    backdrop-filter: blur(12px);
+    margin-bottom: 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .pitch-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+  }
+  .pitch-title { font-size: 1.3rem; color: #fff; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+  .pitch-desc { color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; }
+
+  /* Interactive Code Demo */
+  .demo-section { margin-bottom: 70px; }
+  .demo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  @media (max-width: 820px) { .demo-grid { grid-template-columns: 1fr; } }
+
+  .code-window, .render-window {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: #080c16;
+    display: flex;
+    flex-direction: column;
+    min-height: 300px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+  }
+  .demo-header {
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid var(--border);
+  }
+  .demo-dots { display: flex; gap: 6px; }
+  .demo-dots span { width: 8px; height: 8px; border-radius: 50%; }
+  .demo-dots .r { background: #FF5F56; }
+  .demo-dots .y { background: #FFBD2E; }
+  .demo-dots .g { background: #27C93F; }
+  .demo-filename { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-dim); }
+
+  .code-body {
+    flex: 1; padding: 20px; font-family: var(--font-mono); font-size: 0.8rem;
+    line-height: 1.7; color: #cbd5e1; white-space: pre-wrap;
+  }
+  .code-body .tok-kw { color: #C792EA; }
+  .code-body .tok-fn { color: #82AAFF; }
+  .code-body .tok-str { color: #C3E88D; }
+  .code-body .tok-tag { color: #F07178; }
+  .code-cursor { display: inline-block; width: 6px; height: 1em; background: var(--accent-cyan); vertical-align: -2px; animation: cursorBlink 0.9s infinite; }
+  @keyframes cursorBlink { 50% { opacity: 0; } }
+
+  .render-body { flex: 1; display: flex; align-items: center; justify-content: center; padding: 24px; position: relative; }
+  .render-badge {
+    position: absolute; top: 10px; right: 14px; font-family: var(--font-mono); font-size: 0.65rem;
+    color: var(--accent-emerald); border: 1px solid rgba(16, 185, 129, 0.3); background: rgba(16, 185, 129, 0.08);
+    padding: 3px 8px; border-radius: 4px; opacity: 0; transition: all 0.4s ease;
+  }
+  .render-badge.show { opacity: 1; }
+  .mini-card {
+    width: 220px; border: 1px solid var(--border-hover); border-radius: var(--radius-md);
+    background: rgba(15, 23, 42, 0.9); padding: 16px; opacity: 0; transform: translateY(12px);
+    transition: all 0.4s ease; box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  }
+  .mini-card.show { opacity: 1; transform: translateY(0); }
+  .mini-card .mc-thumb { height: 90px; border-radius: var(--radius-sm); margin-bottom: 12px; background: linear-gradient(135deg, var(--primary), var(--accent-cyan)); }
+  .mini-card h5 { font-size: 0.95rem; margin-bottom: 4px; }
+  .mini-card .mc-price { color: var(--accent-cyan); font-weight: 700; font-size: 0.85rem; margin-bottom: 12px; }
+  .mini-card .mc-btn { width: 100%; padding: 8px; border-radius: var(--radius-sm); text-align: center; font-size: 0.78rem; font-weight: 700; color: #fff; background: var(--primary); }
+
+  /* Stack Section */
+  .stack-section { margin-bottom: 70px; }
+  .stack-groups { display: flex; flex-direction: column; gap: 24px; }
+  .stack-group-label { font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 1px; color: var(--accent-cyan); margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+  .stack-group-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .stack-pills { display: flex; flex-wrap: wrap; gap: 10px; }
+  .stack-pill {
+    display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--border);
+    border-radius: var(--radius-sm); background: rgba(255, 255, 255, 0.02); padding: 8px 14px;
+    font-size: 0.85rem; font-weight: 500; color: var(--text-main); transition: all 0.2s ease;
+  }
+  .stack-pill:hover { border-color: var(--accent-cyan); background: rgba(6, 182, 212, 0.08); transform: translateY(-2px); }
+  .stack-pill .dot { width: 6px; height: 6px; border-radius: 50%; }
+
+  /* Portfolio Cases Flip Cards */
+  .portfolio-section { margin-bottom: 70px; }
+  .portfolio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; }
+  .flip-card { height: 400px; perspective: 1500px; cursor: pointer; }
+  .flip-card-inner { position: relative; width: 100%; height: 100%; transition: transform 0.6s var(--ease-out); transform-style: preserve-3d; }
+  .flip-card:hover .flip-card-inner, .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+  .card-front, .card-back {
+    position: absolute; inset: 0; -webkit-backface-visibility: hidden; backface-visibility: hidden;
+    border-radius: var(--radius-lg); border: 1px solid var(--border); overflow: hidden;
+  }
+  .card-front { background: var(--bg-card); display: flex; flex-direction: column; }
+  .card-img-wrapper { width: 100%; height: 72%; overflow: hidden; position: relative; background: #040711; }
+  .card-img-wrapper::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 60%, var(--bg-surface) 100%); }
+  .card-front img { width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: transform 0.4s ease; }
+  .flip-card:hover .card-front img { transform: scale(1.05); }
+  .card-title-bar { height: 28%; display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); font-weight: 700; font-size: 1.15rem; color: #fff; padding: 0 16px; }
+  .card-back {
+    background: #0e1424; border-color: var(--border-hover); transform: rotateY(180deg);
+    padding: 28px; display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .card-back h4 { font-size: 1.2rem; color: var(--accent-cyan); margin-bottom: 10px; }
+  .card-back p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 16px; }
+  .tech-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 20px; }
+  .tech-tags span { font-family: var(--font-mono); font-size: 0.68rem; border: 1px solid rgba(6, 182, 212, 0.3); background: rgba(6, 182, 212, 0.08); padding: 3px 8px; border-radius: 4px; color: var(--accent-cyan); }
+  .preview-btn {
+    background: linear-gradient(135deg, var(--primary), var(--accent-violet)); color: #fff; padding: 12px; border-radius: var(--radius-sm);
+    font-family: var(--font-heading); font-size: 0.85rem; font-weight: 700; transition: all 0.2s ease; display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
+  }
+  .preview-btn:hover { opacity: 0.92; transform: translateY(-2px); }
+
+  /* Process Steps */
+  .process-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+  .process-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 24px; }
+  .process-step { font-family: var(--font-mono); font-size: 0.72rem; color: var(--accent-cyan); margin-bottom: 8px; }
+  .process-card h4 { font-size: 1.1rem; margin-bottom: 8px; }
+  .process-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
+
+  /* Showcase Modal */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(3, 5, 12, 0.92); backdrop-filter: blur(16px);
+    z-index: 2000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+  }
+  .modal-overlay.active { opacity: 1; pointer-events: auto; }
+  .modal-container {
+    width: 92vw; max-width: 1100px; height: 86vh; display: flex; flex-direction: column;
+    background: #080d19; border: 1px solid var(--border-hover); border-radius: var(--radius-lg);
+    box-shadow: 0 40px 100px rgba(0,0,0,0.9); overflow: hidden; transform: scale(0.97); transition: transform 0.3s var(--ease-out);
+  }
+  .modal-overlay.active .modal-container { transform: scale(1); }
+  .close-modal {
+    position: absolute; top: 16px; right: 20px; z-index: 50; background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border); color: #fff; font-family: var(--font-mono); font-size: 0.75rem;
+    padding: 6px 14px; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s ease;
+  }
+  .close-modal:hover { border-color: var(--accent-cyan); background: rgba(6, 182, 212, 0.15); }
+
+  .slideshow-wrapper { flex: 1; width: 100%; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .slide-track { width: 100%; height: 100%; position: relative; }
+  .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.3s ease; display: flex; align-items: center; justify-content: center; padding: 20px 60px; pointer-events: none; }
+  .slide.active { opacity: 1; pointer-events: auto; }
+
+  .browser-mockup {
+    width: 100%; max-width: 860px; height: 100%; background: #0c1222; border-radius: var(--radius-md);
+    border: 1px solid var(--border); display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+  }
+  .browser-header { background: rgba(255, 255, 255, 0.03); height: 40px; display: flex; align-items: center; padding: 0 16px; border-bottom: 1px solid var(--border); position: relative; }
+  .browser-dots { display: flex; gap: 6px; }
+  .browser-dots span { width: 8px; height: 8px; border-radius: 50%; }
+  .browser-dots .r { background: #FF5F56; } .browser-dots .y { background: #FFBD2E; } .browser-dots .g { background: #27C93F; }
+  .browser-url-bar { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); background: rgba(0,0,0,0.4); width: 50%; height: 22px; border-radius: 4px; color: var(--text-dim); font-size: 0.7rem; display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); }
+  .browser-screen { flex: 1; background: #030610; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+  .browser-screen img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+  .slide-nav {
+    position: absolute; top: 50%; transform: translateY(-50%); background: rgba(11, 15, 25, 0.85);
+    border: 1px solid var(--border); color: #fff; width: 44px; height: 44px; border-radius: 50%;
+    cursor: pointer; z-index: 30; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease;
+  }
+  .slide-nav:hover { border-color: var(--accent-cyan); background: rgba(6, 182, 212, 0.2); }
+  .slide-nav.prev { left: 16px; } .slide-nav.next { right: 16px; }
+
+  .slideshow-footer { background: #060a14; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); }
+  .slide-caption h5 { font-size: 1.05rem; color: #fff; }
+  .slide-caption p { font-size: 0.82rem; color: var(--text-muted); }
+  .slide-counter { font-family: var(--font-mono); font-size: 0.78rem; color: var(--accent-cyan); border: 1px solid rgba(6, 182, 212, 0.3); background: rgba(6, 182, 212, 0.08); padding: 4px 10px; border-radius: 4px; }
+
+  footer { margin-top: 80px; padding-top: 32px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; color: var(--text-dim); }
 </style>
 </head>
 <body>
 
 <div class="progress" id="progress"></div>
-<div class="bg-fx"><div class="grid-lines"></div><div class="scanline"></div></div>
+<div class="bg-fx"><div class="bg-glow-1"></div><div class="grid-pattern"></div></div>
 
-<div class="panel">
+<!-- GLOBAL QUBIX NAVBAR -->
+<header class="q-navbar">
+  <div class="q-nav-container">
+    <a href="index.html" class="q-brand">
+      <div class="q-logo-symbol" style="width:28px;height:28px;">
+        <svg viewBox="0 0 32 32" fill="none">
+          <path d="M16 2L2 9V23L16 30L30 23V9L16 2Z" stroke="url(#nav-grad)" stroke-width="2.5"/>
+          <defs><linearGradient id="nav-grad" x1="2" y1="2" x2="30" y2="30"><stop stop-color="#6366F1"/><stop offset="1" stop-color="#06B6D4"/></linearGradient></defs>
+        </svg>
+      </div>
+      <span class="q-brand-name">QUBIX <span class="q-brand-tag">DEV</span></span>
+    </a>
+
+    <nav class="q-nav-links">
+      <a href="index.html" class="q-nav-link">Overview</a>
+      <a href="WebDevelopment.html" class="q-nav-link active">Web Dev</a>
+      <a href="Wordpress.html" class="q-nav-link">WordPress</a>
+      <a href="Shopify.html" class="q-nav-link">Shopify</a>
+      <a href="SocialMedia.html" class="q-nav-link">Social Growth</a>
+      <a href="CallAgent.html" class="q-nav-link">AI Call Agent</a>
+    </nav>
+
+    <div class="q-nav-actions">
+      <button type="button" class="q-btn-primary" onclick="window.location.href='index.html#services'">
+        <span>View All Services</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
   <a href="index.html" class="back-btn">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-    Back to Services
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    <span>Return to System Portal</span>
   </a>
 
-  <div class="header">
-    <img class="logo-mark" src="https://pyraminx.co/images/site-logo.png" alt="Pyramix logo" />
-    <span class="eyebrow mono">MOD.01 — FULL-STACK ENGINEERING</span>
-    <h2 class="company-name">Web Development <span class="accent">Solutions</span></h2>
-    <p class="tagline">Custom-built web applications, engineered from database to browser for speed, scale, and long-term ownership.</p>
+  <header class="hero-header">
+    <span class="mod-pill">MOD.01 — FULL-STACK ARCHITECTURE</span>
+    <h1 class="hero-title">Custom Web Engineering</h1>
+    <p class="hero-sub">Production-grade web applications engineered from database to browser for maximum speed, security, and long-term ownership.</p>
+  </header>
+
+  <div class="pitch-box">
+    <h3 class="pitch-title">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      One Engineering Team, the Entire Stack
+    </h3>
+    <p class="pitch-desc">We design and build production-grade web applications end to end — React and Next.js on the front, Node.js with PostgreSQL or MongoDB underneath, plus real-time features, custom AI-powered assistants, and clean REST or GraphQL APIs. No page builders, no templated shortcuts — every line is written specifically for your business.</p>
   </div>
 
-  <div class="wp-pitch-card">
-    <h3>One Team, the Entire Stack</h3>
-    <p>We design and build production-grade web applications end to end — React and Next.js on the front, Node.js with PostgreSQL or MongoDB underneath, plus real-time features, custom AI-powered chat assistants, and clean REST or GraphQL APIs tying it all together. No page builders, no templated shortcuts — every line is written for your product, and the finished codebase is yours to keep.</p>
-  </div>
-
-  <div class="build-demo">
-    <div class="header" style="margin-bottom:24px;">
-      <h3 class="section-title">Real Code, Not Templates</h3>
-      <p class="section-sub">Watch a component get written — then see what it becomes.</p>
+  <!-- Interactive Typewriter Code Demo -->
+  <section class="demo-section">
+    <div style="text-align: center; margin-bottom: 24px;">
+      <h3 style="font-size: 1.5rem; margin-bottom: 6px;">Live Code Compiler Simulation</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">Watch a component compile in real time into an active UI element.</p>
     </div>
+
     <div class="demo-grid">
       <div class="code-window">
         <div class="demo-header">
@@ -407,11 +428,12 @@
         </div>
         <div class="code-body" id="codeBody"></div>
       </div>
+
       <div class="render-window">
         <div class="demo-header">
           <div class="demo-dots"><span class="r"></span><span class="y"></span><span class="g"></span></div>
           <span class="demo-filename">localhost:3000</span>
-          <span class="render-badge" id="renderBadge"><span class="b-dot"></span>COMPILED</span>
+          <span class="render-badge" id="renderBadge">LIVE COMPILED</span>
         </div>
         <div class="render-body">
           <div class="mini-card" id="miniCard">
@@ -423,179 +445,187 @@
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <div class="stack-section">
-    <div class="header" style="margin-bottom:24px;">
-      <h3 class="section-title">Our Stack</h3>
-      <p class="section-sub">The tools we reach for, grouped by what they do.</p>
+  <!-- Tech Stack Grid -->
+  <section class="stack-section">
+    <div style="margin-bottom: 24px;">
+      <h3 style="font-size: 1.5rem; margin-bottom: 6px;">Technology Stack</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">The frameworks and databases we use to build high-performance software.</p>
     </div>
 
     <div class="stack-groups">
       <div>
-        <div class="stack-group-label">Frontend</div>
+        <div class="stack-group-label">FRONTEND ENGINEERING</div>
         <div class="stack-pills">
-          <span class="stack-pill"><span class="dot" style="color:#61dafb;background:#61dafb;"></span>React JS</span>
-          <span class="stack-pill"><span class="dot" style="color:#fff;background:#fff;"></span>Next.js</span>
-          <span class="stack-pill"><span class="dot" style="color:#e34f26;background:#e34f26;"></span>HTML5</span>
-          <span class="stack-pill"><span class="dot" style="color:#2965f1;background:#2965f1;"></span>CSS3</span>
-          <span class="stack-pill"><span class="dot" style="color:#f7df1e;background:#f7df1e;"></span>JavaScript</span>
-          <span class="stack-pill"><span class="dot" style="color:#3178c6;background:#3178c6;"></span>TypeScript</span>
-          <span class="stack-pill"><span class="dot" style="color:#38bdf8;background:#38bdf8;"></span>Tailwind CSS</span>
+          <span class="stack-pill"><span class="dot" style="background:#61dafb;"></span>React JS</span>
+          <span class="stack-pill"><span class="dot" style="background:#fff;"></span>Next.js</span>
+          <span class="stack-pill"><span class="dot" style="background:#e34f26;"></span>HTML5</span>
+          <span class="stack-pill"><span class="dot" style="background:#2965f1;"></span>CSS3</span>
+          <span class="stack-pill"><span class="dot" style="background:#f7df1e;"></span>JavaScript</span>
+          <span class="stack-pill"><span class="dot" style="background:#3178c6;"></span>TypeScript</span>
+          <span class="stack-pill"><span class="dot" style="background:#38bdf8;"></span>Tailwind CSS</span>
         </div>
       </div>
 
       <div>
-        <div class="stack-group-label">Backend &amp; APIs</div>
+        <div class="stack-group-label">BACKEND &amp; API INFRASTRUCTURE</div>
         <div class="stack-pills">
-          <span class="stack-pill"><span class="dot" style="color:#3c873a;background:#3c873a;"></span>Node.js</span>
-          <span class="stack-pill"><span class="dot" style="color:#e0e0e0;background:#e0e0e0;"></span>Express.js</span>
-          <span class="stack-pill"><span class="dot" style="color:#e10098;background:#e10098;"></span>GraphQL</span>
-          <span class="stack-pill"><span class="dot" style="color:#b685ff;background:#b685ff;"></span>REST APIs</span>
-          <span class="stack-pill"><span class="dot" style="color:#f2c94c;background:#f2c94c;"></span>Custom Chatbots</span>
-          <span class="stack-pill"><span class="dot" style="color:#e02bbb;background:#e02bbb;"></span>WebSockets</span>
+          <span class="stack-pill"><span class="dot" style="background:#3c873a;"></span>Node.js</span>
+          <span class="stack-pill"><span class="dot" style="background:#e0e0e0;"></span>Express.js</span>
+          <span class="stack-pill"><span class="dot" style="background:#e10098;"></span>GraphQL</span>
+          <span class="stack-pill"><span class="dot" style="background:#6366f1;"></span>REST APIs</span>
+          <span class="stack-pill"><span class="dot" style="background:#f2c94c;"></span>Custom AI Assistants</span>
+          <span class="stack-pill"><span class="dot" style="background:#e02bbb;"></span>WebSockets</span>
         </div>
       </div>
 
       <div>
-        <div class="stack-group-label">Data &amp; Infrastructure</div>
+        <div class="stack-group-label">DATA &amp; DEPLOYMENT</div>
         <div class="stack-pills">
-          <span class="stack-pill"><span class="dot" style="color:#4ea94b;background:#4ea94b;"></span>MongoDB</span>
-          <span class="stack-pill"><span class="dot" style="color:#336791;background:#336791;"></span>PostgreSQL</span>
-          <span class="stack-pill"><span class="dot" style="color:#dc382d;background:#dc382d;"></span>Redis</span>
-          <span class="stack-pill"><span class="dot" style="color:#2496ed;background:#2496ed;"></span>Docker</span>
-          <span class="stack-pill"><span class="dot" style="color:#ff9900;background:#ff9900;"></span>AWS</span>
-          <span class="stack-pill"><span class="dot" style="color:#f24e1e;background:#f24e1e;"></span>CI / CD</span>
+          <span class="stack-pill"><span class="dot" style="background:#4ea94b;"></span>MongoDB</span>
+          <span class="stack-pill"><span class="dot" style="background:#336791;"></span>PostgreSQL</span>
+          <span class="stack-pill"><span class="dot" style="background:#dc382d;"></span>Redis</span>
+          <span class="stack-pill"><span class="dot" style="background:#2496ed;"></span>Docker</span>
+          <span class="stack-pill"><span class="dot" style="background:#ff9900;"></span>AWS</span>
+          <span class="stack-pill"><span class="dot" style="background:#10b981;"></span>Vercel</span>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <div class="header" style="margin-bottom:24px;">
-    <h3 class="section-title">Selected Production Cases</h3>
-    <p class="section-sub">Hover or tap any card to flip it and see the stack behind the build.</p>
-  </div>
+  <!-- Portfolio Flip Cards Grid -->
+  <section class="portfolio-section">
+    <div style="margin-bottom: 24px;">
+      <h3 style="font-size: 1.5rem; margin-bottom: 6px;">Production Case Studies</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">Hover or tap cards to inspect architecture and launch live visual preview.</p>
+    </div>
 
-  <div class="portfolio-grid">
-
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="card-front">
-          <div class="card-img-wrapper">
-            <img src="picture/pexels-yousefsammm-16093243.jpg" alt="SaaS dashboard interface" loading="lazy">
-          </div>
-          <div class="card-title-bar">Cartinix — Storefront</div>
-        </div>
-        <div class="card-back">
-          <div class="card-back-content">
-            <h4>Cartinix — Storefront</h4>
-            <p>A real-time e-commerce watch store with a fast, responsive browsing experience, live inventory, and a streamlined checkout built for conversion.</p>
-            <div class="tech-tags">
-              <span>React</span><span>Node.js</span><span>PostgreSQL</span><span>REST API</span>
+    <div class="portfolio-grid">
+      
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="card-front">
+            <div class="card-img-wrapper">
+              <img src="picture/pexels-yousefsammm-16093243.jpg" alt="Cartinix Storefront" loading="lazy">
             </div>
+            <div class="card-title-bar">Cartinix — Storefront</div>
           </div>
-          <button class="preview-btn" onclick="openShowcase('northline', 'https://northline.app')">
-            Launch Showcase Engine
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="card-front">
-          <div class="card-img-wrapper">
-            <img src="picture/pexels-czapp-arpad-3647289-10321027.jpg" alt="E-commerce storefront interface" loading="lazy">
-          </div>
-          <div class="card-title-bar">Cartinix — Admin Panel</div>
-        </div>
-        <div class="card-back">
-          <div class="card-back-content">
-            <h4>Cartinix — Admin Panel</h4>
-            <p>The operations backbone behind Cartinix: order tracking, inventory control, and sales insights in one clean, role-based dashboard.</p>
-            <div class="tech-tags">
-              <span>Next.js</span><span>MongoDB</span><span>REST API</span><span>Dashboard</span>
+          <div class="card-back">
+            <div>
+              <h4>Cartinix — Storefront</h4>
+              <p>A real-time e-commerce watch store with a fast, responsive browsing experience, live inventory, and a streamlined checkout built for conversion.</p>
+              <div class="tech-tags">
+                <span>React</span><span>Node.js</span><span>PostgreSQL</span><span>REST API</span>
+              </div>
             </div>
+            <button class="preview-btn" onclick="openShowcase('northline', 'https://cartinix.store')">
+              <span>Launch Live Preview</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
           </div>
-          <button class="preview-btn" onclick="openShowcase('havenwear', 'https://havenwear.com')">
-            Launch Showcase Engine
-          </button>
         </div>
       </div>
-    </div>
 
-    <div class="flip-card">
-      <div class="flip-card-inner">
-        <div class="card-front">
-          <div class="card-img-wrapper">
-            <img src="picture/pexels-apollonia-363024912-29279567.jpg" alt="Support chat application interface" loading="lazy">
-          </div>
-          <div class="card-title-bar">Portfolio Website</div>
-        </div>
-        <div class="card-back">
-          <div class="card-back-content">
-            <h4>Portfolio Website</h4>
-            <p>A polished, fast-loading personal portfolio site — clean layout, smooth navigation, and a design built to make a strong first impression.</p>
-            <div class="tech-tags">
-              <span>TypeScript</span><span>HTML5</span><span>CSS3</span><span>Responsive</span>
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="card-front">
+            <div class="card-img-wrapper">
+              <img src="picture/pexels-czapp-arpad-3647289-10321027.jpg" alt="Cartinix Admin Panel" loading="lazy">
             </div>
+            <div class="card-title-bar">Cartinix — Admin Dashboard</div>
           </div>
-          <button class="preview-btn" onclick="openShowcase('relay', 'https://relaysupport.io')">
-            Launch Showcase Engine
-          </button>
+          <div class="card-back">
+            <div>
+              <h4>Cartinix — Admin Panel</h4>
+              <p>The operations backbone behind Cartinix: order tracking, inventory control, and sales insights in one clean, role-based dashboard.</p>
+              <div class="tech-tags">
+                <span>Next.js</span><span>MongoDB</span><span>REST API</span><span>Dashboard</span>
+              </div>
+            </div>
+            <button class="preview-btn" onclick="openShowcase('havenwear', 'https://admin.cartinix.store')">
+              <span>Launch Live Preview</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
         </div>
       </div>
+
+      <div class="flip-card">
+        <div class="flip-card-inner">
+          <div class="card-front">
+            <div class="card-img-wrapper">
+              <img src="picture/pexels-apollonia-363024912-29279567.jpg" alt="Portfolio Website" loading="lazy">
+            </div>
+            <div class="card-title-bar">Portfolio Engine</div>
+          </div>
+          <div class="card-back">
+            <div>
+              <h4>Portfolio Platform</h4>
+              <p>A polished, fast-loading digital portfolio site — clean layout, smooth navigation, and a modern technical foundation built to impress.</p>
+              <div class="tech-tags">
+                <span>TypeScript</span><span>HTML5</span><span>CSS3</span><span>Responsive</span>
+              </div>
+            </div>
+            <button class="preview-btn" onclick="openShowcase('relay', 'https://qubix.studio')">
+              <span>Launch Live Preview</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Process Section -->
+  <section style="margin-bottom: 50px;">
+    <div style="margin-bottom: 24px;">
+      <h3 style="font-size: 1.5rem; margin-bottom: 6px;">Engineering Process</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">How we ship production code on schedule.</p>
     </div>
 
-  </div>
-
-  <div class="process-section">
-    <div class="header" style="margin-bottom:24px;">
-      <h3 class="section-title">How We Build</h3>
-      <p class="section-sub">The same process behind every engagement, regardless of stack.</p>
-    </div>
     <div class="process-grid">
       <div class="process-card">
-        <div class="process-step">01 — DISCOVERY</div>
-        <h4>Map the system</h4>
-        <p>We scope data models, integrations, and user flows before writing a single line of code.</p>
+        <div class="process-step">01 // DISCOVERY</div>
+        <h4>Map System Models</h4>
+        <p>We scope data models, integrations, and user flows before writing code.</p>
       </div>
       <div class="process-card">
-        <div class="process-step">02 — ARCHITECTURE</div>
-        <h4>Design for scale</h4>
-        <p>API contracts, database schema, and infrastructure choices are made deliberately, never by default.</p>
+        <div class="process-step">02 // ARCHITECTURE</div>
+        <h4>Design for Scale</h4>
+        <p>API contracts, database schema, and infrastructure choices are made deliberately.</p>
       </div>
       <div class="process-card">
-        <div class="process-step">03 — BUILD</div>
-        <h4>Ship in increments</h4>
-        <p>Working software every sprint, reviewed against real usage — not one big reveal at the end.</p>
+        <div class="process-step">03 // ITERATION</div>
+        <h4>Incremental Ships</h4>
+        <p>Working software delivered every sprint, tested against real benchmarks.</p>
       </div>
       <div class="process-card">
-        <div class="process-step">04 — HANDOFF</div>
-        <h4>You own the code</h4>
-        <p>Documented, tested, and deployed to infrastructure you control — with zero vendor lock-in.</p>
+        <div class="process-step">04 // HANDOFF</div>
+        <h4>100% Code Ownership</h4>
+        <p>Documented, tested, and deployed to your own infrastructure with zero lock-in.</p>
       </div>
     </div>
-  </div>
+  </section>
 
   <footer>
-    <div class="footer-brand">
-      <img src="https://pyraminx.co/images/site-logo.png" alt="Pyramix logo" style="height:22px;width:auto;" />
-      <span class="mono">© 2026 PYRAMIX — EVERY LAYER BUILT IN-HOUSE</span>
-    </div>
+    <span class="mono">&copy; 2026 QUBIX STUDIO — ALL CODE BUILT IN-HOUSE</span>
+    <a href="index.html" style="color: var(--accent-cyan);">Back to Overview &rarr;</a>
   </footer>
 </div>
 
+<!-- Lightbox Slideshow Modal -->
 <div class="modal-overlay" id="slideshow-modal">
   <div class="modal-container">
     <button class="close-modal" onclick="closeShowcase()">✕ Close</button>
 
     <div class="slideshow-wrapper">
       <button class="slide-nav prev" onclick="changeSlide(-1)">
-        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
       <button class="slide-nav next" onclick="changeSlide(1)">
-        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
       </button>
 
       <div class="slide-track" id="slide-track"></div>
@@ -603,25 +633,19 @@
 
     <div class="slideshow-footer">
       <div class="slide-caption">
-        <h5 id="modal-title">Project Title</h5>
-        <p id="modal-desc">Interactive production scroll mode active.</p>
+        <h5 id="modal-title">Project Preview</h5>
+        <p id="modal-desc">Interactive production scroll mode.</p>
       </div>
-      <div class="slide-counter mono" id="modal-counter">1 / 2</div>
+      <div class="slide-counter" id="modal-counter">1 / 10</div>
     </div>
   </div>
 </div>
 
 <script>
-  // Scroll progress bar, throttled with requestAnimationFrame
   const bar = document.getElementById('progress');
-  let ticking = false;
-  function updateProgress(){
+  window.addEventListener('scroll', () => {
     const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
-    ticking = false;
-  }
-  window.addEventListener('scroll', () => {
-    if (!ticking){ requestAnimationFrame(updateProgress); ticking = true; }
   }, { passive: true });
 
   const projectsData = {
@@ -681,7 +705,6 @@
     currentProject.images.forEach((imgUrl, idx) => {
       const slide = document.createElement('div');
       slide.className = `slide ${idx === 0 ? 'active' : ''}`;
-
       slide.innerHTML = `
         <div class="browser-mockup">
           <div class="browser-header">
@@ -732,9 +755,7 @@
     if (e.key === 'Escape') closeShowcase();
   });
 
-  // Tap-to-flip: hover doesn't exist on touch devices, so a tap toggles
-  // the flip instead. Taps on the "Launch Showcase Engine" button still
-  // trigger its own action rather than re-flipping the card.
+  // Touch flip cards
   document.querySelectorAll('.flip-card').forEach(card => {
     card.addEventListener('click', function(e){
       if (e.target.closest('.preview-btn')) return;
@@ -742,7 +763,7 @@
     });
   });
 
-  // ── Live build demo: types the component code, then reveals the rendered result ──
+  // Typewriter compiler simulation
   (function(){
     const codeLines = [
       { t: 'kw', v: 'function ' }, { t: 'fn', v: 'ProductCard' }, { t: 'plain', v: '({ ' },
@@ -790,20 +811,13 @@
     const io = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting){
-          if (window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-            let full = '';
-            codeLines.forEach(seg => { full += `<span class="${cls[seg.t]}">${escapeHtml(seg.v)}</span>`; });
-            codeBody.innerHTML = full;
-            miniCard.classList.add('show');
-            renderBadge.classList.add('show');
-          } else {
-            setTimeout(typeStep, 300);
-          }
-          io.disconnect();
+          setTimeout(typeStep, 300);
+          io.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.3 });
-    io.observe(codeBody);
+    }, { threshold: 0.1 });
+
+    io.observe(document.querySelector('.demo-section'));
   })();
 </script>
 </body>

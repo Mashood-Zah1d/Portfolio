@@ -3,452 +3,404 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Pyramix AI Call Agent — voice automation built on n8n, built in-house.">
-<title>AI Call Agent Automation — Pyramix</title>
+<meta name="description" content="Qubix AI Voice Agent — Autonomous 24/7 call automation, calendar booking, and n8n workflow integration.">
+<title>AI Voice Call Agent — Qubix Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=JetBrains+Mono:wght@500;700&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#0B0614;
-    --line:rgba(255,255,255,0.09);
-    --line-hover:rgba(178,110,255,0.6);
-    --text:#F3EEFB;
-    --muted:#9A8FB5;
-    --p1:#7A2FC9;
-    --p2:#C026A3;
-    --p3:#B685FF;
-    --call:#ff6d5a;
-  }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{ background:var(--bg); color:var(--text); font-family:'Manrope',sans-serif; min-height:100vh; overflow-x:hidden; position:relative; }
-  h1,h2,h3,h4,h5{font-family:'Space Grotesk',sans-serif;}
-  .mono{ font-family:'JetBrains Mono',monospace; }
-  ::selection{ background:var(--p1); color:#fff; }
-  a{ color:inherit; }
-  button{ font:inherit; color:inherit; background:none; border:none; }
-  img{ max-width:100%; }
-
-  .bg-fx{ position:fixed; inset:0; z-index:-2; overflow:hidden; }
-  .grid-lines{
-    position:absolute; inset:-1px;
-    background-image:
-      linear-gradient(rgba(182,133,255,0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(182,133,255,0.05) 1px, transparent 1px);
-    background-size:44px 44px;
-    mask-image:radial-gradient(ellipse 70% 60% at 50% 0%, #000 40%, transparent 100%);
-  }
-  .scanline{
-    position:absolute; left:0; right:0; height:120px; top:-120px;
-    background:linear-gradient(180deg, transparent, rgba(182,133,255,0.08), transparent);
-    animation:scan 9s linear infinite;
-  }
-  @keyframes scan{ 0%{ top:-120px; } 100%{ top:100%; } }
-
-  .wrap{ max-width:1080px; margin:0 auto; padding:clamp(28px,6vw,72px) 20px 48px; position:relative; z-index:2; }
-
-  .back-btn{
-    display:inline-flex; align-items:center; gap:9px;
-    border:1px solid var(--line); padding:9px 18px;
-    font-size:0.78rem; color:var(--muted); text-decoration:none;
-    background:rgba(255,255,255,0.02); margin-bottom:36px;
-    transition:border-color .2s ease, color .2s ease, transform .2s ease;
-  }
-  .back-btn svg{ width:13px; height:13px; flex-shrink:0; }
-  .back-btn:hover{ border-color:var(--line-hover); color:#fff; transform:translateX(-3px); }
-
-  .header{ display:flex; flex-direction:column; align-items:center; text-align:center; margin-bottom:40px; opacity:0; animation:heroIn .6s cubic-bezier(.16,1,.3,1) .05s forwards; }
-  @keyframes heroIn{ from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:translateY(0); } }
-
-  .logo-mark{ height:50px; width:auto; max-width:220px; margin-bottom:24px; object-fit:contain; }
-
-  .eyebrow{ display:inline-flex; align-items:center; gap:9px; font-size:0.72rem; letter-spacing:1.5px; color:var(--call); margin-bottom:18px; border:1px solid rgba(255,109,90,0.3); padding:6px 14px; background:rgba(255,109,90,0.05); text-align:center; }
-  .eyebrow .pulse-dot{ width:6px; height:6px; background:var(--call); display:inline-block; border-radius:50%; animation:blink 1.4s ease-in-out infinite; flex-shrink:0; }
-  @keyframes blink{ 0%,100%{ opacity:1; } 50%{ opacity:0.25; } }
-
-  .section-title{ font-size:clamp(1.6rem, 5vw, 2.6rem); font-weight:700; letter-spacing:-0.5px; margin-bottom:12px; line-height:1.15; }
-  .section-title .accent{ color:var(--p3); }
-  .section-sub{ color:var(--muted); font-size:0.98rem; max-width:560px; margin:0 auto 24px; line-height:1.6; }
-
-  .pitch-module{
-    position:relative;
-    border:1px solid var(--line); border-radius:3px;
-    background:linear-gradient(160deg, rgba(255,255,255,0.035), rgba(255,255,255,0.008));
-    padding:32px clamp(20px,4vw,44px);
-    text-align:center; margin-bottom:52px;
-  }
-  .pitch-module h3{ font-size:clamp(1.25rem,4vw,1.5rem); font-weight:700; margin-bottom:12px; letter-spacing:-0.3px; }
-  .pitch-module h3 .accent{ color:var(--p3); }
-  .pitch-module p{ color:var(--muted); font-size:0.94rem; line-height:1.7; max-width:760px; margin:0 auto; }
-
-  .sub-header{ margin-bottom:28px; }
-  .sub-header .section-title{ font-size:clamp(1.4rem, 4.5vw, 2rem); }
-
-  /* ── win strip ── */
-  .win-strip{ display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:14px; margin-bottom:60px; }
-  .win-card{
-    position:relative; border:1px solid var(--line); border-radius:3px;
-    background:linear-gradient(160deg, rgba(255,255,255,0.035), rgba(255,255,255,0.008));
-    padding:20px 18px; display:flex; align-items:flex-start; gap:14px;
-    transition:border-color .25s ease, transform .25s ease;
-  }
-  .win-card:hover{ border-color:var(--line-hover); transform:translateY(-3px); }
-  .win-icon{
-    flex-shrink:0; width:38px; height:38px; border:1px solid var(--line-hover);
-    display:flex; align-items:center; justify-content:center;
-  }
-  .win-icon svg{ width:18px; height:18px; stroke:var(--p3); fill:none; stroke-width:2; }
-  .win-card h4{ font-size:0.95rem; color:#fff; margin-bottom:4px; }
-  .win-card p{ font-size:0.82rem; color:var(--muted); line-height:1.5; }
-
-  /* ── flow steps ── */
-  .flow-section{ margin-bottom:60px; }
-  .flow-steps{ display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:14px; }
-  .flow-step{
-    position:relative; border:1px solid var(--line); border-radius:3px;
-    background:linear-gradient(160deg, rgba(255,255,255,0.035), rgba(255,255,255,0.008));
-    padding:22px 18px;
-    transition:border-color .25s ease, transform .25s ease;
-  }
-  .flow-step:hover{ border-color:var(--line-hover); transform:translateY(-3px); }
-  .flow-step .flow-num{
-    width:26px; height:26px; display:flex; align-items:center; justify-content:center;
-    background:linear-gradient(120deg, var(--p1), var(--p2)); color:#fff;
-    font-family:'JetBrains Mono',monospace; font-weight:700; font-size:0.78rem;
-    margin-bottom:14px;
-  }
-  .flow-step h4{ font-size:0.95rem; color:#fff; margin-bottom:6px; }
-  .flow-step p{ font-size:0.82rem; color:var(--muted); line-height:1.5; }
-
-  /* ── showcase panels ── */
-  .showcase-section{ margin-bottom:60px; }
-  .showcase-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:18px; }
-  .showcase-panel{
-    position:relative;
-    border:1px solid var(--line); border-radius:3px; overflow:hidden; cursor:pointer;
-    background:linear-gradient(160deg, rgba(255,255,255,0.03), rgba(255,255,255,0.008));
-    transition:border-color .3s ease, transform .3s ease, box-shadow .3s ease;
-  }
-  .showcase-panel:hover{ transform:translateY(-4px); border-color:var(--line-hover); box-shadow:0 16px 30px -18px rgba(122,47,201,0.55); }
-  .showcase-panel:hover .corner{ opacity:1; }
-  .showcase-img-wrap{ width:100%; height:240px; overflow:hidden; position:relative; background:#05020a; }
-  .showcase-img-wrap::after{ content:''; position:absolute; inset:0; background:linear-gradient(to bottom, transparent 55%, rgba(11,6,20,1) 100%); z-index:1; }
-  .showcase-img-wrap img{ width:100%; height:100%; object-fit:cover; object-position:center; transition:transform .6s ease; }
-  .showcase-panel:hover .showcase-img-wrap img{ transform:scale(1.05); }
-
-  .showcase-tag{
-    position:absolute; top:14px; left:14px; z-index:2;
-    font-family:'JetBrains Mono',monospace; font-size:0.62rem; font-weight:700; letter-spacing:1px; text-transform:uppercase;
-    color:var(--bg); background:var(--p3); padding:4px 10px;
-  }
-  .showcase-body{ padding:20px 22px 24px; }
-  .showcase-body h4{ font-size:1.1rem; color:#fff; margin-bottom:8px; }
-  .showcase-body p{ font-size:0.86rem; color:var(--muted); line-height:1.6; margin-bottom:14px; }
-  .showcase-expand{ display:inline-flex; align-items:center; gap:8px; font-size:0.8rem; font-weight:700; color:var(--p3); flex-wrap:wrap; }
-  .showcase-expand svg{ width:13px; height:13px; stroke:currentColor; fill:none; stroke-width:2.5; flex-shrink:0; }
-
-  /* ── use case grid ── */
-  .usecase-section{ margin-bottom:60px; }
-  .usecase-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:12px; }
-  .usecase-pill{
-    border:1px solid var(--line); border-radius:3px;
-    background:linear-gradient(160deg, rgba(255,255,255,0.03), rgba(255,255,255,0.008));
-    padding:18px 14px; text-align:center; transition:all .25s ease;
-  }
-  .usecase-pill:hover{ border-color:var(--line-hover); transform:translateY(-3px); }
-  .usecase-pill .uc-emoji{ font-size:1.4rem; margin-bottom:8px; display:block; }
-  .usecase-pill span.uc-label{ font-size:0.82rem; font-weight:600; color:var(--text); }
-
-  /* ── stack pills ── */
-  .stack-section{ margin-bottom:60px; }
-  .stack-pills{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
-  .stack-pill{
-    display:inline-flex; align-items:center; gap:9px;
-    border:1px solid var(--line); background:rgba(255,255,255,0.02);
-    padding:9px 16px; font-size:0.84rem; font-weight:600; color:var(--text);
-    transition:all .25s ease;
-  }
-  .stack-pill:hover{ border-color:var(--line-hover); transform:translateY(-3px); }
-  .stack-pill .dot{ width:7px; height:7px; border-radius:50%; flex-shrink:0; box-shadow:0 0 8px currentColor; }
-
-  /* ── process grid ── */
-  .process-section{ margin-bottom:20px; }
-  .process-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:16px; }
-  .process-card{ border:1px solid var(--line); border-radius:3px; background:linear-gradient(160deg, rgba(255,255,255,0.035), rgba(255,255,255,0.008)); padding:22px; transition:border-color .25s ease, transform .25s ease; }
-  .process-card:hover{ border-color:var(--line-hover); transform:translateY(-3px); }
-  .process-step{ font-family:'JetBrains Mono',monospace; font-size:0.68rem; letter-spacing:2px; font-weight:700; color:var(--p3); margin-bottom:10px; }
-  .process-card h4{ font-size:1rem; margin-bottom:8px; color:#fff; }
-  .process-card p{ font-size:0.85rem; color:var(--muted); line-height:1.55; }
-
-  /* ── cta ── */
-  .cta-strip{
-    margin-top:55px; text-align:center; padding:34px 26px;
-    border:1px solid rgba(255,109,90,0.25);
-    background:linear-gradient(135deg, rgba(255,109,90,0.08), rgba(122,47,201,0.1));
-  }
-  .cta-strip h3{ font-size:clamp(1.15rem,4vw,1.35rem); margin-bottom:10px; color:#fff; }
-  .cta-strip p{ color:var(--muted); font-size:0.92rem; max-width:520px; margin:0 auto; }
-
-  /* ── lightbox modal ── */
-  .modal-overlay{
-    position:fixed; inset:0; background:rgba(4,2,9,0.96); z-index:1000;
-    display:flex; align-items:center; justify-content:center;
-    opacity:0; pointer-events:none; transition:opacity 0.4s ease;
-    backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
-  }
-  .modal-overlay.active{ opacity:1; pointer-events:auto; }
-  .modal-container{
-    width:92vw; max-width:1100px; height:86vh;
-    display:flex; flex-direction:column; position:relative;
-    background:#0B0614; border:1px solid var(--line); border-radius:6px;
-    box-shadow:0 60px 140px rgba(0,0,0,0.9), 0 0 100px rgba(122,47,201,0.15);
-    overflow:hidden; transform:scale(0.96); opacity:0;
-    transition:transform 0.45s cubic-bezier(0.16,1,0.3,1), opacity 0.35s ease;
-  }
-  .modal-overlay.active .modal-container{ transform:scale(1); opacity:1; }
-  .close-modal{
-    position:absolute; top:14px; right:18px;
-    background:rgba(255,255,255,0.04); border:1px solid var(--line);
-    color:#fff; font-family:'JetBrains Mono',monospace; font-size:0.7rem; font-weight:700;
-    padding:8px 16px; text-transform:uppercase; letter-spacing:1px;
-    cursor:pointer; z-index:50; transition:all 0.25s ease;
-  }
-  .close-modal:hover{ background:var(--p2); border-color:var(--p2); }
-  .modal-image-wrap{ flex:1; min-height:0; width:100%; background:#040208; display:flex; align-items:center; justify-content:center; overflow:hidden; padding:40px 60px; }
-  .modal-image-wrap img{ max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain; border:1px solid var(--line); box-shadow:0 40px 100px rgba(0,0,0,0.8); }
-  .modal-footer{ background:#0c0718; padding:20px 36px; border-top:1px solid var(--line); }
-  .modal-footer h5{ font-family:'Space Grotesk',sans-serif; font-size:1.15rem; color:#fff; font-weight:700; }
-  .modal-footer p{ font-size:0.86rem; color:var(--muted); margin-top:4px; }
-
-  footer{ margin-top:52px; padding-top:26px; border-top:1px solid var(--line); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:18px; }
-  .footer-brand{ display:flex; align-items:center; gap:12px; }
-  .footer-brand img{ height:24px; width:auto; }
-  .footer-sub{ font-size:0.73rem; color:var(--muted); }
-
-  /* ============ MOBILE RESPONSIVE ============ */
-  @media (max-width:768px){
-    .modal-container{ height:82vh; width:96vw; }
-    .modal-image-wrap{ padding:16px; }
-    .modal-footer{ padding:16px 20px; }
+  :root {
+    --bg-dark: #050811;
+    --bg-surface: #0b0f19;
+    --bg-card: rgba(15, 23, 42, 0.6);
+    --bg-card-hover: rgba(24, 34, 58, 0.85);
+    --border: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(99, 102, 241, 0.35);
+    --border-cyan: rgba(6, 182, 212, 0.4);
+    
+    --text-main: #F8FAFC;
+    --text-muted: #94A3B8;
+    --text-dim: #64748B;
+    
+    --primary: #6366F1;
+    --primary-glow: rgba(99, 102, 241, 0.25);
+    --accent-cyan: #06B6D4;
+    --accent-violet: #8B5CF6;
+    --accent-coral: #FF6D5A;
+    
+    --font-heading: 'Space Grotesk', -apple-system, sans-serif;
+    --font-body: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    
+    --radius-lg: 18px;
+    --radius-md: 12px;
+    --radius-sm: 8px;
+    --radius-full: 9999px;
+    
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  @media (max-width:640px){
-    .wrap{ padding:24px 16px 36px; }
-    .back-btn{ font-size:0.72rem; padding:8px 14px; margin-bottom:24px; }
-    .logo-mark{ height:38px; margin-bottom:18px; }
-    .eyebrow{ font-size:0.66rem; letter-spacing:1px; padding:6px 12px; }
-    .section-sub{ font-size:0.9rem; }
-    .pitch-module{ padding:24px 18px; margin-bottom:40px; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; background-color: var(--bg-dark); }
 
-    .win-strip, .flow-steps, .process-grid, .showcase-grid{
-      grid-template-columns:1fr;
-      margin-bottom:40px;
-    }
-    .flow-section, .showcase-section, .usecase-section, .stack-section{ margin-bottom:40px; }
-
-    .win-card{ padding:16px 14px; }
-    .showcase-img-wrap{ height:190px; }
-    .showcase-body{ padding:16px 18px 20px; }
-
-    .usecase-grid{ grid-template-columns:repeat(2, 1fr); }
-
-    .stack-pills{ gap:8px; }
-    .stack-pill{ padding:8px 13px; font-size:0.78rem; }
-
-    .cta-strip{ padding:26px 18px; margin-top:36px; }
-
-    footer{ flex-direction:column; align-items:flex-start; text-align:left; margin-top:36px; }
+  body {
+    background: var(--bg-dark);
+    color: var(--text-main);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    overflow-x: hidden;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
   }
 
-  @media (max-width:400px){
-    .usecase-grid{ grid-template-columns:1fr 1fr; gap:10px; }
-    .usecase-pill{ padding:14px 10px; }
-    .logo-mark{ height:32px; }
-    .win-card{ flex-direction:column; gap:10px; }
-    .modal-footer h5{ font-size:1rem; }
+  h1, h2, h3, h4, h5 { font-family: var(--font-heading); color: #fff; font-weight: 700; letter-spacing: -0.02em; }
+  .mono { font-family: var(--font-mono); }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+  button:focus-visible, a:focus-visible { outline: 2px solid var(--accent-coral); outline-offset: 3px; }
+
+  /* Background Ambient FX */
+  .bg-fx {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .bg-glow-1 {
+    position: absolute;
+    top: -10%;
+    left: 20%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255, 109, 90, 0.15) 0%, transparent 70%);
+    filter: blur(90px);
+    border-radius: 50%;
+  }
+  .grid-pattern {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 20%, #000 40%, transparent 100%);
   }
 
-  @media (prefers-reduced-motion: reduce){ *{ animation:none !important; transition:none !important; } }
+  .progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent-coral), var(--primary));
+    z-index: 1100;
+  }
+
+  /* Global Navbar */
+  .q-navbar {
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(1140px, calc(100% - 32px));
+    z-index: 1000;
+    background: rgba(11, 15, 25, 0.75);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    padding: 10px 20px;
+  }
+  .q-nav-container { display: flex; align-items: center; justify-content: space-between; }
+  .q-brand { display: flex; align-items: center; gap: 10px; }
+  .q-brand-name { font-family: var(--font-heading); font-weight: 800; font-size: 1.15rem; color: #fff; }
+  .q-brand-tag { font-size: 0.65rem; padding: 2px 6px; background: rgba(255, 109, 90, 0.15); border: 1px solid rgba(255, 109, 90, 0.3); color: var(--accent-coral); border-radius: 4px; font-family: var(--font-mono); }
+  .q-nav-links { display: flex; align-items: center; gap: 24px; }
+  .q-nav-link { font-size: 0.85rem; font-weight: 500; color: var(--text-muted); transition: color 0.2s ease; }
+  .q-nav-link:hover, .q-nav-link.active { color: #fff; }
+  .q-btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: linear-gradient(135deg, var(--accent-coral), var(--primary));
+    color: #fff; font-family: var(--font-heading); font-weight: 600; font-size: 0.85rem;
+    padding: 9px 18px; border-radius: var(--radius-full); transition: all 0.25s var(--ease-out);
+    box-shadow: 0 4px 20px rgba(255, 109, 90, 0.25); border: 1px solid rgba(255,255,255,0.15);
+  }
+  .q-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(255, 109, 90, 0.4); }
+
+  .wrap { max-width: 1140px; margin: 0 auto; padding: 120px 24px 80px; position: relative; z-index: 2; }
+
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.03); padding: 8px 16px; font-size: 0.8rem;
+    font-family: var(--font-mono); color: var(--text-muted); border-radius: var(--radius-full);
+    margin-bottom: 32px; transition: all 0.2s ease;
+  }
+  .back-btn:hover { border-color: var(--accent-coral); color: #fff; transform: translateX(-4px); }
+
+  .hero-header { text-align: center; max-width: 760px; margin: 0 auto 50px; }
+  .mod-pill { display: inline-block; font-size: 0.75rem; font-family: var(--font-mono); color: var(--accent-coral); background: rgba(255, 109, 90, 0.08); border: 1px solid rgba(255, 109, 90, 0.25); padding: 5px 14px; border-radius: var(--radius-full); margin-bottom: 16px; }
+  .hero-title { font-size: clamp(2.2rem, 4vw, 3.2rem); margin-bottom: 16px; }
+  .hero-sub { color: var(--text-muted); font-size: 1.05rem; line-height: 1.65; }
+
+  .pitch-box {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg);
+    padding: 32px; backdrop-filter: blur(12px); margin-bottom: 60px; position: relative; overflow: hidden;
+  }
+  .pitch-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--accent-coral), transparent); }
+  .pitch-title { font-size: 1.3rem; color: #fff; margin-bottom: 10px; }
+  .pitch-desc { color: var(--text-muted); font-size: 0.95rem; line-height: 1.7; }
+
+  /* Interactive Dialer Simulator */
+  .dialer-section { margin-bottom: 70px; }
+  .dialer-card {
+    background: #090e1a; border: 1px solid var(--border); border-radius: var(--radius-lg);
+    padding: 32px; display: grid; grid-template-columns: 300px 1fr; gap: 32px; backdrop-filter: blur(12px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  }
+  @media (max-width: 800px) { .dialer-card { grid-template-columns: 1fr; } }
+
+  .phone-pad { background: rgba(15, 23, 42, 0.8); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 24px; text-align: center; }
+  .pad-screen { background: #040711; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; font-family: var(--font-mono); font-size: 1.2rem; color: var(--accent-coral); margin-bottom: 20px; min-height: 50px; display: flex; align-items: center; justify-content: center; }
+  .pad-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 20px; }
+  .pad-btn { width: 50px; height: 50px; border-radius: 50%; border: 1px solid var(--border); background: rgba(255,255,255,0.03); color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; margin: 0 auto; transition: all 0.15s ease; }
+  .pad-btn:hover { border-color: var(--accent-coral); background: rgba(255, 109, 90, 0.15); }
+  .pad-call-btn { width: 100%; padding: 12px; border-radius: var(--radius-full); background: #10B981; color: #fff; font-family: var(--font-heading); font-weight: 700; font-size: 0.95rem; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s ease; }
+  .pad-call-btn.active-call { background: #EF4444; }
+
+  .transcript-console { background: #040711; border: 1px solid var(--border); border-radius: var(--radius-md); padding: 20px; display: flex; flex-direction: column; justify-content: space-between; min-height: 320px; }
+  .trans-header { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 16px; }
+  .trans-title { font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-dim); display: flex; align-items: center; gap: 8px; }
+  .wave-bars { display: flex; gap: 3px; align-items: center; height: 16px; }
+  .wave-bar { width: 3px; height: 100%; background: var(--accent-coral); border-radius: 2px; animation: wave 1s infinite alternate; }
+  .wave-bar:nth-child(2) { animation-delay: 0.2s; } .wave-bar:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes wave { 0% { height: 20%; } 100% { height: 100%; } }
+
+  .trans-log { flex: 1; overflow-y: auto; font-size: 0.88rem; line-height: 1.7; display: flex; flex-direction: column; gap: 12px; max-height: 240px; }
+  .msg-bubble { padding: 10px 14px; border-radius: var(--radius-sm); max-width: 85%; font-size: 0.85rem; }
+  .msg-ai { background: rgba(99, 102, 241, 0.15); border: 1px solid rgba(99, 102, 241, 0.3); color: #fff; align-self: flex-start; }
+  .msg-user { background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border); color: var(--text-muted); align-self: flex-end; }
+
+  /* Feature Strips */
+  .win-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 60px; }
+  .win-card { border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--bg-card); padding: 24px 20px; display: flex; gap: 14px; }
+  .win-icon { width: 40px; height: 40px; border-radius: var(--radius-sm); background: rgba(255, 109, 90, 0.1); border: 1px solid rgba(255, 109, 90, 0.3); display: flex; align-items: center; justify-content: center; color: var(--accent-coral); flex-shrink: 0; }
+  .win-card h4 { font-size: 1rem; margin-bottom: 4px; }
+  .win-card p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+
+  /* Showcase Grid */
+  .showcase-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin-bottom: 60px; }
+  .showcase-panel { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; cursor: pointer; transition: all 0.3s ease; }
+  .showcase-panel:hover { border-color: var(--border-hover); transform: translateY(-4px); }
+  .showcase-img-wrap { width: 100%; height: 200px; overflow: hidden; position: relative; background: #040711; }
+  .showcase-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+  .showcase-panel:hover .showcase-img-wrap img { transform: scale(1.05); }
+  .showcase-tag { position: absolute; top: 12px; left: 12px; font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-coral); background: rgba(11, 15, 25, 0.85); border: 1px solid rgba(255, 109, 90, 0.3); padding: 3px 8px; border-radius: 4px; z-index: 5; }
+  .showcase-body { padding: 20px; }
+  .showcase-body h4 { font-size: 1.1rem; margin-bottom: 6px; }
+  .showcase-body p { font-size: 0.85rem; color: var(--text-muted); line-height: 1.5; }
+
+  /* Lightbox Modal */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(3, 5, 12, 0.92); backdrop-filter: blur(16px);
+    z-index: 2000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+  }
+  .modal-overlay.active { opacity: 1; pointer-events: auto; }
+  .modal-container {
+    width: 92vw; max-width: 1000px; height: 84vh; display: flex; flex-direction: column;
+    background: #080d19; border: 1px solid var(--border-hover); border-radius: var(--radius-lg);
+    box-shadow: 0 40px 100px rgba(0,0,0,0.9); overflow: hidden; transform: scale(0.97); transition: transform 0.3s var(--ease-out);
+  }
+  .modal-overlay.active .modal-container { transform: scale(1); }
+  .close-modal {
+    position: absolute; top: 16px; right: 20px; z-index: 50; background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border); color: #fff; font-family: var(--font-mono); font-size: 0.75rem;
+    padding: 6px 14px; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s ease;
+  }
+  .close-modal:hover { border-color: var(--accent-coral); background: rgba(255, 109, 90, 0.15); }
+  .modal-image-wrap { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px; background: #030610; }
+  .modal-image-wrap img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  .modal-footer { background: #060a14; padding: 18px 24px; border-top: 1px solid var(--border); }
+  .modal-footer h5 { font-size: 1.1rem; color: #fff; }
+  .modal-footer p { font-size: 0.85rem; color: var(--text-muted); }
+
+  footer { margin-top: 80px; padding-top: 32px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; color: var(--text-dim); }
 </style>
 </head>
 <body>
 
-<div class="bg-fx"><div class="grid-lines"></div><div class="scanline"></div></div>
+<div class="progress" id="progress"></div>
+<div class="bg-fx"><div class="bg-glow-1"></div><div class="grid-pattern"></div></div>
+
+<!-- GLOBAL QUBIX NAVBAR -->
+<header class="q-navbar">
+  <div class="q-nav-container">
+    <a href="index.html" class="q-brand">
+      <div class="q-logo-symbol" style="width:28px;height:28px;">
+        <svg viewBox="0 0 32 32" fill="none">
+          <path d="M16 2L2 9V23L16 30L30 23V9L16 2Z" stroke="url(#nav-grad)" stroke-width="2.5"/>
+          <defs><linearGradient id="nav-grad" x1="2" y1="2" x2="30" y2="30"><stop stop-color="#FF6D5A"/><stop offset="1" stop-color="#6366F1"/></linearGradient></defs>
+        </svg>
+      </div>
+      <span class="q-brand-name">QUBIX <span class="q-brand-tag">VOICE</span></span>
+    </a>
+
+    <nav class="q-nav-links">
+      <a href="index.html" class="q-nav-link">Overview</a>
+      <a href="WebDevelopment.html" class="q-nav-link">Web Dev</a>
+      <a href="Wordpress.html" class="q-nav-link">WordPress</a>
+      <a href="Shopify.html" class="q-nav-link">Shopify</a>
+      <a href="SocialMedia.html" class="q-nav-link">Social Growth</a>
+      <a href="CallAgent.html" class="q-nav-link active">AI Call Agent</a>
+    </nav>
+
+    <div class="q-nav-actions">
+      <button type="button" class="q-btn-primary" onclick="window.location.href='index.html#services'">
+        <span>View All Services</span>
+      </button>
+    </div>
+  </div>
+</header>
 
 <div class="wrap">
-  <a href="index.html" class="back-btn mono">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
-    BACK TO SERVICES
+  <a href="index.html" class="back-btn">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    <span>Return to System Portal</span>
   </a>
 
-  <div class="header">
-    <img class="logo-mark" src="https://pyraminx.co/images/site-logo.png" alt="Pyramix logo" />
-    <span class="eyebrow mono"><span class="pulse-dot"></span>AI VOICE AUTOMATION</span>
-    <h2 class="section-title">A front desk that <span class="accent">never sleeps.</span></h2>
-    <p class="section-sub">A custom AI agent that answers your phone, understands what callers need, and books it straight into your calendar — built end-to-end on n8n so you own the automation, not a subscription.</p>
+  <header class="hero-header">
+    <span class="mod-pill">MOD.05 — VOICE AI AUTOMATION</span>
+    <h1 class="hero-title">A Front Desk That Never Sleeps</h1>
+    <p class="hero-sub">Autonomous voice agents built on n8n &amp; OpenAI. Answers callers, handles queries, and books appointments 24/7 directly into your calendar.</p>
+  </header>
+
+  <div class="pitch-box">
+    <h3 class="pitch-title">Your Front Desk, Automated</h3>
+    <p class="pitch-desc">Every missed call is lost business. We engineer custom voice call agents that answer on ring one, conduct human-like conversations, check live calendar availability, and confirm bookings — with zero monthly SaaS lock-in.</p>
   </div>
 
-  <div class="pitch-module">
-    <h3>Your front desk, <span class="accent">automated</span></h3>
-    <p>Every missed call is a missed booking. We build custom call agents that pick up instantly, hold a natural conversation, check real availability, and confirm the appointment — all orchestrated through an n8n workflow tailored to your business, not a rigid off-the-shelf bot. It plugs into the calendar and tools you already use, runs 24/7, and hands off to a human the moment a conversation needs one.</p>
-  </div>
+  <!-- Interactive Voice Dialer Simulator -->
+  <section class="dialer-section">
+    <div style="text-align: center; margin-bottom: 24px;">
+      <h3 style="font-size: 1.5rem; margin-bottom: 6px;">Live Voice Agent Simulator</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">Tap numbers or press Start Call to test an interactive voice AI session.</p>
+    </div>
 
+    <div class="dialer-card">
+      <div class="phone-pad">
+        <div class="pad-screen" id="dialerDisplay">+1 (800) QUBIX-AI</div>
+        <div class="pad-grid">
+          <button class="pad-btn" onclick="pressKey('1')">1</button>
+          <button class="pad-btn" onclick="pressKey('2')">2</button>
+          <button class="pad-btn" onclick="pressKey('3')">3</button>
+          <button class="pad-btn" onclick="pressKey('4')">4</button>
+          <button class="pad-btn" onclick="pressKey('5')">5</button>
+          <button class="pad-btn" onclick="pressKey('6')">6</button>
+          <button class="pad-btn" onclick="pressKey('7')">7</button>
+          <button class="pad-btn" onclick="pressKey('8')">8</button>
+          <button class="pad-btn" onclick="pressKey('9')">9</button>
+          <button class="pad-btn" onclick="pressKey('*')">*</button>
+          <button class="pad-btn" onclick="pressKey('0')">0</button>
+          <button class="pad-btn" onclick="pressKey('#')">#</button>
+        </div>
+        <button class="pad-call-btn" id="callToggleBtn" onclick="toggleSimCall()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <span id="callBtnText">Start AI Call</span>
+        </button>
+      </div>
+
+      <div class="transcript-console">
+        <div class="trans-header">
+          <div class="trans-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+            <span>LIVE_CALL_TRANSCRIPT</span>
+          </div>
+          <div class="wave-bars" id="waveBars" style="display:none;">
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+            <div class="wave-bar"></div>
+          </div>
+        </div>
+
+        <div class="trans-log" id="transLog">
+          <div class="msg-bubble msg-ai">Qubix Voice AI System ready. Press "Start AI Call" to simulate an incoming customer booking conversation.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Win Strip -->
   <div class="win-strip">
     <div class="win-card">
-      <div class="win-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
-      <div><h4>Never miss a call</h4><p>Picks up on ring one, any time of day, every day of the week.</p></div>
+      <div class="win-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      </div>
+      <div>
+        <h4>Never Miss a Call</h4>
+        <p>Picks up instantly on ring one, 24/7/365.</p>
+      </div>
     </div>
-    <div class="win-card">
-      <div class="win-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
-      <div><h4>Books in real time</h4><p>Checks live calendar availability before confirming a slot — no double-bookings.</p></div>
-    </div>
-    <div class="win-card">
-      <div class="win-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
-      <div><h4>Sounds like a person</h4><p>Natural, low-latency conversation — not a rigid phone-tree experience.</p></div>
-    </div>
-    <div class="win-card">
-      <div class="win-icon"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 2v10l7-7"/></svg></div>
-      <div><h4>Fully yours</h4><p>Built on n8n workflows you own and can extend — no black-box SaaS lock-in.</p></div>
-    </div>
-  </div>
 
-  <div class="flow-section">
-    <div class="header sub-header">
-      <h3 class="section-title" style="font-size:clamp(1.4rem, 4.5vw, 2rem);">How a call actually flows</h3>
-      <p class="section-sub">One n8n workflow handles the entire journey, from ringtone to confirmed booking.</p>
+    <div class="win-card">
+      <div class="win-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      </div>
+      <div>
+        <h4>Real-Time Booking</h4>
+        <p>Syncs directly with Google Calendar &amp; CRM.</p>
+      </div>
     </div>
-    <div class="flow-steps">
-      <div class="flow-step">
-        <div class="flow-num mono">01</div>
-        <h4>Call comes in</h4>
-        <p>The agent answers instantly and greets the caller in your brand's voice and tone.</p>
+
+    <div class="win-card">
+      <div class="win-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
       </div>
-      <div class="flow-step">
-        <div class="flow-num mono">02</div>
-        <h4>Understands intent</h4>
-        <p>Speech is transcribed and interpreted in real time to figure out what the caller actually wants.</p>
-      </div>
-      <div class="flow-step">
-        <div class="flow-num mono">03</div>
-        <h4>Checks the calendar</h4>
-        <p>n8n queries your live calendar for open slots that match the request.</p>
-      </div>
-      <div class="flow-step">
-        <div class="flow-num mono">04</div>
-        <h4>Confirms & logs</h4>
-        <p>The booking is written to the calendar and a confirmation goes out — done, no human needed.</p>
+      <div>
+        <h4>Natural Voice</h4>
+        <p>Ultra low-latency, human-like speech flow.</p>
       </div>
     </div>
   </div>
 
-  <div class="showcase-section">
-    <div class="header sub-header">
-      <h3 class="section-title" style="font-size:clamp(1.4rem, 4.5vw, 2rem);">See the engine behind it</h3>
-      <p class="section-sub">Click either panel for a closer look at the actual automation.</p>
+  <!-- Showcase Grid -->
+  <section style="margin-bottom: 60px;">
+    <div style="margin-bottom: 24px;">
+      <h3 style="font-size: 1.5rem; margin-bottom: 6px;">n8n Workflow Engine</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem;">Click either card to inspect the actual automation pipeline.</p>
     </div>
 
     <div class="showcase-grid">
       <div class="showcase-panel" onclick="openLightbox('workflow')">
-        <span class="corner tl" style="position:absolute;top:7px;left:7px;width:14px;height:14px;border-top:2px solid var(--p3);border-left:2px solid var(--p3);opacity:0;transition:opacity .25s ease;z-index:3;"></span>
         <div class="showcase-img-wrap">
-          <span class="showcase-tag">n8n Workflow</span>
-          <img src="picture/pexels-pavel-danilyuk-8438864.jpg" alt="n8n automation workflow" loading="lazy" decoding="async">
+          <span class="showcase-tag">N8N PIPELINE</span>
+          <img src="picture/Screenshot 2026-07-04 023233.png" alt="Automation Workflow" loading="lazy">
         </div>
         <div class="showcase-body">
-          <h4>The Automation Workflow</h4>
-          <p>Every node — call trigger, transcription, intent detection, calendar check, booking, confirmation — wired together in n8n so the whole flow runs without manual steps.</p>
-          <span class="showcase-expand">View full workflow <svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span>
+          <h4>Automation Workflow</h4>
+          <p>Twilio Voice trigger &rarr; Whisper Speech-to-Text &rarr; GPT Intent Router &rarr; Calendar Query &rarr; Confirmation.</p>
         </div>
       </div>
 
       <div class="showcase-panel" onclick="openLightbox('calendar')">
-        <span class="corner tl" style="position:absolute;top:7px;left:7px;width:14px;height:14px;border-top:2px solid var(--p3);border-left:2px solid var(--p3);opacity:0;transition:opacity .25s ease;z-index:3;"></span>
         <div class="showcase-img-wrap">
-          <span class="showcase-tag">Live Calendar</span>
-          <img src="picture/pexels-towfiqu-barbhuiya-3440682-11773871.jpg" alt="Calendar showing booked appointments" loading="lazy" decoding="async">
+          <span class="showcase-tag">CALENDAR SYNC</span>
+          <img src="picture/Screenshot 2026-07-04 023123.png" alt="Google Calendar Sync" loading="lazy">
         </div>
         <div class="showcase-body">
-          <h4>Bookings, Organized Automatically</h4>
-          <p>Every appointment the agent books lands directly on the calendar with the caller's name, contact details, and reason for the visit already filled in.</p>
-          <span class="showcase-expand">View full calendar <svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></span>
+          <h4>Automated Calendar Logs</h4>
+          <p>Every confirmed booking lands directly into your calendar with caller details and appointment notes pre-filled.</p>
         </div>
       </div>
     </div>
-  </div>
-
-  <div class="usecase-section">
-    <div class="header sub-header">
-      <h3 class="section-title" style="font-size:clamp(1.4rem, 4.5vw, 2rem);">Where this fits</h3>
-      <p class="section-sub">Any business that lives or dies by the phone ringing.</p>
-    </div>
-    <div class="usecase-grid">
-      <div class="usecase-pill"><span class="uc-emoji">💇</span><span class="uc-label">Salons & Spas</span></div>
-      <div class="usecase-pill"><span class="uc-emoji">🦷</span><span class="uc-label">Clinics & Dentists</span></div>
-      <div class="usecase-pill"><span class="uc-emoji">🏠</span><span class="uc-label">Real Estate</span></div>
-      <div class="usecase-pill"><span class="uc-emoji">🍽️</span><span class="uc-label">Restaurants</span></div>
-      <div class="usecase-pill"><span class="uc-emoji">🔧</span><span class="uc-label">Home Services</span></div>
-      <div class="usecase-pill"><span class="uc-emoji">💼</span><span class="uc-label">Agencies</span></div>
-    </div>
-  </div>
-
-  <div class="stack-section">
-    <div class="header sub-header">
-      <h3 class="section-title" style="font-size:clamp(1.4rem, 4.5vw, 2rem);">Built with</h3>
-      <p class="section-sub">The automation and voice stack behind every call agent we ship.</p>
-    </div>
-    <div class="stack-pills mono">
-      <span class="stack-pill"><span class="dot" style="color:#ff6d5a;background:#ff6d5a;"></span>n8n</span>
-      <span class="stack-pill"><span class="dot" style="color:#f22f46;background:#f22f46;"></span>Twilio Voice</span>
-      <span class="stack-pill"><span class="dot" style="color:#10a37f;background:#10a37f;"></span>OpenAI Whisper &amp; GPT</span>
-      <span class="stack-pill"><span class="dot" style="color:#4285f4;background:#4285f4;"></span>Google Calendar</span>
-      <span class="stack-pill"><span class="dot" style="color:#b685ff;background:#b685ff;"></span>Webhooks &amp; REST APIs</span>
-      <span class="stack-pill"><span class="dot" style="color:#ff9900;background:#ff9900;"></span>CRM Sync</span>
-    </div>
-  </div>
-
-  <div class="process-section">
-    <div class="header sub-header">
-      <h3 class="section-title" style="font-size:clamp(1.4rem, 4.5vw, 2rem);">How we build it</h3>
-      <p class="section-sub">Same disciplined process, tuned for voice automation.</p>
-    </div>
-    <div class="process-grid">
-      <div class="process-card">
-        <div class="process-step mono">DISCOVERY</div>
-        <h4>Map the calls</h4>
-        <p>We listen to how your calls actually go today — what callers ask, where they get stuck.</p>
-      </div>
-      <div class="process-card">
-        <div class="process-step mono">DESIGN</div>
-        <h4>Build the flow</h4>
-        <p>The full conversation and booking logic gets mapped out as an n8n workflow, node by node.</p>
-      </div>
-      <div class="process-card">
-        <div class="process-step mono">CONNECT</div>
-        <h4>Wire it up</h4>
-        <p>Telephony, calendar, and CRM get connected and stress-tested with real call scenarios.</p>
-      </div>
-      <div class="process-card">
-        <div class="process-step mono">LAUNCH</div>
-        <h4>Go live, refine</h4>
-        <p>We monitor the first real calls and tune the agent's responses based on what actually happens.</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="cta-strip">
-    <h3>Ready to stop missing calls?</h3>
-    <p>We'll walk you through exactly how the workflow would look for your business before you commit to anything.</p>
-  </div>
+  </section>
 
   <footer>
-    <div class="footer-brand">
-      <img src="https://pyraminx.co/images/site-logo.png" alt="Pyramix logo" />
-      <span class="footer-sub mono">© 2026 PYRAMIX — BUILT IN-HOUSE</span>
-    </div>
+    <span class="mono">&copy; 2026 QUBIX STUDIO — ALL CODE BUILT IN-HOUSE</span>
+    <a href="index.html" style="color: var(--accent-coral);">Back to Overview &rarr;</a>
   </footer>
 </div>
 
+<!-- Lightbox Modal -->
 <div class="modal-overlay" id="lightbox-modal">
   <div class="modal-container">
     <button class="close-modal" onclick="closeLightbox()">✕ Close</button>
@@ -463,16 +415,86 @@
 </div>
 
 <script>
+  const bar = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + '%';
+  }, { passive: true });
+
+  let dialNumber = "";
+  function pressKey(key) {
+    if (dialNumber.length < 15) {
+      dialNumber += key;
+      document.getElementById('dialerDisplay').innerText = dialNumber;
+    }
+  }
+
+  let inCall = false;
+  let callTimer = null;
+
+  function toggleSimCall() {
+    inCall = !inCall;
+    const btn = document.getElementById('callToggleBtn');
+    const label = document.getElementById('callBtnText');
+    const wave = document.getElementById('waveBars');
+    const log = document.getElementById('transLog');
+
+    if (inCall) {
+      btn.classList.add('active-call');
+      label.innerText = 'End Call';
+      wave.style.display = 'flex';
+      
+      log.innerHTML = `
+        <div class="msg-bubble msg-ai">[CALL CONNECTED] Voice AI: "Hello! Thank you for calling Qubix Dental Clinic. How can I assist you today?"</div>
+      `;
+
+      let step = 0;
+      const conversation = [
+        { type: 'user', text: 'Hi! I need to book a teeth cleaning appointment for tomorrow afternoon.' },
+        { type: 'ai', text: 'Checking live schedule for tomorrow... I have an open slot at 2:30 PM or 4:00 PM. Which works best?' },
+        { type: 'user', text: '2:30 PM works great for me.' },
+        { type: 'ai', text: 'Perfect. May I have your full name and email to confirm the booking?' },
+        { type: 'user', text: 'Sure, Alex Mercer, alex@example.com.' },
+        { type: 'ai', text: '[CONFIRMED] Excellent! Your 2:30 PM appointment is locked in on Google Calendar. Confirmation sent!' }
+      ];
+
+      callTimer = setInterval(() => {
+        if (step < conversation.length) {
+          const item = conversation[step];
+          const div = document.createElement('div');
+          div.className = `msg-bubble msg-${item.type}`;
+          div.innerText = (item.type === 'ai' ? 'Voice AI: ' : 'Caller: ') + item.text;
+          log.appendChild(div);
+          log.scrollTop = log.scrollHeight;
+          step++;
+        } else {
+          clearInterval(callTimer);
+        }
+      }, 2000);
+
+    } else {
+      clearInterval(callTimer);
+      btn.classList.remove('active-call');
+      label.innerText = 'Start AI Call';
+      wave.style.display = 'none';
+      const div = document.createElement('div');
+      div.className = 'msg-bubble msg-ai';
+      div.innerText = '[CALL ENDED] Session duration: 0:24. Log saved to n8n database.';
+      log.appendChild(div);
+      log.scrollTop = log.scrollHeight;
+    }
+  }
+
   const showcaseAssets = {
     workflow: {
       img: "picture/Screenshot 2026-07-04 023233.png",
       title: "The Automation Workflow",
-      desc: "The full n8n workflow: call trigger → transcription → intent detection → calendar check → booking → confirmation."
+      desc: "Full n8n pipeline: Call trigger -> Speech-to-Text -> Intent Router -> Calendar Check -> Confirmation."
     },
     calendar: {
       img: "picture/Screenshot 2026-07-04 023123.png",
-      title: "Bookings, Organized Automatically",
-      desc: "Every call the agent handles lands here — name, contact, and appointment details, filled in automatically."
+      title: "Automated Calendar Sync",
+      desc: "Bookings automatically written to Google Calendar with caller details."
     }
   };
 
@@ -480,7 +502,6 @@
     const asset = showcaseAssets[key];
     if (!asset) return;
     document.getElementById('lightbox-img').src = asset.img;
-    document.getElementById('lightbox-img').alt = asset.title;
     document.getElementById('lightbox-title').innerText = asset.title;
     document.getElementById('lightbox-desc').innerText = asset.desc;
     document.getElementById('lightbox-modal').classList.add('active');
@@ -494,17 +515,6 @@
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeLightbox();
-  });
-
-  document.querySelectorAll('.showcase-panel').forEach(panel => {
-    panel.addEventListener('mouseenter', () => {
-      const c = panel.querySelector('.corner');
-      if (c) c.style.opacity = '1';
-    });
-    panel.addEventListener('mouseleave', () => {
-      const c = panel.querySelector('.corner');
-      if (c) c.style.opacity = '0';
-    });
   });
 </script>
 </body>
